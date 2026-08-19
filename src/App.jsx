@@ -198,33 +198,33 @@ const modules = [
   },
 ];
 
-/* Реальні екрани застосунку. Поклади PNG у /public/assets/sweezy/
-   з цими іменами — і вони з'являться в макеті телефона. */
+/* Справжні екрани застосунку зі /public/assets/sweezy/ — WebP, 750px
+   по ширині, із запасом під retina для 272px макета телефона. */
 const sweezyScreens = [
   {
     id: "home",
-    src: "/assets/sweezy/home.png",
+    src: "/assets/sweezy/home.webp",
     tab: "Головна",
     title: "Твій шлях у Швейцарії",
     note: "Сім кроків із прогресом і планом на сьогодні.",
   },
   {
     id: "guides",
-    src: "/assets/sweezy/guides.png",
+    src: "/assets/sweezy/guides.webp",
     tab: "Довідник",
     title: "Знайди потрібну відповідь",
     note: "Гайди, інструменти та чек-листи з пошуком і фільтрами.",
   },
   {
     id: "tools",
-    src: "/assets/sweezy/tools.png",
+    src: "/assets/sweezy/tools.webp",
     tab: "Інструменти",
     title: "Обери завдання",
     note: "Кар'єрний хаб, готовність документів, німецька щодня.",
   },
   {
     id: "career",
-    src: "/assets/sweezy/career.png",
+    src: "/assets/sweezy/career.webp",
     tab: "Робота",
     title: "Знайди роботу, яка тобі підходить",
     note: "AI Match, збережені вакансії та трекер заявок.",
@@ -1566,7 +1566,11 @@ export function App() {
                   label={`SWEEZY · ${screen.tab.toUpperCase()}`}
                 />
               </div>
-              <div className="sw-switch" role="tablist" aria-label="Екрани Sweezy">
+              <div
+                className="sw-switch"
+                role="tablist"
+                aria-label="Екрани Sweezy"
+              >
                 {sweezyScreens.map((item, i) => (
                   <button
                     key={item.id}
