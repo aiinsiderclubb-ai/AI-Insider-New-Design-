@@ -1002,10 +1002,7 @@ export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [lang, setLang] = useState("UA");
-  const [sweezyScreen, setSweezyScreen] = useState(0);
   const [stuck, setStuck] = useState(false);
-
-  const screen = sweezyScreens[sweezyScreen];
 
   const openContact = useCallback(() => {
     setMenuOpen(false);
@@ -1557,37 +1554,15 @@ export function App() {
               </Reveal>
             </div>
             <Reveal className="sw-showcase" delay={120}>
-              <div className="sw-stage">
+              <div className="sw-fan">
                 <span className="sw-bloom" aria-hidden="true" />
-                <Device
-                  key={screen.id}
-                  image={screen.src}
-                  hue="#c8ff3d"
-                  label={`SWEEZY · ${screen.tab.toUpperCase()}`}
-                />
-              </div>
-              <div
-                className="sw-switch"
-                role="tablist"
-                aria-label="Екрани Sweezy"
-              >
                 {sweezyScreens.map((item, i) => (
-                  <button
-                    key={item.id}
-                    role="tab"
-                    aria-selected={i === sweezyScreen}
-                    className={i === sweezyScreen ? "is-on" : ""}
-                    onClick={() => setSweezyScreen(i)}
-                  >
-                    <span className="num">0{i + 1}</span>
-                    {item.tab}
-                  </button>
+                  <div className="sw-card" key={item.id} style={{ "--i": i }}>
+                    <Device image={item.src} hue="#c8ff3d" />
+                    <span className="sw-tag">{item.tab}</span>
+                  </div>
                 ))}
               </div>
-              <p className="sw-caption">
-                <b>{screen.title}</b>
-                {screen.note}
-              </p>
             </Reveal>
           </div>
         </section>

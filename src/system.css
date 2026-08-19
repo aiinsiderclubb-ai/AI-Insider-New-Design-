@@ -6993,3 +6993,191 @@ html.has-cursor button {
     width: min(250px, 100%);
   }
 }
+
+/* ================================================================
+   SWEEZY FAN — four identical devices, arranged like a bouquet
+   replaces the tab switcher: everything is visible at once
+   ================================================================ */
+
+.product-grid {
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  gap: clamp(20px, 2.6vw, 48px);
+}
+
+.chapter#sweezy {
+  padding-block: clamp(36px, 3.6vw, 56px);
+}
+
+.sw-showcase {
+  display: block;
+}
+
+.sw-fan {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 470px;
+  perspective: 1600px;
+}
+
+.sw-bloom {
+  width: 92%;
+  opacity: 0.2;
+}
+
+/* every card is the same component at the same size — the only thing
+   that differs between them is the screenshot inside */
+.sw-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 196px;
+  transform: translate(-50%, -50%) translate(var(--x), var(--y))
+    rotate(var(--r));
+  transition:
+    transform 0.6s var(--ease-out),
+    filter 0.5s ease;
+  filter: brightness(var(--b, 1));
+}
+
+.sw-card:nth-child(2) {
+  --x: -160px;
+  --y: 26px;
+  --r: -13deg;
+  --b: 0.86;
+  z-index: 1;
+}
+
+.sw-card:nth-child(3) {
+  --x: -54px;
+  --y: -2px;
+  --r: -4.4deg;
+  --b: 0.94;
+  z-index: 2;
+}
+
+.sw-card:nth-child(4) {
+  --x: 54px;
+  --y: -2px;
+  --r: 4.4deg;
+  --b: 1;
+  z-index: 3;
+}
+
+.sw-card:nth-child(5) {
+  --x: 160px;
+  --y: 26px;
+  --r: 13deg;
+  --b: 0.9;
+  z-index: 4;
+}
+
+/* the hovered screen steps forward and straightens up */
+.sw-fan:hover .sw-card {
+  --b: 0.72;
+}
+
+.sw-card:hover {
+  --y: -22px;
+  --r: 0deg;
+  --b: 1.06;
+  z-index: 9;
+}
+
+.sw-card .dev-wrap {
+  width: 100%;
+  gap: 0;
+}
+
+.sw-card .dev {
+  width: 100%;
+}
+
+/* the fan sets the angle, so the per-device cursor tilt would fight it */
+.sw-card .dev {
+  --rx: 0deg;
+  --ry: 0deg;
+}
+
+.sw-fan .dev-shadow {
+  bottom: -3%;
+  height: 9%;
+  filter: blur(16px);
+}
+
+.sw-tag {
+  position: absolute;
+  left: 50%;
+  bottom: -26px;
+  padding: 5px 12px;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #0b0d08;
+  background: #c8ff3d;
+  border-radius: 999px;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition:
+    opacity 0.35s ease,
+    transform 0.45s var(--ease-out);
+}
+
+.sw-card:hover .sw-tag {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+@media (max-width: 1180px) {
+  .product-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .sw-fan {
+    min-height: 430px;
+  }
+
+  .sw-card {
+    width: 176px;
+  }
+
+  .sw-card:nth-child(2) {
+    --x: -144px;
+  }
+  .sw-card:nth-child(3) {
+    --x: -48px;
+  }
+  .sw-card:nth-child(4) {
+    --x: 48px;
+  }
+  .sw-card:nth-child(5) {
+    --x: 144px;
+  }
+}
+
+@media (max-width: 760px) {
+  .sw-fan {
+    min-height: 360px;
+  }
+
+  .sw-card {
+    width: 132px;
+  }
+
+  .sw-card:nth-child(2) {
+    --x: -104px;
+    --y: 18px;
+  }
+  .sw-card:nth-child(3) {
+    --x: -35px;
+  }
+  .sw-card:nth-child(4) {
+    --x: 35px;
+  }
+  .sw-card:nth-child(5) {
+    --x: 104px;
+    --y: 18px;
+  }
+}
