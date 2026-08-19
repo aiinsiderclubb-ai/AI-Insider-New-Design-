@@ -6632,3 +6632,251 @@ html.has-cursor button {
     width: 100%;
   }
 }
+
+/* ================================================================
+   MOTION SYSTEM
+   one curve, one vocabulary: rise + settle for blocks, word cascade
+   for display type, a slow drift for media
+   ================================================================ */
+
+:root {
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+/* --- base block reveal: add a touch of scale and blur --- */
+
+.js-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(26px) scale(0.994);
+  filter: blur(3px);
+  transition:
+    opacity 0.75s var(--ease-out) var(--reveal-delay, 0ms),
+    transform 0.95s var(--ease-out) var(--reveal-delay, 0ms),
+    filter 0.7s var(--ease-out) var(--reveal-delay, 0ms);
+}
+
+.js-ready [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* headings that split into words animate their words, not the block */
+.js-ready [data-reveal] .has-split,
+.js-ready .has-split[data-reveal] {
+  filter: none;
+}
+
+/* --- word cascade for display type --- */
+
+.split {
+  display: inline;
+}
+
+.split-w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.5em) rotate(1.2deg);
+  transform-origin: 0% 90%;
+  transition:
+    opacity 0.6s var(--ease-soft),
+    transform 0.85s var(--ease-out);
+  transition-delay: calc(var(--i) * var(--step, 32ms) + var(--d, 0ms));
+  white-space: pre;
+}
+
+.is-in .split-w,
+.has-split.is-in .split-w {
+  opacity: 1;
+  transform: none;
+}
+
+/* --- the highlighted phrase wipes as one block --- */
+/* per-word backgrounds would break the continuous highlight box */
+
+.hl-wipe {
+  clip-path: inset(0 100% 0 0);
+  animation: hl-wipe 0.9s var(--ease-out) 0.72s forwards;
+}
+
+@keyframes hl-wipe {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+/* --- media drift --- */
+
+[data-parallax] {
+  will-change: transform;
+}
+
+.case-panel-img[data-parallax],
+.tile-art[data-parallax] {
+  transform: translate3d(0, var(--py, 0px), 0) scale(var(--s, 1.06));
+  transition: transform 0.2s linear;
+}
+
+.case-panel:hover .case-panel-img[data-parallax] {
+  --s: 1.12;
+  transition: transform 0.9s var(--ease-out);
+}
+
+.stu-bloom[data-parallax] {
+  transform: translate(-50%, -50%) translate3d(0, var(--py, 0px), 0);
+}
+
+/* --- staggered grids: no JS, position drives the delay --- */
+
+.bento > *:nth-child(1) {
+  --reveal-delay: 0ms;
+}
+.bento > *:nth-child(2) {
+  --reveal-delay: 90ms;
+}
+.bento > *:nth-child(3) {
+  --reveal-delay: 160ms;
+}
+.bento > *:nth-child(4) {
+  --reveal-delay: 230ms;
+}
+.bento > *:nth-child(5) {
+  --reveal-delay: 300ms;
+}
+
+.proof-cell:nth-child(1) {
+  --reveal-delay: 0ms;
+}
+.proof-cell:nth-child(2) {
+  --reveal-delay: 80ms;
+}
+.proof-cell:nth-child(3) {
+  --reveal-delay: 160ms;
+}
+.proof-cell:nth-child(4) {
+  --reveal-delay: 240ms;
+}
+
+.value-grid > *:nth-child(2) {
+  --reveal-delay: 90ms;
+}
+.value-grid > *:nth-child(3) {
+  --reveal-delay: 180ms;
+}
+.value-grid > *:nth-child(4) {
+  --reveal-delay: 270ms;
+}
+
+.story-mini article:nth-child(2) {
+  --reveal-delay: 120ms;
+}
+
+.method-row:nth-child(2) {
+  --reveal-delay: 100ms;
+}
+.method-row:nth-child(3) {
+  --reveal-delay: 200ms;
+}
+
+/* --- studio rows cascade in --- */
+
+.stu-list li {
+  opacity: 0;
+  transform: translateX(-14px);
+  animation: row-in 0.7s var(--ease-out) forwards;
+}
+
+.stu-list li:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.stu-list li:nth-child(2) {
+  animation-delay: 0.13s;
+}
+.stu-list li:nth-child(3) {
+  animation-delay: 0.21s;
+}
+.stu-list li:nth-child(4) {
+  animation-delay: 0.29s;
+}
+
+@keyframes row-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --- a light sweeps the seam when a dark chapter arrives --- */
+
+.c-ink::after,
+.c-ink-2::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 1px;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0;
+  transform: scaleX(0.2);
+}
+
+.c-ink.is-lit::after,
+.c-ink-2.is-lit::after {
+  animation: seam-sweep 1.4s var(--ease-out) forwards;
+}
+
+@keyframes seam-sweep {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.2);
+  }
+  40% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0.22;
+    transform: scaleX(1);
+  }
+}
+
+/* --- link and button polish --- */
+
+.arrow-link svg,
+.hdr-nav a,
+.footer-col a {
+  transition-timing-function: var(--ease-out);
+}
+
+.btn:active,
+.route:active,
+.stu-list button:active {
+  transform: translateY(1px) scale(0.99);
+  transition-duration: 0.08s;
+}
+
+/* --- honour the user's motion preference --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .split-w,
+  .stu-list li {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .hl-wipe {
+    clip-path: none;
+    animation: none;
+  }
+
+  [data-parallax] {
+    --py: 0px !important;
+  }
+
+  .c-ink::after,
+  .c-ink-2::after {
+    display: none;
+  }
+}

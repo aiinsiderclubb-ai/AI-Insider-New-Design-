@@ -710,3 +710,77 @@ export function Clock({ zone = "Europe/Zurich" }) {
   }, [zone]);
   return <span className="clock">{time}</span>;
 }
+
+/* ----------------------------------------------------- split reveal */
+
+/* Words animate in one by one. Splitting on words rather than lines
+   keeps it correct at any wrap point without measuring the layout. */
+export function SplitText({ text, step = 32, from = 0 }) {
+  const words = String(text).split(" ");
+  return (
+    <span className="split">
+      {words.map((word, i) => (
+        <span
+          className="split-w"
+          key={`${word}-${i}`}
+          style={{ "--i": i, "--d": `${from}ms`, "--step": `${step}ms` }}
+        >
+          {word}
+          {i < words.length - 1 ? " " : ""}
+        </span>
+      ))}
+    </span>
+  );
+}
+
+/* ------------------------------------------------------- parallax */
+
+export function useParallax() {
+  useEffect(() => {
+    if (reduced()) return undefined;
+    let nodes = [];
+    let queued = false;
+
+    const collect = () => {
+      nodes = [...document.querySelectorAll("[data-parallax]")];
+    };
+
+    const paint = () => {
+      queued = false;
+      const vh = window.innerHeight;
+      nodes.forEach((node) => {
+        const rect = node.getBoundingClientRect();
+        if (rect.bottom < -240 || rect.top > vh + 240) return;
+        // -1 above the fold, 0 centred, 1 below
+        const p = (rect.top + rect.height / 2 - vh / 2) / vh;
+        const amount = Number.parseFloat(node.dataset.parallax) || 0.1;
+        node.style.setProperty("--py", `${(-p * amount * 100).toFixed(2)}px`);
+      });
+    };
+
+    const onScroll = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(paint);
+      // rAF is throttled to nothing in hidden/background contexts — make
+      // sure the offsets still land so nothing freezes mid-drift
+      setTimeout(() => {
+        if (queued) paint();
+      }, 40);
+    };
+
+    collect();
+    paint();
+    const settle = setTimeout(() => {
+      collect();
+      paint();
+    }, 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      clearTimeout(settle);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
+}

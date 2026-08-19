@@ -33,7 +33,9 @@ import {
   NeuralGraph,
   ModuleVisual,
   Scramble,
+  SplitText,
   Strip,
+  useParallax,
   useSpotlight,
 } from "./wow.jsx";
 
@@ -418,7 +420,9 @@ function SectionHead({ eyebrow, title, copy, wide = false }) {
       </Reveal>
       <Reveal delay={90}>
         <div className="sec-head-body">
-          <h2 className="h-lg">{title}</h2>
+          <h2 className="h-lg has-split">
+            <SplitText text={title} />
+          </h2>
         </div>
         {copy && <p>{copy}</p>}
       </Reveal>
@@ -548,8 +552,9 @@ function Journey({ onContact }) {
               <div className="journey-slide">
                 <span className="journey-rule" aria-hidden="true" />
                 <Meta>{hero.eyebrow}</Meta>
-                <h1 className="h-xl journey-title">
-                  {hero.title} <span className="hl">{hero.accent}</span>
+                <h1 className="h-xl journey-title has-split is-in">
+                  <SplitText text={hero.title} from={260} />{" "}
+                  <span className="hl hl-wipe">{hero.accent}</span>
                 </h1>
                 <p className="lede">{hero.lede}</p>
                 <div className="journey-actions">
@@ -717,7 +722,7 @@ function Studio({ onContact }) {
         </div>
 
         <div className="stu-stage">
-          <span className="stu-bloom" aria-hidden="true" />
+          <span className="stu-bloom" aria-hidden="true" data-parallax="0.3" />
 
           <Device
             key={item.id}
@@ -976,6 +981,7 @@ export function App() {
   }, [menuOpen]);
 
   useSpotlight();
+  useParallax();
 
   useEffect(() => {
     const root = document.documentElement;
@@ -1212,6 +1218,7 @@ export function App() {
                   className="tile-art"
                   src="/assets/capability-orb.png"
                   alt=""
+                  data-parallax="0.22"
                 />
                 <div className="tile-head">
                   <Meta className="num">02</Meta>
@@ -1315,6 +1322,7 @@ export function App() {
                 <a className="case-panel" href="#contact">
                   <img
                     className="case-panel-img"
+                    data-parallax="0.1"
                     src={caseItems[0].image}
                     alt="Автоматизована виробнича лінія для логістичного кейсу"
                   />
@@ -1344,6 +1352,7 @@ export function App() {
                     <a className="case-panel" href="#contact">
                       <img
                         className={`case-panel-img${item.invert ? " is-inverted" : ""}`}
+                        data-parallax="0.14"
                         src={item.image}
                         alt=""
                       />
