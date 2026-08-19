@@ -22,5 +22,12 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path((?!assets).+)",
+      "destination": "/",
+      "permanent": false
+    }
   ]
 }
