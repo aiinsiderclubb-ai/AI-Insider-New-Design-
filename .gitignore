@@ -1,0 +1,20 @@
+# dependencies
+node_modules
+
+# build output
+dist
+.vite
+
+# design-iteration screenshots kept locally, not in the repo
+/*.png
+/*.jpg
+/*.jpeg
+/Codex*
+
+# local tooling
+.claude
+.vercel
+.DS_Store
+*.local
+.env
+.env.*
