@@ -198,6 +198,39 @@ const modules = [
   },
 ];
 
+/* Реальні екрани застосунку. Поклади PNG у /public/assets/sweezy/
+   з цими іменами — і вони з'являться в макеті телефона. */
+const sweezyScreens = [
+  {
+    id: "home",
+    src: "/assets/sweezy/home.png",
+    tab: "Головна",
+    title: "Твій шлях у Швейцарії",
+    note: "Сім кроків із прогресом і планом на сьогодні.",
+  },
+  {
+    id: "guides",
+    src: "/assets/sweezy/guides.png",
+    tab: "Довідник",
+    title: "Знайди потрібну відповідь",
+    note: "Гайди, інструменти та чек-листи з пошуком і фільтрами.",
+  },
+  {
+    id: "tools",
+    src: "/assets/sweezy/tools.png",
+    tab: "Інструменти",
+    title: "Обери завдання",
+    note: "Кар'єрний хаб, готовність документів, німецька щодня.",
+  },
+  {
+    id: "career",
+    src: "/assets/sweezy/career.png",
+    tab: "Робота",
+    title: "Знайди роботу, яка тобі підходить",
+    note: "AI Match, збережені вакансії та трекер заявок.",
+  },
+];
+
 const studio = [
   {
     id: "influencers",
@@ -969,7 +1002,10 @@ export function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
   const [lang, setLang] = useState("UA");
+  const [sweezyScreen, setSweezyScreen] = useState(0);
   const [stuck, setStuck] = useState(false);
+
+  const screen = sweezyScreens[sweezyScreen];
 
   const openContact = useCallback(() => {
     setMenuOpen(false);
@@ -1520,43 +1556,34 @@ export function App() {
                 </button>
               </Reveal>
             </div>
-            <Reveal delay={120}>
-              <div className="phone">
-                <div className="phone-top">
-                  <i>S</i>
-                  <b>Sweezy</b>
-                  <Meta>UA / CH</Meta>
-                </div>
-                <div className="phone-hero">
-                  <Meta>ВАШ МАРШРУТ / 01</Meta>
-                  <h4>Перші кроки у Швейцарії</h4>
-                  <p>
-                    Персональний план: дозволи, документи, робота, місцеві
-                    сервіси.
-                  </p>
-                </div>
-                <div className="phone-row">
-                  <Meta>ПРОГРЕС</Meta>
-                  <strong>64%</strong>
-                </div>
-                <div className="phone-list">
-                  {[
-                    ["Зареєструвати адресу", true],
-                    ["Перевірити статус дозволу", true],
-                    ["Підготувати Swiss CV", false],
-                  ].map(([title, done], index) => (
-                    <div className={done ? "done" : ""} key={title}>
-                      <Meta className="num">0{index + 1}</Meta>
-                      <b>{title}</b>
-                      {done ? (
-                        <Check size={13} weight="bold" />
-                      ) : (
-                        <ArrowUpRight size={13} />
-                      )}
-                    </div>
-                  ))}
-                </div>
+            <Reveal className="sw-showcase" delay={120}>
+              <div className="sw-stage">
+                <span className="sw-bloom" aria-hidden="true" />
+                <Device
+                  key={screen.id}
+                  image={screen.src}
+                  hue="#c8ff3d"
+                  label={`SWEEZY · ${screen.tab.toUpperCase()}`}
+                />
               </div>
+              <div className="sw-switch" role="tablist" aria-label="Екрани Sweezy">
+                {sweezyScreens.map((item, i) => (
+                  <button
+                    key={item.id}
+                    role="tab"
+                    aria-selected={i === sweezyScreen}
+                    className={i === sweezyScreen ? "is-on" : ""}
+                    onClick={() => setSweezyScreen(i)}
+                  >
+                    <span className="num">0{i + 1}</span>
+                    {item.tab}
+                  </button>
+                ))}
+              </div>
+              <p className="sw-caption">
+                <b>{screen.title}</b>
+                {screen.note}
+              </p>
             </Reveal>
           </div>
         </section>

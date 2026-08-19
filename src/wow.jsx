@@ -551,7 +551,7 @@ export function ModuleVisual({ kind }) {
 
 /* ------------------------------------------------------- 3D device */
 
-export function Device({ video, poster, hue, children, label }) {
+export function Device({ video, poster, image, hue, children, label }) {
   const shell = useRef(null);
   const media = useRef(null);
   const [playing, setPlaying] = useState(true);
@@ -631,7 +631,9 @@ export function Device({ video, poster, hue, children, label }) {
         <span className="dev-rail dev-rail-pwr" aria-hidden="true" />
 
         <div className="dev-screen">
-          {video ? (
+          {image ? (
+            <img className="dev-media dev-shot" src={image} alt="" />
+          ) : video ? (
             <video
               className="dev-media"
               ref={media}
