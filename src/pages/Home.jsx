@@ -264,15 +264,26 @@ function Modules() {
 
 function Studio({ onContact }) {
   const [index, setIndex] = useState(0);
+  const [rotating, setRotating] = useState(false);
   const tabRefs = useRef([]);
+  const rotationTimer = useRef(0);
   const item = studio[index];
   const reelHues = ["#4fe3ff", "#8b5cff", "#2b4bff", "#a9c8ff"];
   const activeHue = reelHues[index];
 
-  const selectTab = (nextIndex) => {
+  useEffect(
+    () => () => window.clearTimeout(rotationTimer.current),
+    [],
+  );
+
+  const selectTab = (nextIndex, focus = true) => {
     const safeIndex = (nextIndex + studio.length) % studio.length;
+    if (safeIndex === index || rotating) return;
     setIndex(safeIndex);
-    tabRefs.current[safeIndex]?.focus();
+    setRotating(true);
+    window.clearTimeout(rotationTimer.current);
+    rotationTimer.current = window.setTimeout(() => setRotating(false), 680);
+    if (focus) tabRefs.current[safeIndex]?.focus();
   };
 
   const onTabKeyDown = (event, tabIndex) => {
@@ -314,7 +325,7 @@ function Studio({ onContact }) {
               aria-selected={on}
               aria-controls="studio-preview"
               tabIndex={on ? 0 : -1}
-              onClick={() => setIndex(i)}
+              onClick={() => selectTab(i, false)}
               onKeyDown={(event) => onTabKeyDown(event, i)}
             >
               <span className="cin-tab-icon">
@@ -368,7 +379,8 @@ function Studio({ onContact }) {
             hue: reelHues[reelIndex],
           }))}
           active={index}
-          onPick={setIndex}
+          onPick={(nextIndex) => selectTab(nextIndex, false)}
+          locked={rotating}
         />
 
         <div className="cin-phone">

@@ -554,6 +554,7 @@ export function ModuleVisual({ kind }) {
 export function Device({ video, poster, image, hue, children, label }) {
   const shell = useRef(null);
   const media = useRef(null);
+  const wantsPlayback = useRef(true);
   const [playing, setPlaying] = useState(true);
   const [pct, setPct] = useState(0);
   const [muted, setMuted] = useState(true);
@@ -600,11 +601,35 @@ export function Device({ video, poster, image, hue, children, label }) {
     };
   }, [video]);
 
+  useEffect(() => {
+    const root = shell.current;
+    const videoNode = media.current;
+    if (!root || !videoNode) return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && wantsPlayback.current && !reduced()) {
+          videoNode.play().catch(() => {});
+        } else {
+          videoNode.pause();
+        }
+      },
+      { threshold: 0.08 },
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, [video]);
+
   const toggle = () => {
     const v = media.current;
     if (!v) return;
-    if (v.paused) v.play();
-    else v.pause();
+    if (v.paused) {
+      wantsPlayback.current = true;
+      v.play().catch(() => {});
+    } else {
+      wantsPlayback.current = false;
+      v.pause();
+    }
   };
 
   const toggleSound = () => {
@@ -789,62 +814,79 @@ export function useParallax() {
 
 /* ------------------------------------------------------- reel strip */
 
-/* Every reel stays mounted in one track; picking one slides the track
-   instead of swapping the DOM, so the change reads as a scroll rather
-   than a cut. Playback follows visibility — a handful of loops never
-   runs against a page the visitor has left. */
-export function ReelStrip({ items, active, onPick }) {
+/* Four stable slots form a circular reel around the phone. Only previous
+   and next are interactive and decode video; current lives in the phone,
+   opposite stays queued. Changing active rotates slot positions without
+   duplicating the active video behind the device. */
+export function ReelStrip({ items, active, onPick, locked = false }) {
+  const count = items.length;
   const wrap = useRef(null);
+
+  const findPlayable = (direction) => {
+    for (let step = 1; step < count; step += 1) {
+      const candidate = (active + direction * step + count) % count;
+      if (items[candidate]?.video) return candidate;
+    }
+    return -1;
+  };
+
+  const previous = findPlayable(-1);
+  const next = findPlayable(1);
 
   useEffect(() => {
     const node = wrap.current;
     if (!node) return undefined;
-    const videos = () => [...node.querySelectorAll("video")];
+    const videos = [...node.querySelectorAll("video")];
 
     if (reduced()) {
-      videos().forEach((v) => v.pause());
+      videos.forEach((video) => video.pause());
       return undefined;
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        const on = entries[0].isIntersecting;
-        videos().forEach((video) => {
-          if (on) video.play().catch(() => {});
+      ([entry]) => {
+        videos.forEach((video) => {
+          if (entry.isIntersecting) video.play().catch(() => {});
           else video.pause();
         });
       },
-      { threshold: 0.15 },
+      { threshold: 0.12 },
     );
     observer.observe(node);
-    return () => observer.disconnect();
-  }, [items]);
+    return () => {
+      observer.disconnect();
+      videos.forEach((video) => video.pause());
+    };
+  }, [active]);
+
+  const positionFor = (itemIndex) => {
+    if (itemIndex === active) return "current";
+    if (itemIndex === previous) return "prev";
+    if (itemIndex === next) return "next";
+    return "queued";
+  };
 
   return (
-    <div className="cin-filmstrip" ref={wrap}>
-      <div
-        className="cin-track"
-        style={{ "--active": active, "--count": items.length }}
-      >
+    <div className="cin-filmstrip" ref={wrap} aria-busy={locked}>
+      <div className="cin-track">
         {items.map((item, i) => {
-          const on = i === active;
+          const position = positionFor(i);
+          const visible = position === "prev" || position === "next";
           return (
             <button
-              className={`cin-frame${on ? " is-live" : ""}`}
+              className={`cin-frame is-${position}`}
               key={item.id}
-              onClick={() => onPick(i)}
-              aria-label={
-                on
-                  ? `${item.title} — зараз на екрані`
-                  : `Показати: ${item.title}`
-              }
-              aria-current={on}
+              onClick={visible ? () => onPick(i) : undefined}
+              aria-label={visible ? `Показати: ${item.title}` : undefined}
+              aria-hidden={!visible}
+              disabled={!visible || locked}
+              tabIndex={visible ? 0 : -1}
               style={{ "--row-hue": item.hue, "--slot": i }}
             >
               <span className="cin-frame-index">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              {item.video ? (
+              {visible && item.video ? (
                 <video
                   src={item.video}
                   poster={item.poster}
@@ -854,6 +896,8 @@ export function ReelStrip({ items, active, onPick }) {
                   preload="metadata"
                   tabIndex={-1}
                 />
+              ) : item.poster ? (
+                <img src={item.poster} alt="" loading="lazy" />
               ) : (
                 /* this direction has no reel yet — a generated tile beats an
                    empty <video> that renders as a black hole */

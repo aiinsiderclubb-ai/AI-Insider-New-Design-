@@ -8541,8 +8541,8 @@ html.has-cursor button {
   }
 
   .cin-phone {
-    left: 48%;
-    width: min(225px, 52%);
+    left: 50%;
+    width: min(225px, 48%);
     height: min(460px, 60svh);
   }
 
@@ -8753,114 +8753,137 @@ html.has-cursor button {
 }
 
 /* ================================================================
-   CAROUSEL — a scroll, not a cut
-   the strip used to re-render its contents on every pick, which read
-   as a jump; the track now slides and every reel stays mounted
+   CAROUSEL — two sides, one active phone, one queued slot
    ================================================================ */
 
 .cin-filmstrip {
   display: block;
-  overflow: hidden;
+  overflow: visible;
   padding-inline: 0;
+  pointer-events: none;
 }
 
 .cin-track {
-  --gap: 12px;
-  --per-view: 3;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: calc(
-    (100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view)
-  );
-  gap: var(--gap);
+  position: relative;
+  width: 100%;
   height: 100%;
-  /* one slot per step, gap included */
-  transform: translateX(
-    calc(
-      var(--active) *
-        (
-          -1 *
-            (
-              (100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view) +
-                var(--gap)
-            )
-        )
-    )
-  );
-  transition: transform 0.72s var(--ease-out);
 }
 
 .cin-frame {
-  height: 100%;
-  transform: none;
-}
-
-/* the stagger now belongs to the slot, not the child order */
-.cin-frame:nth-child(3n + 1) {
-  margin-top: 12px;
-}
-
-.cin-frame:nth-child(3n) {
-  margin-bottom: 12px;
-}
-
-.cin-frame:nth-child(1),
-.cin-frame:nth-child(3) {
-  transform: none;
-}
-
-/* the reel currently in the phone stays visible but marked */
-.cin-frame.is-live {
-  border-color: color-mix(in srgb, var(--row-hue) 70%, transparent);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--row-hue) 45%, transparent);
-}
-
-.cin-frame.is-live video,
-.cin-frame.is-live .cin-frame-empty {
-  filter: saturate(1) brightness(0.9);
-}
-
-.cin-frame.is-live::before {
-  content: "НА ЕКРАНІ";
   position: absolute;
-  top: 8px;
-  right: 8px;
-  z-index: 3;
-  padding: 3px 7px;
-  font-family: var(--mono);
-  font-size: 7px;
-  letter-spacing: 0.14em;
-  color: #06121a;
-  background: var(--row-hue);
-  border-radius: 999px;
+  top: 0;
+  left: 33%;
+  width: 34%;
+  height: 100%;
+  margin: 0 !important;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.82);
+  transition:
+    left 0.68s var(--ease-out),
+    transform 0.68s var(--ease-out),
+    opacity 0.42s ease,
+    visibility 0s linear 0.68s,
+    border-color 0.35s ease,
+    box-shadow 0.4s ease;
+  will-change: left, transform, opacity;
 }
 
-.cin-frame.is-live .cin-frame-go {
-  display: none;
+.cin-frame.is-prev,
+.cin-frame.is-next {
+  z-index: 3;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.cin-frame.is-prev {
+  left: -2%;
+  transform: translateY(12px);
+}
+
+.cin-frame.is-next {
+  left: 68%;
+  transform: translateY(-10px);
+}
+
+.cin-frame.is-prev:hover,
+.cin-frame.is-prev:focus-visible {
+  transform: translateY(5px) scale(1.035);
+}
+
+.cin-frame.is-next:hover,
+.cin-frame.is-next:focus-visible {
+  transform: translateY(-17px) scale(1.035);
+}
+
+.cin-frame:hover img,
+.cin-frame:focus-visible img {
+  filter: saturate(1) brightness(0.94) contrast(1.02);
+  transform: scale(1);
+}
+
+.cin-frame.is-current,
+.cin-frame.is-queued {
+  left: 33%;
+  z-index: 1;
+  opacity: 0;
+  transform: scale(0.82);
+}
+
+.cin-frame:disabled {
+  cursor: default;
+}
+
+.cin-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.62) brightness(0.6) contrast(1.06);
+  transform: scale(1.04);
+  transition:
+    filter 0.45s ease,
+    transform 0.7s var(--ease-out);
 }
 
 /* --- the phone screen slides in rather than blinking --- */
 
 .cin-phone .dev-wrap {
-  animation: reel-in 0.6s var(--ease-out);
+  animation: reel-in 0.52s var(--ease-out);
 }
 
 @keyframes reel-in {
   from {
     opacity: 0;
-    transform: translateX(26px) scale(0.985);
+    transform: scale(0.975);
   }
 }
 
-@media (max-width: 900px) {
-  .cin-track {
-    --per-view: 2;
+@media (max-width: 680px) {
+  .cin-frame {
+    width: 27%;
+  }
+
+  .cin-frame.is-prev {
+    left: 0;
+  }
+
+  .cin-frame.is-next {
+    left: 73%;
+  }
+
+  .cin-frame.is-current,
+  .cin-frame.is-queued {
+    left: 36.5%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cin-track {
+  .cin-frame {
     transition: none;
+    will-change: auto;
   }
 
   .cin-phone .dev-wrap {
