@@ -5,7 +5,6 @@ import {
   ArrowRight,
   ArrowUpRight,
   Check,
-  Lightning,
   Star,
 } from "@phosphor-icons/react";
 import {
@@ -264,75 +263,119 @@ function Modules() {
 
 function Studio({ onContact }) {
   const [index, setIndex] = useState(0);
+  const tabRefs = useRef([]);
   const item = studio[index];
+  const reelHues = ["#4fe3ff", "#8b5cff", "#2b4bff", "#a9c8ff"];
+  const activeHue = reelHues[index];
+
+  const selectTab = (nextIndex) => {
+    const safeIndex = (nextIndex + studio.length) % studio.length;
+    setIndex(safeIndex);
+    tabRefs.current[safeIndex]?.focus();
+  };
+
+  const onTabKeyDown = (event, tabIndex) => {
+    if (event.key === "ArrowRight") selectTab(tabIndex + 1);
+    else if (event.key === "ArrowLeft") selectTab(tabIndex - 1);
+    else if (event.key === "Home") selectTab(0);
+    else if (event.key === "End") selectTab(studio.length - 1);
+    else return;
+    event.preventDefault();
+  };
 
   return (
-    <div className="stu" style={{ "--hue": item.hue }}>
-      <div className="stu-grid">
-        <div className="stu-left">
-          <ul className="stu-list">
-            {studio.map((row, i) => {
-              const Icon = row.icon;
-              const on = i === index;
-              return (
-                <li key={row.id}>
-                  <button
-                    className={on ? "is-on" : ""}
-                    style={{ "--row-hue": row.hue }}
-                    onClick={() => setIndex(i)}
-                    aria-pressed={on}
-                  >
-                    <span className="stu-num meta">0{i + 1}</span>
-                    <span className="stu-ico">
-                      <Icon size={17} weight="bold" />
-                    </span>
-                    <span className="stu-name">
-                      <b>{row.title}</b>
-                      <small>{row.sub}</small>
-                    </span>
-                    <span className="stu-metric">
-                      <strong>{row.metric}</strong>
-                      <small>{row.metricLabel}</small>
-                    </span>
-                    <ArrowRight size={15} weight="bold" />
-                  </button>
-                </li>
-              );
-            })}
-          </ul>
+    <div className="cin-studio" style={{ "--hue": activeHue }}>
+      <div className="cin-intro">
+        <Meta>04 / AI-КОНТЕНТ</Meta>
+        <h2 className="cin-title">
+          Контент, який більше не впирається в людей.
+        </h2>
+        <p>
+          Окремий напрям: віртуальні персонажі, відео, UGC-реклама та креативи —
+          без знімальної групи, дизайнерів і контентних заторів.
+        </p>
+      </div>
 
-          <div className="stu-actions">
-            <button className="btn btn-accent" onClick={onContact}>
-              Обговорити контент <ArrowUpRight size={16} weight="bold" />
-            </button>
-            <Link className="btn btn-outline" to="/cases">
-              Дивитися приклади
-            </Link>
-          </div>
-
-          <div className="stu-ticks">
-            {[
-              ["10×", "більше контенту"],
-              ["−80%", "вартість"],
-              ["10+", "мов"],
-            ].map(([value, label]) => (
-              <span key={label}>
-                <Check size={13} weight="bold" />
-                <b>{value}</b>
-                {label}
+      <div className="cin-tabs" role="tablist" aria-label="Напрями AI-контенту">
+        {studio.map((row, i) => {
+          const Icon = row.icon;
+          const on = i === index;
+          return (
+            <button
+              ref={(node) => {
+                tabRefs.current[i] = node;
+              }}
+              id={`studio-tab-${row.id}`}
+              key={row.id}
+              className={on ? "is-on" : ""}
+              style={{ "--row-hue": reelHues[i] }}
+              role="tab"
+              aria-selected={on}
+              aria-controls="studio-preview"
+              tabIndex={on ? 0 : -1}
+              onClick={() => setIndex(i)}
+              onKeyDown={(event) => onTabKeyDown(event, i)}
+            >
+              <span className="cin-tab-icon">
+                <Icon size={18} weight="bold" />
               </span>
-            ))}
-          </div>
+              <span className="cin-tab-copy">
+                <b>{row.title}</b>
+                <small>
+                  {row.metric} {row.metricLabel}
+                </small>
+              </span>
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="cin-actions">
+        <div className="cin-buttons">
+          <button className="btn btn-accent" onClick={onContact}>
+            Обговорити контент <ArrowUpRight size={16} weight="bold" />
+          </button>
+          <Link className="btn btn-outline" to="/cases">
+            Дивитися приклади <ArrowRight size={15} weight="bold" />
+          </Link>
+        </div>
+        <div className="cin-ticks">
+          {[
+            ["10×", "більше контенту"],
+            ["−80%", "вартість"],
+            ["10+", "мов"],
+          ].map(([value, label]) => (
+            <span key={label}>
+              <Check size={13} weight="bold" />
+              <b>{value}</b>
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div
+        className="cin-stage"
+        id="studio-preview"
+        role="tabpanel"
+        aria-labelledby={`studio-tab-${item.id}`}
+      >
+        <span className="cin-ambient" aria-hidden="true" />
+        <div className="cin-filmstrip" aria-hidden="true">
+          {studio.slice(0, 3).map((frame, frameIndex) => (
+            <figure className="cin-frame" key={frame.id}>
+              <span className="cin-frame-index">0{frameIndex + 1}</span>
+              <img src={frame.poster} alt="" loading="lazy" />
+            </figure>
+          ))}
         </div>
 
-        <div className="stu-stage">
-          <span className="stu-bloom" aria-hidden="true" data-parallax="0.3" />
-
+        <div className="cin-phone">
           <Device
             key={item.id}
             video={item.video}
             poster={item.poster}
-            hue={item.hue}
+            hue={activeHue}
             label={item.handle}
           >
             <div className="stu-screen-top">
@@ -342,54 +385,15 @@ function Studio({ onContact }) {
               </span>
             </div>
           </Device>
+        </div>
 
-          <div className="float float-stats" key={`s-${item.id}`}>
-            <Meta>ПОКАЗНИКИ</Meta>
-            {item.stats.map(([label, value]) => (
-              <span key={label}>
-                {label}
-                <b>{value}</b>
-              </span>
-            ))}
-          </div>
-
-          <div className="float float-note" key={`n-${item.id}`}>
-            <span className="float-dot" aria-hidden="true" />
-            <b>{item.title}</b>
-            <p>{item.screenNote}</p>
-          </div>
+        <div className="cin-proof" key={item.id}>
+          <strong>{item.metric}</strong>
+          <Meta>{item.metricLabel}</Meta>
+          <p>{item.screenNote}</p>
+          <i aria-hidden="true" />
         </div>
       </div>
-
-      <button className="feature" onClick={onContact}>
-        <span className="feature-glow" aria-hidden="true" />
-        <span className="feature-mark">
-          <Lightning size={22} weight="fill" />
-        </span>
-        <span className="feature-main">
-          <span className="feature-line">
-            <b>Content Factory</b>
-            <em>НОВЕ</em>
-          </span>
-          <span className="feature-copy">
-            Система сама шукає ідеї, створює контент і публікує у соцмережі. Ви
-            лише погоджуєте в Telegram.
-          </span>
-        </span>
-        <span className="feature-figs">
-          <span>
-            <strong>500+</strong>
-            <Meta>ДОПИСІВ/МІС</Meta>
-          </span>
-          <span>
-            <strong>1</strong>
-            <Meta>КНОПКА СХВАЛЕННЯ</Meta>
-          </span>
-        </span>
-        <span className="feature-go" aria-hidden="true">
-          <ArrowUpRight size={20} weight="bold" />
-        </span>
-      </button>
     </div>
   );
 }
@@ -706,11 +710,6 @@ export function Home() {
       {/* 05b — ai content studio */}
       <section className="chapter c-ink stu-section" id="studio">
         <div className="wrap">
-          <SectionHead
-            eyebrow="04 / AI-КОНТЕНТ"
-            title="Контент, який більше не впирається в людей."
-            copy="Окремий напрям: віртуальні персонажі, відео, UGC-реклама та креативи — без знімальної групи, дизайнерів і контентних заторів."
-          />
           <Studio onContact={openContact} />
         </div>
       </section>
