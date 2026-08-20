@@ -267,9 +267,8 @@ export const studio = [
   },
   {
     id: "creative",
-    /* поклади ролик 9:16 у /public/assets/studio/ і впиши шлях */
     video: null,
-    poster: null,
+    poster: "/assets/studio/creative.webp",
     hue: "#5ff0c8",
     icon: ImageSquare,
     title: "Креативна студія",
