@@ -390,7 +390,7 @@ export const faqItems = [
 export const navLinks = [
   ["/services", "Послуги"],
   ["/cases", "Кейси"],
+  ["/insights", "Insights"],
   ["/studio", "AI-контент"],
   ["/about", "Про нас"],
-  ["/contact", "Контакти"],
 ];

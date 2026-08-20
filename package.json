@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build && node scripts/prepare-sites-build.mjs",
+    "dev": "node scripts/generate-workflows.mjs && vite",
+    "build": "node scripts/generate-workflows.mjs && vite build && node scripts/prerender.mjs && node scripts/prepare-sites-build.mjs",
     "preview": "vite preview",
     "test:sites": "node --test tests/sites-worker.test.mjs"
   },

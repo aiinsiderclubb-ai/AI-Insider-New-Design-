@@ -30,6 +30,7 @@ import {
 } from "./wow.jsx";
 import { modules, navLinks } from "./data.js";
 import { ContactModal, Meta } from "./ui.jsx";
+import { Seo } from "./seo.js";
 
 const ContactCtx = createContext(() => {});
 
@@ -101,6 +102,7 @@ export function Layout() {
 
   return (
     <ContactCtx.Provider value={openContact}>
+      <Seo />
       <div className="shell">
         <Grain />
         <Cursor />
@@ -242,6 +244,8 @@ export function Layout() {
                 <Meta>КОМПАНІЯ</Meta>
                 <Link to="/cases">Кейси</Link>
                 <Link to="/studio">AI-контент</Link>
+                <Link to="/insights">Insights</Link>
+                <Link to="/tools/n8n-workflow-library">n8n workflow</Link>
                 <Link to="/about">Про нас</Link>
                 <Link to="/contact">Контакти</Link>
               </div>

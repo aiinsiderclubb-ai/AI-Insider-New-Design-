@@ -14,6 +14,8 @@ Latest correction from user: avoid AI-slop aesthetics. Do not use repeated squar
 
 Current art direction, confirmed by the user: **mirror the UI/UX of the user's own site sweezy.world**, adapted to AI Insider. Green is banned. `src/system.css` is the single stylesheet — the older layered `styles.css` / `reference-elements.css` / `atelier.css` were deleted, do not reintroduce a stacking-override approach.
 
+SEO goal confirmed on 2026-08-20: grow qualified organic traffic toward 10,000 clicks per month while preserving useful signals from the previous site on `www.aiinsider.it.com`. Never trade relevance for raw impressions. Keep valuable legacy URLs mapped with relevant 301 redirects, return real 404 responses for unknown pages, and treat technical SEO, content clusters, proof, and authority as one program.
+
 Selected Sweezy direction, confirmed 2026-08-20: implement the approved “Swiss Route Atlas” mockup as source of truth. Use an ice/pearl embossed topographic field, atlas coordinates, a thin cyan journey line connecting `100+ / 26 / 3`, and four real Sweezy phones flowing toward one dominant career screen. Lime remains confined to authentic Sweezy UI inside device screens; outer section uses ink, ice, and cyan only.
 
 Swiss Route Atlas correction, confirmed 2026-08-20: background must match the mockup's tactile pearl/ice topographic plaster, not a CSS grid or simple contour strokes. Use `public/assets/sweezy/swiss-atlas-bg.webp`. Cyan route must be one continuous SVG path with aligned circular nodes; never assemble it from disconnected CSS borders.
@@ -32,5 +34,7 @@ Durable decisions:
 - The cyan route line is inside the footage — do not draw an SVG path over it.
 - Every glass render in `public/assets` sits on a white background: on dark surfaces they need `filter: invert(1) hue-rotate(176deg) …` (see `.case-img.is-inverted`, `.card-art`); on light or accent surfaces use `mix-blend-mode: multiply` instead.
 - Recharts is intentionally uninstalled — no chart-library dashboards.
+- SEO growth model: Ukrainian traffic engine around `n8n`, `Google AI Studio`, `NotebookLM` and `AI agent`; commercial long-tail pages convert that traffic into process audits. Every insight needs first-hand structure, explicit limitations, author/date, internal links and a reusable asset. Do not mass-produce generic AI articles.
+- Preserve valuable legacy search signals with intent-matched 301 redirects. Current primary migration targets: old n8n content → `/insights/n8n-ukrainskoiu`; AI-agent guides → `/insights/ai-agent-what-is-it`; real-estate and SaaS pages → matching `/solutions/` pages.
 
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.

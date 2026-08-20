@@ -1,0 +1,63 @@
+{
+  "name": "AI Insider — Розбір рахунків",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "invoice-extraction-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "invoice-extraction-note",
+              "name": "implementation_note",
+              "value": "Email → файл → поля → перевірка → ERP. Starter blueprint: replace this node with production integrations, credentials, validation and error handling.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "invoice-extraction-blueprint",
+      "name": "Implementation Blueprint",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Implementation Blueprint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "source": "AI Insider starter workflow library",
+    "disclaimer": "Blueprint only. Add credentials, validation, error handling and monitoring before production use."
+  },
+  "tags": []
+}

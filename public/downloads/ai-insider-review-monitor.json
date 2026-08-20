@@ -1,0 +1,63 @@
+{
+  "name": "AI Insider — Моніторинг відгуків",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "review-monitor-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "review-monitor-note",
+              "name": "implementation_note",
+              "value": "Новий review → sentiment → alert → task. Starter blueprint: replace this node with production integrations, credentials, validation and error handling.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "review-monitor-blueprint",
+      "name": "Implementation Blueprint",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        0
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Implementation Blueprint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "source": "AI Insider starter workflow library",
+    "disclaimer": "Blueprint only. Add credentials, validation, error handling and monitoring before production use."
+  },
+  "tags": []
+}
