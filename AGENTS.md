@@ -14,6 +14,10 @@ Latest correction from user: avoid AI-slop aesthetics. Do not use repeated squar
 
 Current art direction, confirmed by the user: **mirror the UI/UX of the user's own site sweezy.world**, adapted to AI Insider. Green is banned. `src/system.css` is the single stylesheet — the older layered `styles.css` / `reference-elements.css` / `atelier.css` were deleted, do not reintroduce a stacking-override approach.
 
+Selected Sweezy direction, confirmed 2026-08-20: implement the approved “Swiss Route Atlas” mockup as source of truth. Use an ice/pearl embossed topographic field, atlas coordinates, a thin cyan journey line connecting `100+ / 26 / 3`, and four real Sweezy phones flowing toward one dominant career screen. Lime remains confined to authentic Sweezy UI inside device screens; outer section uses ink, ice, and cyan only.
+
+Swiss Route Atlas correction, confirmed 2026-08-20: background must match the mockup's tactile pearl/ice topographic plaster, not a CSS grid or simple contour strokes. Use `public/assets/sweezy/swiss-atlas-bg.webp`. Cyan route must be one continuous SVG path with aligned circular nodes; never assemble it from disconnected CSS borders.
+
 Selected case-study direction: use the approved “Editorial Hero Case” mockup supplied on 2026-08-18 as source of truth. The section has a spacious off-white editorial header followed by one unified dark media board: dominant logistics case on the left, two stacked secondary cases on the right, cyan outcome metrics, real imagery, thin internal dividers, and working full-card links. Do not return to an equal 2×2 case-card grid.
 
 Durable decisions:

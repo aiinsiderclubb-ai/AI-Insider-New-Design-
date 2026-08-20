@@ -789,9 +789,11 @@ export function useParallax() {
 
 /* ------------------------------------------------------- reel strip */
 
-/* Live thumbnails: they play only while the strip is on screen, so a
-   handful of loops never runs against a page the visitor has left. */
-export function ReelStrip({ items, onPick }) {
+/* Every reel stays mounted in one track; picking one slides the track
+   instead of swapping the DOM, so the change reads as a scroll rather
+   than a cut. Playback follows visibility — a handful of loops never
+   runs against a page the visitor has left. */
+export function ReelStrip({ items, active, onPick }) {
   const wrap = useRef(null);
 
   useEffect(() => {
@@ -820,38 +822,51 @@ export function ReelStrip({ items, onPick }) {
 
   return (
     <div className="cin-filmstrip" ref={wrap}>
-      {items.map((item, i) => (
-        <button
-          className="cin-frame"
-          key={item.id}
-          onClick={() => onPick(item.index)}
-          aria-label={`Показати: ${item.title}`}
-          style={{ "--row-hue": item.hue }}
-        >
-          <span className="cin-frame-index">
-            {String(item.index + 1).padStart(2, "0")}
-          </span>
-          {item.video ? (
-            <video
-              src={item.video}
-              poster={item.poster}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              tabIndex={-1}
-            />
-          ) : (
-            /* this direction has no reel yet — a generated tile beats an
-               empty <video> that renders as a black hole */
-            <span className="cin-frame-empty" aria-hidden="true" />
-          )}
-          <span className="cin-frame-title">{item.title}</span>
-          <span className="cin-frame-go" aria-hidden="true">
-            <i />
-          </span>
-        </button>
-      ))}
+      <div
+        className="cin-track"
+        style={{ "--active": active, "--count": items.length }}
+      >
+        {items.map((item, i) => {
+          const on = i === active;
+          return (
+            <button
+              className={`cin-frame${on ? " is-live" : ""}`}
+              key={item.id}
+              onClick={() => onPick(i)}
+              aria-label={
+                on
+                  ? `${item.title} — зараз на екрані`
+                  : `Показати: ${item.title}`
+              }
+              aria-current={on}
+              style={{ "--row-hue": item.hue, "--slot": i }}
+            >
+              <span className="cin-frame-index">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              {item.video ? (
+                <video
+                  src={item.video}
+                  poster={item.poster}
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  tabIndex={-1}
+                />
+              ) : (
+                /* this direction has no reel yet — a generated tile beats an
+                   empty <video> that renders as a black hole */
+                <span className="cin-frame-empty" aria-hidden="true" />
+              )}
+              <span className="cin-frame-title">{item.title}</span>
+              <span className="cin-frame-go" aria-hidden="true">
+                <i />
+              </span>
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 }

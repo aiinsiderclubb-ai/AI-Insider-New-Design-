@@ -6995,190 +6995,460 @@ html.has-cursor button {
 }
 
 /* ================================================================
-   SWEEZY FAN — four identical devices, arranged like a bouquet
-   replaces the tab switcher: everything is visible at once
+   SWEEZY — SWISS ROUTE ATLAS
+   approved 2026-08-20 mockup: journey line, topographic field,
+   real Sweezy screens and one dominant career device
    ================================================================ */
 
-.product-grid {
-  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
-  gap: clamp(20px, 2.6vw, 48px);
-}
-
-.chapter#sweezy {
-  padding-block: clamp(36px, 3.6vw, 56px);
-}
-
-.sw-showcase {
-  display: block;
-}
-
-.sw-fan {
+.sweezy-atlas {
   position: relative;
-  display: grid;
-  place-items: center;
-  min-height: 470px;
-  perspective: 1600px;
+  min-height: max(840px, calc(100svh - 62px));
+  padding-block: clamp(70px, 6vw, 96px);
+  overflow: hidden;
+  isolation: isolate;
+  background: #eef3fb url("/assets/sweezy/swiss-atlas-bg.webp") center / cover
+    no-repeat;
 }
 
-.sw-bloom {
-  width: 92%;
-  opacity: 0.2;
-}
-
-/* every card is the same component at the same size — the only thing
-   that differs between them is the screenshot inside */
-.sw-card {
+.atlas-coordinates {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 196px;
-  transform: translate(-50%, -50%) translate(var(--x), var(--y))
-    rotate(var(--r));
-  transition:
-    transform 0.6s var(--ease-out),
-    filter 0.5s ease;
-  filter: brightness(var(--b, 1));
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.18em;
+  color: rgba(43, 96, 160, 0.42);
 }
 
-.sw-card:nth-child(2) {
-  --x: -160px;
-  --y: 26px;
-  --r: -13deg;
-  --b: 0.86;
-  z-index: 1;
+.atlas-coordinates > span {
+  position: absolute;
 }
 
-.sw-card:nth-child(3) {
-  --x: -54px;
-  --y: -2px;
-  --r: -4.4deg;
-  --b: 0.94;
+.atlas-longitudes {
+  top: 28px;
+  left: max(28px, calc((100vw - var(--wrap)) / 2));
+  word-spacing: clamp(24px, 4vw, 72px);
+}
+
+.atlas-latitude {
+  top: 112px;
+  left: 20px;
+  line-height: clamp(170px, 18vw, 220px);
+}
+
+.atlas-name {
+  top: 64px;
+  right: 42px;
+}
+
+.atlas-place {
+  right: 42px;
+  bottom: 26px;
+}
+
+.atlas-brand {
+  left: 42px;
+  bottom: 26px;
+}
+
+.atlas-grid {
+  min-height: 620px;
+  display: grid;
+  grid-template-columns: minmax(0, 0.94fr) minmax(540px, 1.06fr);
+  gap: clamp(24px, 3vw, 52px);
+  align-items: center;
+}
+
+.atlas-copy {
+  position: relative;
+  z-index: 3;
+  max-width: 720px;
+  padding-left: 44px;
+}
+
+.atlas-copy > :not(.atlas-journey) {
+  position: relative;
   z-index: 2;
 }
 
-.sw-card:nth-child(4) {
-  --x: 54px;
-  --y: -2px;
-  --r: 4.4deg;
-  --b: 1;
-  z-index: 3;
+.atlas-journey {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: calc(100% + clamp(220px, 25vw, 360px));
+  height: 100%;
+  overflow: visible;
+  fill: #eef3fb;
+  stroke: var(--accent);
+  stroke-width: 2;
+  pointer-events: none;
 }
 
-.sw-card:nth-child(5) {
-  --x: 160px;
-  --y: 26px;
-  --r: 13deg;
-  --b: 0.9;
-  z-index: 4;
+.atlas-journey path,
+.atlas-journey circle {
+  vector-effect: non-scaling-stroke;
 }
 
-/* the hovered screen steps forward and straightens up */
-.sw-fan:hover .sw-card {
-  --b: 0.72;
+.atlas-journey path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-.sw-card:hover {
-  --y: -22px;
-  --r: 0deg;
-  --b: 1.06;
-  z-index: 9;
+.atlas-journey circle {
+  filter: drop-shadow(0 0 4px rgba(79, 227, 255, 0.16));
 }
 
-.sw-card .dev-wrap {
+.atlas-journey-mobile {
+  display: none;
+}
+
+.atlas-copy .product-badge {
+  margin-bottom: clamp(24px, 2.5vw, 38px);
+  box-shadow: 0 12px 30px rgba(49, 77, 115, 0.08);
+}
+
+.atlas-title {
+  width: calc(100% + clamp(120px, 14vw, 220px));
+  max-width: 27ch;
+  font-size: clamp(48px, 3.9vw, 64px);
+  font-weight: 560;
+  line-height: 0.99;
+  letter-spacing: -0.062em;
+  text-wrap: pretty;
+}
+
+.atlas-lede {
+  max-width: 42ch;
+  margin-top: 24px;
+  font-size: clamp(17px, 1.35vw, 21px);
+  line-height: 1.48;
+  color: rgba(20, 35, 57, 0.62);
+}
+
+.atlas-stats {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  width: calc(100% + clamp(40px, 8vw, 130px));
+  margin-top: clamp(52px, 5vw, 74px);
+  padding-top: 38px;
+}
+
+.atlas-stats > div {
+  position: relative;
+  min-width: 0;
+  padding-right: 18px;
+}
+
+.atlas-stats strong {
+  display: block;
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 750;
+  line-height: 0.9;
+  letter-spacing: -0.07em;
+}
+
+.atlas-stats .meta {
+  max-width: 15ch;
+  margin-top: 13px;
+  line-height: 1.5;
+  color: rgba(20, 35, 57, 0.58);
+}
+
+.atlas-actions {
+  margin-top: 32px;
+}
+
+.atlas-actions .btn {
+  min-height: 54px;
+  padding-inline: 24px;
+}
+
+.atlas-actions .btn-outline {
+  background: rgba(255, 255, 255, 0.65);
+  border-color: rgba(8, 9, 12, 0.12);
+}
+
+.atlas-showcase {
+  position: relative;
+  z-index: 2;
+  min-width: 0;
+  min-height: 620px;
+}
+
+.atlas-phones {
+  position: absolute;
+  inset: 0;
+  perspective: 1700px;
+}
+
+.atlas-phone {
+  position: absolute;
+  bottom: 8px;
+  transition:
+    transform 0.55s var(--ease-out),
+    filter 0.45s ease;
+}
+
+.atlas-phone .dev-wrap,
+.atlas-phone .dev {
   width: 100%;
+}
+
+.atlas-phone .dev-wrap {
   gap: 0;
 }
 
-.sw-card .dev {
-  width: 100%;
-}
-
-/* the fan sets the angle, so the per-device cursor tilt would fight it */
-.sw-card .dev {
+.atlas-phone .dev {
   --rx: 0deg;
   --ry: 0deg;
 }
 
-.sw-fan .dev-shadow {
-  bottom: -3%;
-  height: 9%;
-  filter: blur(16px);
+.atlas-phone .dev-island,
+.atlas-phone .dev-home,
+.atlas-phone .dev-player {
+  display: none;
 }
 
-.sw-tag {
-  position: absolute;
-  left: 50%;
-  bottom: -26px;
-  padding: 5px 12px;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  color: #0b0d08;
-  background: #c8ff3d;
-  border-radius: 999px;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition:
-    opacity 0.35s ease,
-    transform 0.45s var(--ease-out);
+.atlas-phone .dev-wrap::before {
+  opacity: 0.08;
 }
 
-.sw-card:hover .sw-tag {
-  opacity: 1;
-  transform: translateX(-50%) translateY(-4px);
+.atlas-phone-home {
+  left: 1%;
+  z-index: 1;
+  width: 164px;
+  transform: translateY(28px) rotate(-7deg);
+  filter: brightness(0.84);
+}
+
+.atlas-phone-guides {
+  left: 20%;
+  z-index: 2;
+  width: 174px;
+  transform: translateY(10px) rotate(-3deg);
+  filter: brightness(0.9);
+}
+
+.atlas-phone-tools {
+  left: 39%;
+  z-index: 3;
+  width: 184px;
+  transform: translateY(2px) rotate(1deg);
+  filter: brightness(0.95);
+}
+
+.atlas-phone-career {
+  right: 0;
+  z-index: 4;
+  width: 248px;
+  transform: translateY(-14px) rotate(4deg);
+}
+
+.atlas-phones:hover .atlas-phone:not(:hover) {
+  filter: brightness(0.68) saturate(0.8);
+}
+
+.atlas-phone:hover {
+  z-index: 9;
+  transform: translateY(-26px) rotate(0deg);
+  filter: brightness(1.04);
+}
+
+.atlas-phone .dev-shadow {
+  bottom: -2%;
+  height: 10%;
+  filter: blur(18px);
 }
 
 @media (max-width: 1180px) {
-  .product-grid {
-    grid-template-columns: minmax(0, 1fr);
+  .atlas-grid {
+    grid-template-columns: minmax(0, 0.92fr) minmax(470px, 1.08fr);
   }
 
-  .sw-fan {
-    min-height: 430px;
+  .atlas-title {
+    width: calc(100% + 80px);
+    max-width: 20ch;
+    font-size: clamp(44px, 4.7vw, 58px);
   }
 
-  .sw-card {
-    width: 176px;
+  .atlas-phone-home {
+    width: 142px;
   }
 
-  .sw-card:nth-child(2) {
-    --x: -144px;
+  .atlas-phone-guides {
+    width: 152px;
   }
-  .sw-card:nth-child(3) {
-    --x: -48px;
+
+  .atlas-phone-tools {
+    width: 162px;
   }
-  .sw-card:nth-child(4) {
-    --x: 48px;
-  }
-  .sw-card:nth-child(5) {
-    --x: 144px;
+
+  .atlas-phone-career {
+    width: 216px;
   }
 }
 
-@media (max-width: 760px) {
-  .sw-fan {
-    min-height: 360px;
+@media (max-width: 940px) {
+  .sweezy-atlas {
+    min-height: 0;
   }
 
-  .sw-card {
-    width: 132px;
+  .atlas-grid {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
   }
 
-  .sw-card:nth-child(2) {
-    --x: -104px;
-    --y: 18px;
+  .atlas-copy {
+    max-width: 760px;
   }
-  .sw-card:nth-child(3) {
-    --x: -35px;
+
+  .atlas-title {
+    width: auto;
+    max-width: 15ch;
   }
-  .sw-card:nth-child(4) {
-    --x: 35px;
+
+  .atlas-stats {
+    width: 100%;
   }
-  .sw-card:nth-child(5) {
-    --x: 104px;
-    --y: 18px;
+
+  .atlas-showcase {
+    min-height: 560px;
+    margin-top: 12px;
+  }
+
+  .atlas-phone-home {
+    left: 8%;
+    width: 156px;
+  }
+
+  .atlas-phone-guides {
+    left: 28%;
+    width: 166px;
+  }
+
+  .atlas-phone-tools {
+    left: 47%;
+    width: 176px;
+  }
+
+  .atlas-phone-career {
+    right: 6%;
+    width: 228px;
+  }
+}
+
+@media (max-width: 620px) {
+  .sweezy-atlas {
+    padding-block: 72px 54px;
+  }
+
+  .atlas-name,
+  .atlas-place,
+  .atlas-latitude {
+    display: none;
+  }
+
+  .atlas-longitudes {
+    top: 22px;
+    left: var(--gutter);
+    font-size: 8px;
+    word-spacing: 10px;
+  }
+
+  .atlas-brand {
+    left: var(--gutter);
+    bottom: 18px;
+  }
+
+  .atlas-copy {
+    padding-left: 24px;
+  }
+
+  .atlas-journey-desktop {
+    display: none;
+  }
+
+  .atlas-journey-mobile {
+    display: block;
+    width: 100%;
+  }
+
+  .atlas-copy .product-badge {
+    margin-bottom: 24px;
+  }
+
+  .atlas-title {
+    font-size: clamp(39px, 11vw, 50px);
+  }
+
+  .atlas-lede {
+    margin-top: 18px;
+    font-size: 16px;
+  }
+
+  .atlas-stats {
+    margin-top: 46px;
+    padding-top: 30px;
+  }
+
+  .atlas-stats > div {
+    padding-right: 8px;
+  }
+
+  .atlas-stats strong {
+    font-size: clamp(30px, 10vw, 42px);
+  }
+
+  .atlas-stats .meta {
+    margin-top: 9px;
+    font-size: 8px;
+  }
+
+  .atlas-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 26px;
+  }
+
+  .atlas-actions .btn {
+    width: 100%;
+  }
+
+  .atlas-showcase {
+    min-height: 430px;
+    margin-inline: calc(var(--gutter) * -1);
+  }
+
+  .atlas-phone-home {
+    left: -7%;
+    width: 108px;
+  }
+
+  .atlas-phone-guides {
+    left: 14%;
+    width: 116px;
+  }
+
+  .atlas-phone-tools {
+    left: 35%;
+    width: 124px;
+  }
+
+  .atlas-phone-career {
+    right: -4%;
+    width: 166px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atlas-phone {
+    transition: none;
   }
 }
 
@@ -8480,4 +8750,131 @@ html.has-cursor button {
     linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 26px 26px;
+}
+
+/* ================================================================
+   CAROUSEL — a scroll, not a cut
+   the strip used to re-render its contents on every pick, which read
+   as a jump; the track now slides and every reel stays mounted
+   ================================================================ */
+
+.cin-filmstrip {
+  display: block;
+  overflow: hidden;
+  padding-inline: 0;
+}
+
+.cin-track {
+  --gap: 12px;
+  --per-view: 3;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc(
+    (100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view)
+  );
+  gap: var(--gap);
+  height: 100%;
+  /* one slot per step, gap included */
+  transform: translateX(
+    calc(
+      var(--active) *
+        (
+          -1 *
+            (
+              (100% - (var(--per-view) - 1) * var(--gap)) / var(--per-view) +
+                var(--gap)
+            )
+        )
+    )
+  );
+  transition: transform 0.72s var(--ease-out);
+}
+
+.cin-frame {
+  height: 100%;
+  transform: none;
+}
+
+/* the stagger now belongs to the slot, not the child order */
+.cin-frame:nth-child(3n + 1) {
+  margin-top: 12px;
+}
+
+.cin-frame:nth-child(3n) {
+  margin-bottom: 12px;
+}
+
+.cin-frame:nth-child(1),
+.cin-frame:nth-child(3) {
+  transform: none;
+}
+
+/* the reel currently in the phone stays visible but marked */
+.cin-frame.is-live {
+  border-color: color-mix(in srgb, var(--row-hue) 70%, transparent);
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--row-hue) 45%, transparent);
+}
+
+.cin-frame.is-live video,
+.cin-frame.is-live .cin-frame-empty {
+  filter: saturate(1) brightness(0.9);
+}
+
+.cin-frame.is-live::before {
+  content: "НА ЕКРАНІ";
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  padding: 3px 7px;
+  font-family: var(--mono);
+  font-size: 7px;
+  letter-spacing: 0.14em;
+  color: #06121a;
+  background: var(--row-hue);
+  border-radius: 999px;
+}
+
+.cin-frame.is-live .cin-frame-go {
+  display: none;
+}
+
+/* --- the phone screen slides in rather than blinking --- */
+
+.cin-phone .dev-wrap {
+  animation: reel-in 0.6s var(--ease-out);
+}
+
+@keyframes reel-in {
+  from {
+    opacity: 0;
+    transform: translateX(26px) scale(0.985);
+  }
+}
+
+@media (max-width: 900px) {
+  .cin-track {
+    --per-view: 2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cin-track {
+    transition: none;
+  }
+
+  .cin-phone .dev-wrap {
+    animation: none;
+  }
+}
+
+/* ================================================================
+   ATLAS — the route line belongs under the phones
+   .atlas-copy carried z-index 3 and became a stacking context, so the
+   SVG inside it painted over .atlas-showcase no matter how low its own
+   z-index was
+   ================================================================ */
+
+.atlas-showcase {
+  z-index: 4;
 }

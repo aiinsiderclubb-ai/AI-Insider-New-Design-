@@ -363,13 +363,11 @@ function Studio({ onContact }) {
       >
         <span className="cin-ambient" aria-hidden="true" />
         <ReelStrip
-          items={studio
-            .map((reel, reelIndex) => ({
-              ...reel,
-              index: reelIndex,
-              hue: reelHues[reelIndex],
-            }))
-            .filter((reel) => reel.index !== index)}
+          items={studio.map((reel, reelIndex) => ({
+            ...reel,
+            hue: reelHues[reelIndex],
+          }))}
+          active={index}
           onPick={setIndex}
         />
 
@@ -802,25 +800,64 @@ export function Home() {
       </section>
 
       {/* 09 — sweezy product */}
-      <section className="chapter c-tint" id="sweezy">
-        <div className="wrap product-grid">
-          <div>
+      <section className="chapter c-tint sweezy-atlas" id="sweezy">
+        <div className="atlas-coordinates" aria-hidden="true">
+          <span className="atlas-longitudes">
+            6°E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7°E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8°E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9°E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10°E
+          </span>
+          <span className="atlas-latitude">
+            48°N
+            <br />
+            47°N
+            <br />
+            46°N
+          </span>
+          <span className="atlas-name">SWISS ROUTE ATLAS</span>
+          <span className="atlas-place">BERN, SWITZERLAND</span>
+          <span className="atlas-brand">AI INSIDER</span>
+        </div>
+        <div className="wrap atlas-grid">
+          <div className="atlas-copy">
+            <svg
+              className="atlas-journey atlas-journey-desktop"
+              viewBox="0 0 900 560"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path d="M0 70V316Q0 340 24 340H650Q690 340 690 380V416Q690 442 716 442H890" />
+              <circle cx="0" cy="70" r="9" />
+              <circle cx="160" cy="340" r="9" />
+              <circle cx="362" cy="340" r="9" />
+              <circle cx="567" cy="340" r="9" />
+            </svg>
+            <svg
+              className="atlas-journey atlas-journey-mobile"
+              viewBox="0 0 350 620"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path d="M0 52V318Q0 340 22 340H346" />
+              <circle cx="0" cy="52" r="8" />
+              <circle cx="76" cy="340" r="8" />
+              <circle cx="185" cy="340" r="8" />
+              <circle cx="294" cy="340" r="8" />
+            </svg>
             <Reveal className="product-badge">
               <i>S</i>
               <b>Sweezy®</b>
               <Meta>ВЛАСНИЙ ПРОДУКТ</Meta>
             </Reveal>
             <Reveal delay={80}>
-              <h2 className="h-lg">
-                Ми не лише радимо. Ми будуємо власні продукти.
+              <h2 className="atlas-title">
+                Ми не лише радимо.
+                <br />
+                Ми будуємо власні продукти.
               </h2>
-              <p className="lede">
-                Sweezy — застосунок, що перетворює переїзд до Швейцарії на
-                зрозумілий персональний маршрут: дозволи, документи, робота та
-                місцеві сервіси. Спроєктований і запущений командою AI Insider.
+              <p className="atlas-lede">
+                Sweezy перетворює переїзд до Швейцарії на персональний маршрут.
               </p>
             </Reveal>
-            <div className="product-stats">
+            <div className="atlas-stats">
               {[
                 ["100+", "практичних гайдів"],
                 ["26", "кантонів"],
@@ -832,7 +869,7 @@ export function Home() {
                 </Reveal>
               ))}
             </div>
-            <Reveal className="product-actions" delay={160}>
+            <Reveal className="product-actions atlas-actions" delay={160}>
               <a
                 className="btn btn-dark"
                 href="https://www.sweezy.world/uk"
@@ -846,13 +883,15 @@ export function Home() {
               </button>
             </Reveal>
           </div>
-          <Reveal className="sw-showcase" delay={120}>
-            <div className="sw-fan">
-              <span className="sw-bloom" aria-hidden="true" />
+          <Reveal className="atlas-showcase" delay={120}>
+            <div className="atlas-phones">
               {sweezyScreens.map((item, i) => (
-                <div className="sw-card" key={item.id} style={{ "--i": i }}>
-                  <Device image={item.src} hue="#c8ff3d" />
-                  <span className="sw-tag">{item.tab}</span>
+                <div
+                  className={`atlas-phone atlas-phone-${item.id}`}
+                  key={item.id}
+                  style={{ "--i": i }}
+                >
+                  <Device image={item.src} hue="#4fe3ff" />
                 </div>
               ))}
             </div>
