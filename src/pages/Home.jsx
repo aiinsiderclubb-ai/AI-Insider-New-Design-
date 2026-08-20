@@ -13,6 +13,7 @@ import {
   Device,
   ModuleVisual,
   NeuralGraph,
+  ReelStrip,
   Scramble,
   SplitText,
   Strip,
@@ -361,14 +362,16 @@ function Studio({ onContact }) {
         aria-labelledby={`studio-tab-${item.id}`}
       >
         <span className="cin-ambient" aria-hidden="true" />
-        <div className="cin-filmstrip" aria-hidden="true">
-          {studio.slice(0, 3).map((frame, frameIndex) => (
-            <figure className="cin-frame" key={frame.id}>
-              <span className="cin-frame-index">0{frameIndex + 1}</span>
-              <img src={frame.poster} alt="" loading="lazy" />
-            </figure>
-          ))}
-        </div>
+        <ReelStrip
+          items={studio
+            .map((reel, reelIndex) => ({
+              ...reel,
+              index: reelIndex,
+              hue: reelHues[reelIndex],
+            }))
+            .filter((reel) => reel.index !== index)}
+          onPick={setIndex}
+        />
 
         <div className="cin-phone">
           <Device

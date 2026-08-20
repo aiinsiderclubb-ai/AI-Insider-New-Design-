@@ -786,3 +786,72 @@ export function useParallax() {
     };
   }, []);
 }
+
+/* ------------------------------------------------------- reel strip */
+
+/* Live thumbnails: they play only while the strip is on screen, so a
+   handful of loops never runs against a page the visitor has left. */
+export function ReelStrip({ items, onPick }) {
+  const wrap = useRef(null);
+
+  useEffect(() => {
+    const node = wrap.current;
+    if (!node) return undefined;
+    const videos = () => [...node.querySelectorAll("video")];
+
+    if (reduced()) {
+      videos().forEach((v) => v.pause());
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const on = entries[0].isIntersecting;
+        videos().forEach((video) => {
+          if (on) video.play().catch(() => {});
+          else video.pause();
+        });
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [items]);
+
+  return (
+    <div className="cin-filmstrip" ref={wrap}>
+      {items.map((item, i) => (
+        <button
+          className="cin-frame"
+          key={item.id}
+          onClick={() => onPick(item.index)}
+          aria-label={`Показати: ${item.title}`}
+          style={{ "--row-hue": item.hue }}
+        >
+          <span className="cin-frame-index">
+            {String(item.index + 1).padStart(2, "0")}
+          </span>
+          {item.video ? (
+            <video
+              src={item.video}
+              poster={item.poster}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              tabIndex={-1}
+            />
+          ) : (
+            /* this direction has no reel yet — a generated tile beats an
+               empty <video> that renders as a black hole */
+            <span className="cin-frame-empty" aria-hidden="true" />
+          )}
+          <span className="cin-frame-title">{item.title}</span>
+          <span className="cin-frame-go" aria-hidden="true">
+            <i />
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+}
