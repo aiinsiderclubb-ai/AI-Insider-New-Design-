@@ -42,6 +42,9 @@ export function Layout() {
   const [lang, setLang] = useState("UA");
   const [stuck, setStuck] = useState(false);
   const { pathname, hash } = useLocation();
+  const lightHeader = ["/services", "/cases", "/about", "/insights"].includes(
+    pathname,
+  );
 
   const openContact = useCallback(() => {
     setMenuOpen(false);
@@ -106,7 +109,9 @@ export function Layout() {
       <div className="shell">
         <Grain />
         <Cursor />
-        <header className={`hdr${stuck ? " is-stuck" : ""}`}>
+        <header
+          className={`hdr${stuck ? " is-stuck" : ""}${lightHeader ? " is-light" : ""}`}
+        >
           <div className="hdr-in">
             <Link className="brand" to="/" aria-label="AI Insider — головна">
               <span className="brand-mark" aria-hidden="true">

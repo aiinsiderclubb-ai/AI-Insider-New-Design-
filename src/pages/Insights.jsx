@@ -1,4 +1,9 @@
-import { ArrowRight, ArrowUpRight, Clock, DownloadSimple } from "@phosphor-icons/react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Clock,
+  DownloadSimple,
+} from "@phosphor-icons/react";
 import { Link, useParams } from "react-router-dom";
 import { insightArticles, insightBySlug, solutionPages } from "../content.js";
 import { Meta, Reveal } from "../ui.jsx";
@@ -40,22 +45,23 @@ function ArticleCard({ article, index }) {
 }
 
 export function Insights() {
+  const [featured, ...articles] = insightArticles;
+
   return (
-    <main>
-      <section className="chapter c-paper insights-head">
-        <div className="wrap">
-          <Reveal>
-            <Meta>INSIGHTS · ПРАКТИЧНІ ГАЙДИ</Meta>
-          </Reveal>
-          <div className="insights-head-grid">
+    <main className="atlas-page atlas-insights">
+      <section className="chapter c-paper atlas-hero insights-atlas-hero">
+        <div className="wrap atlas-hero-grid">
+          <div className="atlas-hero-copy">
+            <Reveal>
+              <Meta>03 / INSIGHTS · ПРАКТИЧНІ ГАЙДИ</Meta>
+            </Reveal>
             <h1 className="h-xl" data-reveal>
               AI без туману. Системи, які можна перевірити.
             </h1>
             <Reveal delay={120}>
               <p className="lede">
                 Гайди, порівняння й робочі інструменти для команд, які
-                впроваджують AI у процеси. Власні схеми, тести й обмеження — без
-                переписування документації виробників.
+                впроваджують AI у процеси.
               </p>
               <div className="insights-quicklinks">
                 <Link to="/tools/n8n-workflow-library">
@@ -67,38 +73,106 @@ export function Insights() {
               </div>
             </Reveal>
           </div>
+          <Reveal className="insight-topics" delay={100}>
+            {[
+              "Автоматизація",
+              "Інструменти",
+              "Бази знань",
+              "Порівняння",
+              "AI-агенти",
+            ].map((topic, index) => (
+              <span key={topic}>
+                <i className="num">0{index + 1}</i>
+                {topic}
+                <b />
+              </span>
+            ))}
+          </Reveal>
         </div>
       </section>
 
-      <section className="chapter c-ink insights-list-section">
+      <section className="c-paper atlas-board-section">
         <div className="wrap">
-          <div className="insights-list-head">
-            <Meta>ОСТАННІ МАТЕРІАЛИ</Meta>
+          <Link className="insight-feature" to={`/insights/${featured.slug}`}>
+            <img
+              src="/assets/editorial-insights.webp"
+              alt="Редакційне дослідження AI-систем"
+            />
+            <span className="insight-feature-shade" />
+            <span className="insight-feature-copy">
+              <Meta>
+                01 / {featured.category} · {featured.readTime}
+              </Meta>
+              <h2 className="h-lg">{featured.title}</h2>
+              <p>{featured.dek}</p>
+              <span className="arrow-link">
+                Читати гайд <ArrowUpRight size={18} weight="bold" />
+              </span>
+            </span>
+            <span className="insight-standard">
+              <Meta>РЕДАКЦІЙНИЙ СТАНДАРТ</Meta>
+              {["Власний тест", "Чіткі межі", "Дата перевірки"].map(
+                (item, index) => (
+                  <span key={item}>
+                    <i className="num">0{index + 1}</i>
+                    {item}
+                  </span>
+                ),
+              )}
+            </span>
+          </Link>
+        </div>
+      </section>
+
+      <section className="chapter c-paper insight-index-section">
+        <div className="wrap">
+          <div className="atlas-list-head">
+            <Meta>04 / ОСТАННІ МАТЕРІАЛИ</Meta>
             <Meta>{insightArticles.length} ГАЙДІВ · ОНОВЛЕНО 20.08.2026</Meta>
           </div>
-          <div className="insight-grid">
-            {insightArticles.map((article, index) => (
-              <Reveal key={article.slug} delay={(index % 2) * 80}>
-                <ArticleCard article={article} index={index} />
+          <div className="insight-index-rows">
+            {articles.map((article, index) => (
+              <Reveal key={article.slug}>
+                <Link to={`/insights/${article.slug}`}>
+                  <span className="num">0{index + 2}</span>
+                  <Meta>{article.category}</Meta>
+                  <div>
+                    <h2>{article.shortTitle}</h2>
+                    <p>{article.description}</p>
+                  </div>
+                  <span className="insight-read">
+                    <Clock size={14} />
+                    {article.readTime}
+                  </span>
+                  <i>
+                    <ArrowUpRight size={18} weight="bold" />
+                  </i>
+                </Link>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="chapter c-paper insights-solutions">
+      <section className="chapter c-paper-2 insights-solutions atlas-solutions">
         <div className="wrap">
           <div className="insights-solutions-head">
             <div>
-              <Meta>ВІД ГАЙДУ ДО ПРОЦЕСУ</Meta>
+              <Meta>05 / ВІД ГАЙДУ ДО ПРОЦЕСУ</Meta>
               <h2 className="h-lg">Рішення для конкретної операції.</h2>
             </div>
-            <p>Менше пошукового обсягу. Вища цінність наміру. Кожна сторінка показує flow, інтеграції, контроль і метрику запуску.</p>
+            <p>
+              Менше пошукового обсягу. Вища цінність наміру. Кожна сторінка
+              показує flow, інтеграції, контроль і метрику запуску.
+            </p>
           </div>
-          <div className="solution-link-grid">
+          <div className="atlas-solution-rows">
             {solutionPages.map((solution, index) => (
               <Link to={`/solutions/${solution.slug}`} key={solution.slug}>
-                <Meta>{String(index + 1).padStart(2, "0")} · {solution.kicker}</Meta>
+                <span className="num">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <Meta>{solution.kicker}</Meta>
                 <h3>{solution.title}</h3>
                 <ArrowUpRight size={18} weight="bold" />
               </Link>
@@ -107,7 +181,7 @@ export function Insights() {
         </div>
       </section>
 
-      <section className="chapter c-tint insight-method">
+      <section className="chapter c-paper insight-method atlas-insight-method">
         <div className="wrap insight-method-grid">
           <div>
             <Meta>РЕДАКЦІЙНИЙ СТАНДАРТ</Meta>
@@ -115,9 +189,21 @@ export function Insights() {
           </div>
           <div className="insight-method-points">
             {[
-              ["01", "Власний тест", "Реальний workflow, набір документів або прототип."],
-              ["02", "Чіткі межі", "Де інструмент працює, де помиляється і що перевіряє людина."],
-              ["03", "Дата перевірки", "Оновлюємо матеріал після суттєвих змін продукту."],
+              [
+                "01",
+                "Власний тест",
+                "Реальний workflow, набір документів або прототип.",
+              ],
+              [
+                "02",
+                "Чіткі межі",
+                "Де інструмент працює, де помиляється і що перевіряє людина.",
+              ],
+              [
+                "03",
+                "Дата перевірки",
+                "Оновлюємо матеріал після суттєвих змін продукту.",
+              ],
             ].map(([number, title, copy]) => (
               <div key={number}>
                 <Meta>{number}</Meta>
@@ -139,10 +225,15 @@ export function InsightArticle() {
 
   if (!article) return <NotFound />;
 
-  const related = article.related.map((item) => insightBySlug[item]).filter(Boolean);
+  const related = article.related
+    .map((item) => insightBySlug[item])
+    .filter(Boolean);
 
   return (
-    <main className="article-page" style={{ "--article-accent": article.accent }}>
+    <main
+      className="article-page"
+      style={{ "--article-accent": article.accent }}
+    >
       <article>
         <header className="chapter c-paper article-hero">
           <div className="wrap article-hero-grid">
@@ -151,7 +242,10 @@ export function InsightArticle() {
               <i />
             </div>
             <div>
-              <nav className="article-breadcrumb" aria-label="Навігаційний шлях">
+              <nav
+                className="article-breadcrumb"
+                aria-label="Навігаційний шлях"
+              >
                 <Link to="/insights">Insights</Link>
                 <span>/</span>
                 <span>{article.category}</span>
@@ -163,7 +257,8 @@ export function InsightArticle() {
                 <div>
                   <strong>AI Insider Research</strong>
                   <span>
-                    Перевірено {formatDate(article.updated)} · {article.readTime}
+                    Перевірено {formatDate(article.updated)} ·{" "}
+                    {article.readTime}
                   </span>
                 </div>
               </div>
@@ -194,13 +289,22 @@ export function InsightArticle() {
               </section>
 
               {article.comparison && (
-                <div className="comparison-wrap" role="region" aria-label="Порівняння платформ" tabIndex="0">
+                <div
+                  className="comparison-wrap"
+                  role="region"
+                  aria-label="Порівняння платформ"
+                  tabIndex="0"
+                >
                   <table>
                     <tbody>
                       {article.comparison.map((row, rowIndex) => (
                         <tr key={row[0]}>
                           {row.map((cell) =>
-                            rowIndex === 0 ? <th key={cell}>{cell}</th> : <td key={cell}>{cell}</td>,
+                            rowIndex === 0 ? (
+                              <th key={cell}>{cell}</th>
+                            ) : (
+                              <td key={cell}>{cell}</td>
+                            ),
                           )}
                         </tr>
                       ))}
@@ -210,26 +314,42 @@ export function InsightArticle() {
               )}
 
               {article.sections.map((section, index) => (
-                <section className="article-section" id={section.id} key={section.id}>
+                <section
+                  className="article-section"
+                  id={section.id}
+                  key={section.id}
+                >
                   <Meta>{String(index + 1).padStart(2, "0")}</Meta>
                   <h2>{section.title}</h2>
-                  {section.body?.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                  {section.body?.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
                   {section.bullets && (
                     <ul>
-                      {section.bullets.map((item) => <li key={item}>{item}</li>)}
+                      {section.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
                     </ul>
                   )}
                 </section>
               ))}
 
               {article.slug === "n8n-ukrainskoiu" && (
-                <Link className="article-asset" to="/tools/n8n-workflow-library">
+                <Link
+                  className="article-asset"
+                  to="/tools/n8n-workflow-library"
+                >
                   <div>
                     <Meta>БЕЗКОШТОВНИЙ ASSET</Meta>
                     <h2>10 стартових n8n workflow</h2>
-                    <p>Імпортуйте JSON, замініть blueprint nodes на власні інтеграції та додайте production-контроль.</p>
+                    <p>
+                      Імпортуйте JSON, замініть blueprint nodes на власні
+                      інтеграції та додайте production-контроль.
+                    </p>
                   </div>
-                  <span><DownloadSimple size={22} weight="bold" /></span>
+                  <span>
+                    <DownloadSimple size={22} weight="bold" />
+                  </span>
                 </Link>
               )}
 
@@ -246,9 +366,10 @@ export function InsightArticle() {
               <section className="article-review-note">
                 <Meta>ЯК СТВОРЕНО МАТЕРІАЛ</Meta>
                 <p>
-                  Підготовлено AI Insider Research на основі практики проєктування
-                  AI-систем та офіційної документації продуктів. Технічні умови й
-                  тарифи змінюються — перевіряйте їх перед production-рішенням.
+                  Підготовлено AI Insider Research на основі практики
+                  проєктування AI-систем та офіційної документації продуктів.
+                  Технічні умови й тарифи змінюються — перевіряйте їх перед
+                  production-рішенням.
                 </p>
               </section>
             </div>
@@ -268,7 +389,9 @@ export function InsightArticle() {
             </button>
           </div>
           <div className="insight-grid is-related">
-            {related.map((item, index) => <ArticleCard article={item} index={index} key={item.slug} />)}
+            {related.map((item, index) => (
+              <ArticleCard article={item} index={index} key={item.slug} />
+            ))}
           </div>
         </div>
       </section>
