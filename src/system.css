@@ -9470,20 +9470,17 @@ html.has-cursor button {
 }
 
 .case-proof-board-wrap {
-  padding: 0 var(--gutter) clamp(64px, 7vw, 104px);
+  padding: 0 0 clamp(54px, 6vw, 92px);
 }
 
 .case-proof-board {
   width: 100%;
-  max-width: 1500px;
-  height: clamp(320px, 26vw, 390px);
+  max-width: none;
+  height: clamp(230px, 14.5vw, 260px);
   min-height: 0;
-  margin-inline: auto;
+  margin: 0;
   display: grid;
-  grid-template-columns: minmax(240px, 0.48fr) minmax(430px, 1.25fr) minmax(
-      180px,
-      0.42fr
-    );
+  grid-template-columns: 31% 52% 17%;
   overflow: hidden;
   color: var(--ink-text);
   background:
@@ -9493,20 +9490,22 @@ html.has-cursor button {
       transparent 34%
     ),
     #07111f;
-  border: 1px solid rgba(13, 52, 73, 0.78);
-  border-radius: 32px;
-  box-shadow: 0 28px 64px rgba(19, 39, 57, 0.2);
+  border-block: 1px solid rgba(13, 52, 73, 0.78);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .case-proof-intro,
 .case-proof-stages {
-  padding: clamp(26px, 3vw, 44px);
+  padding-block: clamp(24px, 2.2vw, 36px);
 }
 
 .case-proof-intro {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-right: clamp(28px, 3vw, 48px);
+  padding-left: var(--gutter);
   border-right: 1px solid var(--ink-line);
 }
 
@@ -9517,7 +9516,7 @@ html.has-cursor button {
 .case-proof-intro h2 {
   max-width: 14ch;
   margin: 16px 0 14px;
-  font-size: clamp(23px, 2.35vw, 36px);
+  font-size: clamp(22px, 1.9vw, 30px);
   font-weight: 560;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -9556,20 +9555,26 @@ html.has-cursor button {
   position: absolute;
   z-index: 2;
   inset: 50% auto auto 50%;
-  width: 64px;
-  height: 64px;
+  width: clamp(58px, 4.8vw, 76px);
+  height: clamp(58px, 4.8vw, 76px);
   display: grid;
   place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 50%;
   transform: translate(-50%, -50%);
+  color: #fff;
+  background: rgba(4, 10, 18, 0.2);
+  cursor: pointer;
+  backdrop-filter: blur(4px);
 }
 
 .case-proof-stages {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 20px;
+  gap: 17px;
+  padding-right: var(--gutter);
+  padding-left: clamp(32px, 3vw, 48px);
   border-left: 1px solid var(--ink-line);
 }
 
@@ -9593,7 +9598,7 @@ html.has-cursor button {
   content: "";
   width: 8px;
   height: 8px;
-  margin-left: -20px;
+  margin-left: -22px;
   background: var(--accent-deep);
   border-radius: 50%;
 }

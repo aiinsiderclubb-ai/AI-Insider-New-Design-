@@ -5,6 +5,7 @@ import {
   CircleNotch,
   Play,
 } from "@phosphor-icons/react";
+import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
@@ -195,7 +196,7 @@ const detail = {
       ["/assets/studio/beauty-spf.webp", "Beauty reels", "center"],
       ["/assets/studio/product-shampoo.webp", "Product CGI", "center"],
     ],
-    proofImage: "/assets/studio/ugc.jpg",
+    proofImage: "/assets/case-industrial.png",
     proofVideo: "/assets/studio/ugc.mp4",
     proofTitle: "Дивіться, як це працює",
     proofCopy:
@@ -203,6 +204,52 @@ const detail = {
     proofStages: ["Бриф", "AI-виробництво", "Локалізація", "Публікація"],
   },
 };
+
+function CaseProofMedia({ image, video }) {
+  const videoRef = useRef(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const playVideo = () => {
+    videoRef.current?.play();
+  };
+
+  return (
+    <div className="case-proof-media">
+      {video ? (
+        <video
+          ref={videoRef}
+          controls={isPlaying}
+          playsInline
+          preload="metadata"
+          poster={image}
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onEnded={() => setIsPlaying(false)}
+        >
+          <source src={video} type="video/mp4" />
+        </video>
+      ) : (
+        <img src={image} alt="" />
+      )}
+      {video ? (
+        !isPlaying && (
+          <button
+            className="case-proof-play"
+            type="button"
+            aria-label="Відтворити демонстрацію"
+            onClick={playVideo}
+          >
+            <Play size={22} weight="fill" />
+          </button>
+        )
+      ) : (
+        <span className="case-proof-play" aria-hidden="true">
+          <Play size={22} weight="fill" />
+        </span>
+      )}
+    </div>
+  );
+}
 
 export function CaseDetail() {
   const { slug } = useParams();
@@ -262,25 +309,7 @@ export function CaseDetail() {
             <h2>{extra.proofTitle}</h2>
             <p>{extra.proofCopy}</p>
           </div>
-          <div className="case-proof-media">
-            {extra.proofVideo ? (
-              <video
-                controls
-                playsInline
-                preload="metadata"
-                poster={extra.proofImage}
-              >
-                <source src={extra.proofVideo} type="video/mp4" />
-              </video>
-            ) : (
-              <img src={extra.proofImage} alt="" />
-            )}
-            {!extra.proofVideo && (
-              <span className="case-proof-play" aria-hidden="true">
-                <Play size={22} weight="fill" />
-              </span>
-            )}
-          </div>
+          <CaseProofMedia image={extra.proofImage} video={extra.proofVideo} />
           <ol className="case-proof-stages">
             {extra.proofStages.map((stage, index) => (
               <li className={index === 1 ? "is-active" : ""} key={stage}>
