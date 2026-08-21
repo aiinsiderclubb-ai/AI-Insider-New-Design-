@@ -1,9 +1,9 @@
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
-import { caseItems, stories } from "../data.js";
+import { caseItems } from "../data.js";
 
 export function Cases() {
   const openContact = useContact();
@@ -17,20 +17,21 @@ export function Cases() {
               <Meta>02 / КЕЙСИ</Meta>
             </Reveal>
             <h1 className="h-xl has-split" data-reveal>
-              <SplitText text="Системи, які вже дають результат." />
+              <SplitText text="Не презентації. Системи в роботі." />
             </h1>
             <Reveal delay={120}>
               <p className="lede">
-                Реальні впровадження AI-рішень, які економлять час, зменшують
-                витрати й дають командам контроль над процесом.
+                Три реальні формати: операційний конвеєр, AI-рекрутер і
+                виробництво відео. Показуємо архітектуру, складні місця та
+                підтверджений результат — без магічних дашбордів.
               </p>
             </Reveal>
           </div>
           <Reveal className="atlas-route-metrics" delay={100}>
             {[
-              ["−68%", "ручної роботи"],
-              ["3,2×", "швидше"],
-              ["24/7", "система працює"],
+              ["539", "задач у контурі"],
+              ["0", "втрат при переносі"],
+              ["3", "production-системи"],
             ].map(([value, label]) => (
               <span key={label}>
                 <strong>{value}</strong>
@@ -44,18 +45,28 @@ export function Cases() {
 
       <section className="c-paper atlas-board-section">
         <div className="wrap">
-          <div className="case-atlas-board">
+          <Reveal className="case-proof-note">
+            <Meta>01 / ВИБРАНІ ВПРОВАДЖЕННЯ</Meta>
+            <p>Великий кейс — з виміряним ефектом. Поруч — дві системи, зібрані під конкретний процес.</p>
+          </Reveal>
+          <div className="case-atlas-board case-atlas-board-real">
             <Link
               className="case-atlas-feature"
               to={`/cases/${caseItems[0].slug}`}
             >
-              <img src={caseItems[0].image} alt="" />
+              <img src={caseItems[0].image} alt="Автоматизована виробнича система" />
+              <span className="case-proof-stamp">
+                <small>ПІСЛЯ ЗАПУСКУ</small>
+                <strong>44 → 0</strong>
+                <em>дублів задач</em>
+              </span>
               <span className="case-atlas-shade" />
               <span className="case-atlas-copy">
                 <Meta>
                   {caseItems[0].index} / {caseItems[0].kicker}
                 </Meta>
                 <h2 className="h-md">{caseItems[0].title}</h2>
+                <p>ClickUp, n8n і фінмодель зібрані в один виробничий контур.</p>
                 <span className="case-atlas-result">
                   <strong>{caseItems[0].metric}</strong>
                   {caseItems[0].metricLabel}
@@ -71,7 +82,7 @@ export function Cases() {
                   <img
                     className={item.invert ? "is-inverted" : ""}
                     src={item.image}
-                    alt=""
+                    alt={item.title}
                   />
                   <span className="case-atlas-shade" />
                   <span className="case-atlas-copy">
@@ -91,60 +102,50 @@ export function Cases() {
         </div>
       </section>
 
-      <section className="chapter c-paper case-index-section">
+      <section className="chapter c-paper case-index-section case-method-section">
         <div className="wrap">
-          <Reveal>
-            <Meta>03 / УСІ ВПРОВАДЖЕННЯ</Meta>
-          </Reveal>
-          <div className="case-index-layout">
-            <nav className="case-filter" aria-label="Фільтр кейсів">
-              {["Усі", "Автоматизація", "AI-агенти", "Контент", "Продукти"].map(
-                (item, index) => (
-                  <span className={index === 0 ? "is-active" : ""} key={item}>
-                    {item}
-                  </span>
-                ),
-              )}
-            </nav>
-            <div className="case-index-rows">
-              {caseItems.map((item) => (
-                <Reveal key={item.slug}>
-                  <Link to={`/cases/${item.slug}`}>
-                    <span className="num">{item.index}</span>
-                    <Meta>{item.kicker}</Meta>
-                    <strong>{item.metric}</strong>
-                    <span>{item.title}</span>
-                    <i>
-                      <ArrowUpRight size={18} weight="bold" />
-                    </i>
-                  </Link>
-                </Reveal>
-              ))}
+          <Reveal className="case-method-head">
+            <div>
+              <Meta>03 / ЯК ЧИТАТИ КЕЙСИ</Meta>
+              <h2 className="h-lg">Від вузького місця до робочої системи.</h2>
             </div>
+            <p className="lede">Кожен кейс розкладений не на красиві обіцянки, а на логіку рішення: що ламалося, що побудували, де була інженерна складність і чим завершився запуск.</p>
+          </Reveal>
+          <div className="case-method-rail">
+            {["Контекст", "Архітектура", "Критичний вузол", "Перевірка", "Результат"].map((label, index) => (
+              <Reveal as="div" key={label} delay={index * 55}>
+                <span className="num">0{index + 1}</span>
+                <i aria-hidden="true" />
+                <strong>{label}</strong>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="chapter c-paper-2 atlas-testimonials">
+      <section className="chapter c-ink case-index-dark">
         <div className="wrap">
           <Reveal>
-            <Meta>04 / ГОЛОСИ КЛІЄНТІВ</Meta>
+            <Meta>04 / УСІ КЕЙСИ</Meta>
           </Reveal>
-          <div className="atlas-quote-line">
-            {stories.map((story, index) => (
-              <Reveal as="article" key={story.name} delay={index * 70}>
-                <span className="num">0{index + 1}</span>
-                <blockquote>“{story.quote}”</blockquote>
-                <footer>
-                  <b>{story.name}</b>
-                  <Meta>{story.role}</Meta>
-                </footer>
+          <div className="case-index-dark-list">
+            {caseItems.map((item) => (
+              <Reveal key={item.slug}>
+                <Link to={`/cases/${item.slug}`}>
+                  <span className="num">{item.index}</span>
+                  <span>
+                    <Meta>{item.kicker}</Meta>
+                    <strong>{item.title}</strong>
+                  </span>
+                  <span className="case-index-dark-metric"><b>{item.metric}</b>{item.metricLabel}</span>
+                  <i><ArrowRight size={20} weight="bold" /></i>
+                </Link>
               </Reveal>
             ))}
           </div>
           <Reveal delay={160} className="page-actions">
             <button className="btn btn-accent" onClick={openContact}>
-              Хочу такий результат <ArrowUpRight size={16} weight="bold" />
+              Розібрати мій процес <ArrowUpRight size={16} weight="bold" />
             </button>
           </Reveal>
         </div>

@@ -10,8 +10,8 @@ const routeSeo = {
     "AI-агенти, автоматизація процесів, корпоративні бази знань і AI-стратегія з розрахунком бізнес-ефекту.",
   ],
   "/cases": [
-    "Кейси AI-автоматизації бізнесу | AI Insider",
-    "Реальні кейси AI-автоматизації: підтримка, документообіг, андеррайтинг і операційні процеси з вимірюваними результатами.",
+    "Кейси AI-автоматизації, AI-рекрутингу та відео | AI Insider",
+    "Реальні кейси AI Insider: операційна система для креативної агенції, AI-рекрутер і Content Factory для масштабного виробництва відео.",
   ],
   "/studio": [
     "AI-контент, AI-відео та UGC для брендів | AI Insider",
@@ -79,17 +79,17 @@ const routeSeo = {
   ],
   "/privacy": ["Політика приватності | AI Insider", "Політика приватності сайту AI Insider."],
   "/terms": ["Умови користування | AI Insider", "Умови користування сайтом AI Insider."],
-  "/cases/ai-pidtrymka-logistyka": [
-    "AI-підтримка для логістики — кейс | AI Insider",
-    "Кейс AI-підтримки логістичної компанії: 62% звернень закриває AI, швидша відповідь без розширення команди.",
+  "/cases/operatsiina-systema-kreatyvnoi-ahentsii": [
+    "Конвеєр замість таблиць — кейс автоматизації | AI Insider",
+    "Як креативна агенція об’єднала ClickUp, n8n і фінмодель: 539 задач під контролем, нуль втрат при переносі та звіт за 45 секунд.",
   ],
-  "/cases/anderrayting-insurtech": [
-    "AI-андеррайтинг для InsurTech — кейс | AI Insider",
-    "Кейс AI-андеррайтингу: оцінка заявки у 3,1 раза швидше, контрольована точність і пояснювані рішення.",
+  "/cases/ai-rekruter-dlia-ahentsii": [
+    "AI-рекрутер для агенції — кейс | AI Insider",
+    "Telegram AI-рекрутер для вакансій, кваліфікації кандидатів, outbound-пошуку та контролю тестового завдання.",
   ],
-  "/cases/dokumentoobih-riteyl": [
-    "Автоматизація документообігу в ритейлі — кейс | AI Insider",
-    "Кейс автоматизації документообігу: на 41% нижча вартість операції та без ручного перенесення даних.",
+  "/cases/content-factory-ai-video": [
+    "Content Factory та AI-відео — кейс | AI Insider",
+    "Система виробництва AI-відео, UGC і performance-креативів: до 500+ відео на місяць і локалізація 10+ мовами.",
   ],
 };
 
@@ -100,6 +100,9 @@ const legacyRedirects = new Map([
   ["/en/contact", "/contact"],
   ["/uk/cases", "/cases"],
   ["/en/cases", "/cases"],
+  ["/cases/ai-pidtrymka-logistyka", "/cases/operatsiina-systema-kreatyvnoi-ahentsii"],
+  ["/cases/anderrayting-insurtech", "/cases/ai-rekruter-dlia-ahentsii"],
+  ["/cases/dokumentoobih-riteyl", "/cases/content-factory-ai-video"],
   ["/uk/ai-automation-for-business", "/services"],
   ["/en/ai-automation-for-business", "/services"],
   ["/uk/ai-receptionist", "/services#agents"],

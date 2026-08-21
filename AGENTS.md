@@ -30,6 +30,8 @@ Swiss Route Atlas correction, confirmed 2026-08-20: background must match the mo
 
 Selected case-study direction: use the approved “Editorial Hero Case” mockup supplied on 2026-08-18 as source of truth. The section has a spacious off-white editorial header followed by one unified dark media board: dominant logistics case on the left, two stacked secondary cases on the right, cyan outcome metrics, real imagery, thin internal dividers, and working full-card links. Do not return to an equal 2×2 case-card grid.
 
+Current public case set, confirmed on 2026-08-21: replace placeholder logistics/insurtech/retail stories with three real offers or implementations — the production operating system for a creative agency, an AI recruiter for an agency, and Content Factory / AI video. Contract-backed pages may publish verified scope, architecture, stages, and supplied performance figures only. Never expose client personal data, signatures, tax details, contacts, contract prices, or confidential clauses.
+
 Durable decisions:
 
 - Type is Inter Variable. Headings weight **750**, letter-spacing **−0.068em**, line-height **0.93** (`.h-xl` / `.h-lg` / `.h-md`). Every meta label, eyebrow and counter uses JetBrains Mono, uppercase, 0.18em tracking.
