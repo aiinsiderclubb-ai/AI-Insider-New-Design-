@@ -1,7 +1,8 @@
 import React from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { App } from "./App.jsx";
-import "@fontsource/cormorant-garamond/cyrillic-600.css";
+import "@fontsource-variable/inter";
+import "@fontsource-variable/jetbrains-mono";
 import "./system.css";
 
 const root = document.getElementById("root");

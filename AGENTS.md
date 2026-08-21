@@ -42,6 +42,8 @@ Case-detail proof-board correction, confirmed 2026-08-21: second block is a comp
 
 Current public case set, confirmed on 2026-08-21: replace placeholder logistics/insurtech/retail stories with three real offers or implementations — the production operating system for a creative agency, an AI recruiter for an agency, and Content Factory / AI video. Contract-backed pages may publish verified scope, architecture, stages, and supplied performance figures only. Never expose client personal data, signatures, tax details, contacts, contract prices, or confidential clauses.
 
+Typography correction, confirmed on 2026-08-22: use Inter Variable for all display, heading, body, navigation, button, and UI copy across every route. JetBrains Mono remains reserved for uppercase meta labels, eyebrows, counters, timestamps, and technical captions. Never introduce page-specific Cormorant Garamond, Unbounded, Manrope, Georgia, or generic serif overrides.
+
 Viewport-fit rule, confirmed on 2026-08-21: large showcase compositions must fit inside short desktop and landscape viewports, not only scale from viewport width. Size interactive boards with both `vw` and `svh`; keep primary copy, controls, previews, and proof metrics visible together. On tablet and mobile, reflow vertically instead of shrinking text below readable size, and never clip content or create page-level horizontal overflow.
 
 Durable decisions:

@@ -2340,11 +2340,11 @@ a:hover .arrow-link svg,
 
 /* ================================================================
    WOW LAYER — displacement from the Sweezy template
-   Unbounded display · grain · spotlight · bento · terminal · graph
+   Unified Inter display · grain · spotlight · bento · terminal · graph
    ================================================================ */
 
 :root {
-  --display: "Unbounded Variable", "Inter Variable", sans-serif;
+  --display: var(--sans);
   --violet: #8b5cff;
   --mint: #5ff0c8;
 }
@@ -2354,9 +2354,9 @@ a:hover .arrow-link svg,
 .h-xl,
 .h-lg {
   font-family: var(--display);
-  font-weight: 500;
-  letter-spacing: -0.055em;
-  line-height: 0.98;
+  font-weight: 750;
+  letter-spacing: -0.068em;
+  line-height: 0.93;
 }
 
 .h-xl {
@@ -2369,10 +2369,10 @@ a:hover .arrow-link svg,
 
 .h-md {
   font-family: var(--display);
-  font-weight: 500;
+  font-weight: 750;
   font-size: clamp(18px, 1.8vw, 25px);
-  letter-spacing: -0.045em;
-  line-height: 1.14;
+  letter-spacing: -0.068em;
+  line-height: 0.93;
 }
 
 .hl {
@@ -2940,20 +2940,6 @@ html.has-cursor button {
   line-height: 1.1;
 }
 
-/* --- Unbounded needs looser leading than Inter did ------------------- */
-
-.h-xl {
-  line-height: 1.08;
-}
-
-.h-lg {
-  line-height: 1.1;
-}
-
-.h-md {
-  line-height: 1.2;
-}
-
 .sec-head-body {
   max-width: 20ch;
 }
@@ -2963,7 +2949,7 @@ html.has-cursor button {
   letter-spacing: -0.04em;
 }
 
-/* --- heading measure: Unbounded is wide, give it room ---------------- */
+/* --- heading measure ------------------------------------------------- */
 
 .sec-head-body {
   max-width: 26ch;
@@ -9303,11 +9289,11 @@ html.has-cursor button {
 .case-editorial-copy h1 {
   max-width: 15ch;
   margin: clamp(8px, 1.5svh, 14px) 0 clamp(14px, 2.3svh, 24px);
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--display);
   font-size: clamp(54px, 5vw, 80px);
-  font-weight: 600;
-  letter-spacing: -0.055em;
-  line-height: 0.82;
+  font-weight: 750;
+  letter-spacing: -0.068em;
+  line-height: 0.93;
   text-wrap: balance;
 }
 
@@ -9445,11 +9431,11 @@ html.has-cursor button {
 
 .case-result-route strong {
   display: block;
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: var(--display);
   font-size: clamp(38px, 4vw, 60px);
-  font-weight: 600;
-  letter-spacing: -0.06em;
-  line-height: 0.9;
+  font-weight: 750;
+  letter-spacing: -0.068em;
+  line-height: 0.93;
 }
 
 .case-result-route span {
