@@ -11827,3 +11827,159 @@ html[data-studio-motion="running"]::view-transition-new(studio-detail-panel) {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* ================================================================
+   VIEWPORT FIT
+   Wide layouts react to viewport height as well as width. Editorial
+   pages still scroll; large showcase boards no longer leave content
+   below the fold on short desktop and landscape screens.
+   ================================================================ */
+
+@media (min-width: 941px) {
+  .stu-section {
+    --cin-viewport-height: clamp(500px, calc(100svh - 64px), 720px);
+    min-height: min(760px, 100svh);
+    padding-block: clamp(20px, 3svh, 36px);
+  }
+
+  .cin-studio,
+  .cin-stage {
+    height: var(--cin-viewport-height);
+    min-height: 0;
+  }
+
+  .cin-title {
+    margin-top: clamp(14px, 2.4svh, 28px);
+    font-size: clamp(36px, min(4.25vw, 7svh), 66px);
+  }
+
+  .cin-intro > p {
+    margin-top: clamp(14px, 2.2svh, 24px);
+    font-size: clamp(13px, min(1.08vw, 1.9svh), 16px);
+  }
+
+  .cin-tabs {
+    margin-top: clamp(18px, 4svh, 42px);
+  }
+
+  .cin-tabs button {
+    min-height: clamp(68px, 10svh, 94px);
+    padding-block: clamp(10px, 2svh, 18px);
+  }
+
+  .cin-actions {
+    padding-top: clamp(16px, 3svh, 34px);
+  }
+
+  .cin-ticks {
+    margin-top: clamp(12px, 2.6svh, 24px);
+  }
+
+  .cin-phone {
+    top: 1%;
+    width: auto;
+    height: calc(var(--cin-viewport-height) - 46px);
+    max-height: 650px;
+    aspect-ratio: 9 / 19.5;
+  }
+
+  .cin-phone .dev-label {
+    bottom: -24px;
+  }
+
+  .cin-proof {
+    bottom: 2%;
+  }
+
+  .cin-proof strong {
+    font-size: clamp(38px, min(5vw, 8svh), 70px);
+  }
+
+  .cin-proof p {
+    margin-top: clamp(10px, 2svh, 17px);
+  }
+}
+
+@media (min-width: 821px) {
+  .case-atlas-board-real {
+    height: clamp(430px, 72svh, 680px);
+    min-height: 0;
+  }
+}
+
+@media (min-width: 1051px) {
+  .studio-contact-sheet {
+    height: clamp(500px, 72svh, 650px);
+    min-height: 0;
+  }
+
+  .studio-film,
+  .studio-frames {
+    min-height: 0;
+  }
+
+  .studio-frames {
+    flex: 1;
+    height: auto;
+  }
+
+  .studio-detail {
+    overflow: hidden;
+    padding-block: clamp(24px, 4svh, 50px);
+  }
+
+  .studio-detail h2 {
+    margin-block: clamp(10px, 2svh, 18px) clamp(9px, 1.7svh, 14px);
+    font-size: clamp(22px, min(2.1vw, 4svh), 30px);
+  }
+
+  .studio-detail-stats {
+    margin-block: clamp(16px, 3svh, 28px);
+  }
+}
+
+@media (min-width: 1121px) {
+  .service-atlas,
+  .about-media-board,
+  .insight-feature {
+    height: clamp(500px, 72svh, 640px);
+    min-height: 0;
+  }
+
+  .service-atlas-nav {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+
+  .service-atlas-nav button {
+    min-height: 0;
+    padding-block: clamp(14px, 2.4svh, 24px);
+  }
+}
+
+@media (max-width: 680px) {
+  .wrap,
+  .atlas-hero-grid,
+  .case-atlas-board,
+  .studio-contact-sheet,
+  .studio-film,
+  .studio-detail,
+  .service-atlas,
+  .about-media-board,
+  .insight-feature {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .btn {
+    max-width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .case-atlas-copy,
+  .studio-detail,
+  .about-media-copy,
+  .insight-feature-copy {
+    overflow-wrap: anywhere;
+  }
+}
