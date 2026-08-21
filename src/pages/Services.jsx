@@ -46,13 +46,33 @@ export function Services() {
             </Reveal>
           </div>
           <Reveal className="service-conductor" delay={100}>
-            <img src="/assets/capability-system.png" alt="" />
-            <div className="service-route-lines" aria-hidden="true">
-              {modules.map((module, index) => (
-                <span key={module.id} style={{ "--line-index": index }}>
-                  <i />
-                </span>
-              ))}
+            <div
+              className="service-core-stage"
+              style={{ "--core-index": active }}
+            >
+              <img src="/assets/capability-system.png" alt="" />
+              <span className="service-core-satellite" aria-hidden="true" />
+              <span className="service-core-center" aria-hidden="true">
+                <small>AI INSIDER</small>
+                <strong>ONE SYSTEM</strong>
+              </span>
+              <div className="service-core-modules" aria-label="Напрями послуг">
+                {modules.map((module, index) => {
+                  const Icon = module.icon;
+                  return (
+                    <button
+                      key={module.id}
+                      className={active === index ? "is-active" : ""}
+                      onClick={() => setActive(index)}
+                      aria-pressed={active === index}
+                    >
+                      <span className="num">0{index + 1}</span>
+                      <Icon size={16} weight="regular" />
+                      <strong>{module.tab}</strong>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </Reveal>
         </div>

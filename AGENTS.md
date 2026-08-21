@@ -14,6 +14,8 @@ Latest correction from user: avoid AI-slop aesthetics. Do not use repeated squar
 
 Secondary-page direction confirmed on 2026-08-20: Services, Cases, and Insights must feel native to the current homepage rather than like a separate cyber-dashboard product. Keep these pages predominantly light (roughly 65–75% pearl/ice surfaces), reserve deep navy for focused media or proof sections, and use cyan only as a restrained structural accent. Preserve the site's typography, soft radii, whitespace, and editorial asymmetry.
 
+Services hero correction confirmed on 2026-08-21: never use unexplained parallel cyan route lines as decoration. The right-side visual must communicate the real four-part service architecture: one glass system core with four named, selectable modules and one restrained active-state marker.
+
 Studio direction selected on 2026-08-20: implement the approved “Moving Contact Sheet” mockup. Use a pearl/ice hero with three connected proof metrics, followed by one unified dark film-board: four vertical 9:16 works, active work enlarged, adjacent works fully visible and clickable, selected-format editorial detail panel on the right, and a cyan progress rail. Continue with a light five-step production route and a focused Content Factory board. Preserve real video playback and keep all preview frames clickable; do not hide previews behind the active device.
 
 Studio media update confirmed on 2026-08-21: include the supplied beauty-product, SPF, luxury-entryway, and minimal-apartment reels in the same Moving Contact Sheet. Keep exactly four frames visible at once; selecting any preview smoothly slides it into the enlarged first position while every shared neighbour travels left and the next queued work enters from the right. Never instant-swap the four-card window or shrink all eight works into one row.
@@ -45,3 +47,5 @@ Durable decisions:
 - Content reel interaction: phone owns the active reel; only previous and next previews are visible, split left/right. Clicking either rotates that reel into the phone, moves the previous phone reel into the vacated side, and reveals the next queued reel on the opposite side. Never render the active reel as a visible preview behind the phone. Keep no more than three video decoders active and pause media outside the viewport.
 
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.
+
+Workflow preference confirmed on 2026-08-21: after each completed, verified implementation change, create a clear Git commit and push it to the current upstream branch automatically. Do not leave finished work only in the local working tree.
