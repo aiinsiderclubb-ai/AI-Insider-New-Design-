@@ -36,6 +36,8 @@ Selected case-detail direction, confirmed 2026-08-21: use the approved “Swiss 
 
 Case-detail hero correction, confirmed 2026-08-21: desktop hero must fit inside one viewport and use `public/assets/sweezy/swiss-atlas-bg.webp` as its real tactile pearl/topographic background. Size vertical proof frames from both `vw` and `svh`, position their images as absolute layers, and never let a portrait asset's intrinsic height expand the hero beyond the screen.
 
+Case-detail media grid correction, confirmed 2026-08-21: match the selected mock's staggered three-frame composition exactly — one tall 9:16 frame on the left, one smaller frame high on the right, and the third smaller frame shifted farther right and down. Preserve the deliberate negative space; never collapse the two small frames into one aligned right column.
+
 Current public case set, confirmed on 2026-08-21: replace placeholder logistics/insurtech/retail stories with three real offers or implementations — the production operating system for a creative agency, an AI recruiter for an agency, and Content Factory / AI video. Contract-backed pages may publish verified scope, architecture, stages, and supplied performance figures only. Never expose client personal data, signatures, tax details, contacts, contract prices, or confidential clauses.
 
 Viewport-fit rule, confirmed on 2026-08-21: large showcase compositions must fit inside short desktop and landscape viewports, not only scale from viewport width. Size interactive boards with both `vw` and `svh`; keep primary copy, controls, previews, and proof metrics visible together. On tablet and mobile, reflow vertically instead of shrinking text below readable size, and never clip content or create page-level horizontal overflow.
