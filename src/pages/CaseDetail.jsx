@@ -1,4 +1,10 @@
-import { ArrowLeft, ArrowUpRight, Check, CircleNotch } from "@phosphor-icons/react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Check,
+  CircleNotch,
+  Play,
+} from "@phosphor-icons/react";
 import { Link, useParams } from "react-router-dom";
 import { SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
@@ -9,7 +15,8 @@ import { NotFound } from "./NotFound.jsx";
 const detail = {
   "operatsiina-systema-kreatyvnoi-ahentsii": {
     label: "ВИРОБНИЧА СИСТЕМА · КРЕАТИВНА АГЕНЦІЯ",
-    summary: "Перетворили розрізнений production на єдиний керований контур: задача заходить один раз, проходить дизайн, QA, ревізії, доставку й одразу потрапляє у фінансовий цикл.",
+    summary:
+      "Перетворили розрізнений production на єдиний керований контур: задача заходить один раз, проходить дизайн, QA, ревізії, доставку й одразу потрапляє у фінансовий цикл.",
     task: "Команда приблизно з 20 людей вела production у кількох системах. Задачі переносили вручну, статуси розходилися, вкладення зникали, а виплати рахували наприкінці місяця.",
     build: [
       "ClickUp став єдиним джерелом правди для статусів, QA, ревізій і відповідальності",
@@ -21,19 +28,58 @@ const detail = {
       ["0", "втрат при переносі"],
       ["45 с", "побудова звіту замість 4 хв"],
     ],
-    facts: [["19", "активних сценаріїв"], ["15", "живих таблиць"], ["47", "полів задачі"], ["3×/день", "зведення керівнику"]],
+    facts: [
+      ["19", "активних сценаріїв"],
+      ["15", "живих таблиць"],
+      ["47", "полів задачі"],
+      ["3×/день", "зведення керівнику"],
+    ],
     steps: [
-      ["01", "Вхід", "Upsert за ID: опис, дедлайн, матеріали й вкладення заходять без ручного копіювання."],
-      ["02", "Production", "Статуси DESIGN DONE та INTERNAL REVIEW розділяють готовність дизайнера і QA менеджера."],
-      ["03", "Винятки", "Ревізії, cold tasks і On Hold мають правила, ліміти та адресні сповіщення."],
-      ["04", "Фінал", "DELIVERED створює фінансовий рядок; CLOSED настає після перевірки finance."],
+      [
+        "01",
+        "Вхід",
+        "Upsert за ID: опис, дедлайн, матеріали й вкладення заходять без ручного копіювання.",
+      ],
+      [
+        "02",
+        "Production",
+        "Статуси DESIGN DONE та INTERNAL REVIEW розділяють готовність дизайнера і QA менеджера.",
+      ],
+      [
+        "03",
+        "Винятки",
+        "Ревізії, cold tasks і On Hold мають правила, ліміти та адресні сповіщення.",
+      ],
+      [
+        "04",
+        "Фінал",
+        "DELIVERED створює фінансовий рядок; CLOSED настає після перевірки finance.",
+      ],
     ],
     hard: "Подієві шторми запускали до 200 сценаріїв за хвилину. Додали контроль конкурентності, пакетний запис і фізичне копіювання вкладень до 80 МБ — тимчасові посилання більше не ламали архів.",
-    stack: ["n8n", "ClickUp API", "Google Sheets API", "Telegram Bot API", "PostgreSQL", "Docker"],
+    stack: [
+      "n8n",
+      "ClickUp API",
+      "Google Sheets API",
+      "Telegram Bot API",
+      "PostgreSQL",
+      "Docker",
+    ],
+    media: [
+      ["/assets/case-industrial.png", "Єдиний production", "58% center"],
+      ["/assets/editorial-insights.webp", "Контроль статусів", "72% center"],
+      ["/assets/case-retail.jpg", "Фінальний контур", "64% center"],
+    ],
+    proofImage: "/assets/case-industrial.png",
+    proofTitle: "Один маршрут замість ручних переносів",
+    proofCopy:
+      "Задача проходить production, QA, доставку й фінанси без повторного введення даних.",
+    proofStages: ["Вхід", "Production", "QA", "Фінанси"],
   },
   "ai-rekruter-dlia-ahentsii": {
     label: "AI-АГЕНТ · РЕКРУТИНГОВА АГЕНЦІЯ",
-    summary: "Один Telegram-агент створює вакансії, кваліфікує вхідних кандидатів, веде вихідний пошук і контролює тестове завдання.",
+    summary:
+      "Один Telegram-агент створює вакансії, кваліфікує вхідних кандидатів, веде вихідний пошук і контролює тестове завдання.",
     task: "Рекрутери паралельно ведуть понад 12 активних проєктів. Опис вакансії, перший скринінг, розсилка й тестове завдання забирали увагу ще до живої розмови з сильним кандидатом.",
     build: [
       "Керування вакансіями через чат без участі розробника",
@@ -45,19 +91,57 @@ const detail = {
       ["12+", "активних проєктів у контексті"],
       ["9–11", "днів планового запуску"],
     ],
-    facts: [["01", "вакансії"], ["02", "вхідний потік"], ["03", "outbound"], ["04", "тестові"]],
+    facts: [
+      ["01", "вакансії"],
+      ["02", "вхідний потік"],
+      ["03", "outbound"],
+      ["04", "тестові"],
+    ],
     steps: [
-      ["01", "Вакансія", "Рекрутер задає стек, рівень, кейси й діапазон компенсації прямо в чаті."],
-      ["02", "Відбір", "Агент ставить адаптивні питання і формує shortlist за критеріями вакансії."],
-      ["03", "Контакт", "Система працює з вхідним і вихідним потоком, зберігаючи контекст кандидата."],
-      ["04", "Тестове", "Агент надсилає завдання, стежить за дедлайном і передає готову роботу людині."],
+      [
+        "01",
+        "Вакансія",
+        "Рекрутер задає стек, рівень, кейси й діапазон компенсації прямо в чаті.",
+      ],
+      [
+        "02",
+        "Відбір",
+        "Агент ставить адаптивні питання і формує shortlist за критеріями вакансії.",
+      ],
+      [
+        "03",
+        "Контакт",
+        "Система працює з вхідним і вихідним потоком, зберігаючи контекст кандидата.",
+      ],
+      [
+        "04",
+        "Тестове",
+        "Агент надсилає завдання, стежить за дедлайном і передає готову роботу людині.",
+      ],
     ],
     hard: "Ключове обмеження — не підмінити рекрутера моделлю. Агент закриває повторювані кроки, а рішення про кандидата та складні діалоги залишаються людині.",
-    stack: ["Telegram Bot", "LLM", "вакансійний контекст", "сценарії кваліфікації", "нагадування"],
+    stack: [
+      "Telegram Bot",
+      "LLM",
+      "вакансійний контекст",
+      "сценарії кваліфікації",
+      "нагадування",
+    ],
+    media: [
+      ["/assets/editorial-about.webp", "Живий контекст", "66% center"],
+      ["/assets/capability-system.png", "4 модулі", "center"],
+      ["/assets/editorial-insights.webp", "Передача людині", "76% center"],
+    ],
+    proofImage: "/assets/editorial-about.webp",
+    proofTitle: "Агент веде процес. Людина приймає рішення.",
+    proofCopy:
+      "Вакансія, скринінг, outbound і тестове працюють в одному Telegram-контурі.",
+    proofStages: ["Вакансія", "Відбір", "Контакт", "Тестове"],
   },
   "content-factory-ai-video": {
     label: "CONTENT FACTORY · AI-ВІДЕО",
-    summary: "Замість разових роликів — виробнича система: ідея, сценарій, генерація, адаптація, тест і масштабування форматів.",
+    summary:
+      "Замість разових роликів — виробнича система: ідея, сценарій, генерація, адаптація, тест і масштабування форматів.",
     task: "Брендам потрібні десятки варіацій для Reels, UGC і performance-реклами. Класичний продакшн робить кожну нову версію окремою зйомкою — повільною та дорогою.",
     build: [
       "Єдина бібліотека героїв, продуктів, сцен і перевірених форматів",
@@ -69,15 +153,54 @@ const detail = {
       ["10+", "мов для адаптації"],
       ["−80%", "вартість креативу"],
     ],
-    facts: [["9:16", "reels і shorts"], ["UGC", "нативна подача"], ["AI", "персонажі"], ["A/B", "варіації"]],
+    facts: [
+      ["9:16", "reels і shorts"],
+      ["UGC", "нативна подача"],
+      ["AI", "персонажі"],
+      ["A/B", "варіації"],
+    ],
     steps: [
-      ["01", "Ідея", "Фіксуємо продукт, аудиторію, гіпотезу й платформу до генерації кадрів."],
-      ["02", "Сценарій", "Розкладаємо хук, демонстрацію, proof і CTA на короткий production-план."],
-      ["03", "Генерація", "Створюємо відео та адаптуємо під потрібне співвідношення, мову й ринок."],
-      ["04", "Масштаб", "Переможний креатив розгортається у варіації без нової знімальної зміни."],
+      [
+        "01",
+        "Ідея",
+        "Фіксуємо продукт, аудиторію, гіпотезу й платформу до генерації кадрів.",
+      ],
+      [
+        "02",
+        "Сценарій",
+        "Розкладаємо хук, демонстрацію, proof і CTA на короткий production-план.",
+      ],
+      [
+        "03",
+        "Генерація",
+        "Створюємо відео та адаптуємо під потрібне співвідношення, мову й ринок.",
+      ],
+      [
+        "04",
+        "Масштаб",
+        "Переможний креатив розгортається у варіації без нової знімальної зміни.",
+      ],
     ],
     hard: "Швидкість не повинна знищувати впізнаваність бренду. Тому генерація працює всередині зафіксованої артдирекції, а кожен ролик проходить людський монтаж і QA.",
-    stack: ["AI-video", "UGC", "AI-інфлюенсери", "монтаж", "локалізація", "creative testing"],
+    stack: [
+      "AI-video",
+      "UGC",
+      "AI-інфлюенсери",
+      "монтаж",
+      "локалізація",
+      "creative testing",
+    ],
+    media: [
+      ["/assets/studio/influencers.jpg", "AI-інфлюенсери", "center"],
+      ["/assets/studio/beauty-spf.webp", "Beauty reels", "center"],
+      ["/assets/studio/product-shampoo.webp", "Product CGI", "center"],
+    ],
+    proofImage: "/assets/studio/ugc.jpg",
+    proofVideo: "/assets/studio/ugc.mp4",
+    proofTitle: "Дивіться, як це працює",
+    proofCopy:
+      "Від брифу до готового відео й адаптацій для десяти мов — в одному production-потоці.",
+    proofStages: ["Бриф", "AI-виробництво", "Локалізація", "Публікація"],
   },
 };
 
@@ -92,61 +215,121 @@ export function CaseDetail() {
   const others = caseItems.filter((c) => c.slug !== slug);
 
   return (
-    <main>
-      <section className={`chapter c-ink case-hero case-hero-${item.index}`}>
-        <img className="case-hero-img" src={item.image} alt="" />
-        <span className="case-hero-shade" aria-hidden="true" />
+    <main className="case-editorial-page">
+      <section className="case-editorial-hero c-paper">
         <div className="wrap">
           <Link className="back-link" to="/cases">
             <ArrowLeft size={15} weight="bold" /> Усі кейси
           </Link>
-          <Meta>{extra.label}</Meta>
-          <h1 className="h-xl has-split" data-reveal>
-            <SplitText text={item.title} />
-          </h1>
-          <p className="case-hero-summary">{extra.summary}</p>
+          <div className="case-editorial-grid">
+            <div className="case-editorial-copy">
+              <Meta>{extra.label}</Meta>
+              <h1 data-reveal>
+                <SplitText text={item.title} />
+              </h1>
+              <p>{extra.summary}</p>
+              <div className="case-result-route" aria-label="Результати кейсу">
+                {extra.result.map(([value, label], index) => (
+                  <div key={label}>
+                    <i aria-hidden="true" />
+                    <small>{String(index + 1).padStart(2, "0")}</small>
+                    <strong>{value}</strong>
+                    <span>{label}</span>
+                  </div>
+                ))}
+                <ArrowUpRight size={18} weight="bold" aria-hidden="true" />
+              </div>
+            </div>
+            <Reveal className="case-media-flow" delay={90}>
+              {extra.media.map(([src, label, position], index) => (
+                <figure className={index === 0 ? "is-main" : ""} key={label}>
+                  <img src={src} alt="" style={{ objectPosition: position }} />
+                  <figcaption>
+                    <span>9:16</span>
+                    <strong>{label}</strong>
+                  </figcaption>
+                </figure>
+              ))}
+            </Reveal>
+          </div>
         </div>
       </section>
 
-      <section className="chapter c-ink-2">
-        <div className="wrap case-doc">
-          <div>
-            <Reveal>
-              <Meta>01 / КОНТЕКСТ</Meta>
-              <p className="lede">{extra.task}</p>
-            </Reveal>
-            <Reveal delay={120}>
-              <Meta style={{ marginTop: 34 }}>02 / ЩО ПОБУДУВАЛИ</Meta>
-              <ul className="case-doc-list">
-                {extra.build.map((line) => (
-                  <li key={line}>
-                    <Check size={13} weight="bold" />
-                    {line}
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
+      <section className="case-proof-board-wrap c-paper">
+        <div className="case-proof-board">
+          <div className="case-proof-intro">
+            <Meta>AI PROOF</Meta>
+            <h2>{extra.proofTitle}</h2>
+            <p>{extra.proofCopy}</p>
           </div>
-          <Reveal className="case-doc-figures" delay={160}>
-            <Meta>03 / ПІДТВЕРДЖЕННЯ</Meta>
-            {extra.result.map(([value, label]) => (
-              <div key={label}>
-                <strong>{value}</strong>
-                <span>{label}</span>
-              </div>
+          <div className="case-proof-media">
+            {extra.proofVideo ? (
+              <video
+                controls
+                playsInline
+                preload="metadata"
+                poster={extra.proofImage}
+              >
+                <source src={extra.proofVideo} type="video/mp4" />
+              </video>
+            ) : (
+              <img src={extra.proofImage} alt="" />
+            )}
+            {!extra.proofVideo && (
+              <span className="case-proof-play" aria-hidden="true">
+                <Play size={22} weight="fill" />
+              </span>
+            )}
+          </div>
+          <ol className="case-proof-stages">
+            {extra.proofStages.map((stage, index) => (
+              <li className={index === 1 ? "is-active" : ""} key={stage}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                {stage}
+              </li>
             ))}
-            <button className="btn btn-accent" onClick={openContact}>
+          </ol>
+        </div>
+      </section>
+
+      <section className="case-story c-paper">
+        <div className="wrap case-story-grid">
+          <Reveal as="article">
+            <Meta>01 / КОНТЕКСТ</Meta>
+            <h2>Що стримувало масштаб</h2>
+            <p>{extra.task}</p>
+          </Reveal>
+          <Reveal as="article" delay={70}>
+            <Meta>02 / СИСТЕМА</Meta>
+            <h2>Що змінили</h2>
+            <ul className="case-doc-list">
+              {extra.build.map((line) => (
+                <li key={line}>
+                  <Check size={13} weight="bold" />
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+          <Reveal as="article" delay={140}>
+            <Meta>03 / РЕЗУЛЬТАТ</Meta>
+            <h2>Що працює тепер</h2>
+            <p>{extra.hard}</p>
+            <button className="btn btn-dark" onClick={openContact}>
               Розібрати мій процес <ArrowUpRight size={15} weight="bold" />
             </button>
           </Reveal>
         </div>
       </section>
 
-      <section className="chapter c-paper case-evidence">
+      <section className="chapter c-paper-2 case-evidence">
         <div className="wrap">
           <Reveal className="case-fact-strip">
             {extra.facts.map(([value, label]) => (
-              <div key={label}><strong>{value}</strong><span>{label}</span></div>
+              <div key={label}>
+                <strong>{value}</strong>
+                <span>{label}</span>
+              </div>
             ))}
           </Reveal>
           <div className="case-system-grid">
@@ -176,7 +359,11 @@ export function CaseDetail() {
           </Reveal>
           <Reveal delay={100}>
             <p className="lede">{extra.hard}</p>
-            <div className="case-stack">{extra.stack.map((item) => <span key={item}>{item}</span>)}</div>
+            <div className="case-stack">
+              {extra.stack.map((item) => (
+                <span key={item}>{item}</span>
+              ))}
+            </div>
           </Reveal>
         </div>
       </section>

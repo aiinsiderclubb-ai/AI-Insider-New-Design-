@@ -42,13 +42,10 @@ export function Layout() {
   const [lang, setLang] = useState("UA");
   const [stuck, setStuck] = useState(false);
   const { pathname, hash } = useLocation();
-  const lightHeader = [
-    "/services",
-    "/cases",
-    "/about",
-    "/insights",
-    "/studio",
-  ].includes(pathname);
+  const lightHeader =
+    ["/services", "/cases", "/about", "/insights", "/studio"].includes(
+      pathname,
+    ) || pathname.startsWith("/cases/");
 
   const openContact = useCallback(() => {
     setMenuOpen(false);
