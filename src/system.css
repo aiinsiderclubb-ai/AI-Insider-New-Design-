@@ -9255,9 +9255,12 @@ html.has-cursor button {
 
 .case-editorial-hero {
   position: relative;
-  min-height: min(790px, 94svh);
-  padding: clamp(118px, 9vw, 150px) 0 clamp(50px, 5vw, 76px);
+  height: 100svh;
+  min-height: 600px;
+  max-height: 920px;
+  padding: clamp(88px, 11svh, 118px) 0 clamp(24px, 4svh, 42px);
   overflow: hidden;
+  background: #f3f4f4;
 }
 
 .case-editorial-hero::before {
@@ -9265,30 +9268,22 @@ html.has-cursor button {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.58;
-  background:
-    radial-gradient(
-      circle at 83% 18%,
-      rgba(169, 200, 255, 0.26),
-      transparent 27%
-    ),
-    repeating-radial-gradient(
-      ellipse at 91% 41%,
-      transparent 0 31px,
-      rgba(24, 77, 98, 0.055) 32px 33px,
-      transparent 34px 57px
-    ),
-    linear-gradient(115deg, rgba(255, 255, 255, 0.58), transparent 42%);
-  mask-image: linear-gradient(90deg, transparent 25%, #000 58%);
+  opacity: 0.94;
+  background: url("/assets/sweezy/swiss-atlas-bg.webp") center / cover no-repeat;
+  filter: saturate(0.68) contrast(0.96) brightness(1.025);
 }
 
 .case-editorial-hero .wrap {
   position: relative;
   z-index: 1;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
 }
 
 .case-editorial-hero .back-link {
-  margin-bottom: clamp(18px, 2vw, 30px);
+  flex: 0 0 auto;
+  margin-bottom: clamp(12px, 2svh, 22px);
   color: var(--paper-dim);
 }
 
@@ -9296,16 +9291,18 @@ html.has-cursor button {
   display: grid;
   grid-template-columns: minmax(0, 0.94fr) minmax(460px, 0.82fr);
   gap: clamp(42px, 6vw, 96px);
-  align-items: start;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
 }
 
 .case-editorial-copy {
-  padding-top: clamp(8px, 2.5vw, 34px);
+  padding-top: 0;
 }
 
 .case-editorial-copy h1 {
   max-width: 15ch;
-  margin: 16px 0 28px;
+  margin: clamp(8px, 1.5svh, 14px) 0 clamp(14px, 2.3svh, 24px);
   font-family: "Cormorant Garamond", Georgia, serif;
   font-size: clamp(54px, 5vw, 80px);
   font-weight: 600;
@@ -9325,7 +9322,10 @@ html.has-cursor button {
   grid-template-columns: minmax(0, 1.3fr) minmax(150px, 0.74fr);
   grid-template-rows: repeat(2, minmax(0, 1fr));
   gap: 18px;
-  min-height: 490px;
+  width: 100%;
+  height: min(520px, 61svh);
+  min-height: 350px;
+  align-self: center;
 }
 
 .case-media-flow::before {
@@ -9361,6 +9361,8 @@ html.has-cursor button {
 }
 
 .case-media-flow img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -9375,6 +9377,7 @@ html.has-cursor button {
 .case-media-flow figcaption {
   position: absolute;
   inset: auto 0 0;
+  z-index: 2;
   display: grid;
   gap: 7px;
   padding: 48px 16px 16px;
@@ -9402,7 +9405,7 @@ html.has-cursor button {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 22px;
-  margin-top: clamp(38px, 5vw, 66px);
+  margin-top: clamp(22px, 4svh, 40px);
   border-top: 1.5px solid var(--accent-deep);
 }
 
@@ -10152,12 +10155,15 @@ html.has-cursor button {
 
 @media (max-width: 920px) {
   .case-editorial-hero {
+    height: auto;
     min-height: auto;
+    max-height: none;
   }
   .case-editorial-grid {
     grid-template-columns: minmax(0, 1fr);
   }
   .case-media-flow {
+    height: 560px;
     min-height: 560px;
   }
   .case-proof-board {
@@ -10223,6 +10229,7 @@ html.has-cursor button {
     font-size: 9px;
   }
   .case-media-flow {
+    height: 430px;
     min-height: 430px;
     grid-template-columns: minmax(0, 1.25fr) minmax(105px, 0.75fr);
     gap: 10px;
