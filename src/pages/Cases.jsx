@@ -55,6 +55,10 @@ export function Cases() {
               to={`/cases/${caseItems[0].slug}`}
             >
               <img src={caseItems[0].image} alt="Автоматизована виробнича система" />
+              <span className="case-atlas-card-top">
+                <span>{caseItems[0].index}</span>
+                <span>ГОЛОВНИЙ КЕЙС</span>
+              </span>
               <span className="case-proof-stamp">
                 <small>ПІСЛЯ ЗАПУСКУ</small>
                 <strong>44 → 0</strong>
@@ -84,15 +88,19 @@ export function Cases() {
                     src={item.image}
                     alt={item.title}
                   />
+                  <span className="case-atlas-card-top">
+                    <span>{item.index}</span>
+                    <span>{item.kicker}</span>
+                  </span>
                   <span className="case-atlas-shade" />
                   <span className="case-atlas-copy">
-                    <Meta>
-                      {item.index} / {item.kicker}
-                    </Meta>
                     <h3>{item.title}</h3>
                     <span className="case-atlas-result">
                       <strong>{item.metric}</strong>
                       {item.metricLabel}
+                    </span>
+                    <span className="case-atlas-open">
+                      Відкрити кейс <ArrowUpRight size={15} weight="bold" />
                     </span>
                   </span>
                 </Link>

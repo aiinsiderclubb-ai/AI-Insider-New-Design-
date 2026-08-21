@@ -6461,7 +6461,10 @@ html.has-cursor button {
 .case-atlas-feature,
 .case-atlas-rail a {
   position: relative;
+  display: block;
+  height: 100%;
   min-width: 0;
+  min-height: 0;
   overflow: hidden;
 }
 
@@ -6478,6 +6481,8 @@ html.has-cursor button {
 
 .case-atlas-feature > img,
 .case-atlas-rail img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -9738,7 +9743,10 @@ html.has-cursor button {
 }
 
 .case-atlas-board-real {
-  min-height: 680px;
+  min-height: 0;
+  background:
+    radial-gradient(circle at 72% 50%, rgba(43, 75, 255, 0.12), transparent 34%),
+    #080b10;
 }
 
 .case-atlas-board-real .case-atlas-feature > img {
@@ -9751,6 +9759,22 @@ html.has-cursor button {
   color: rgba(242, 243, 246, 0.68);
 }
 
+.case-atlas-board-real .case-atlas-shade {
+  background:
+    linear-gradient(0deg, rgba(4, 7, 12, 0.96) 0%, rgba(4, 7, 12, 0.2) 64%),
+    linear-gradient(90deg, rgba(4, 7, 12, 0.54), transparent 58%);
+}
+
+.case-atlas-board-real .case-atlas-feature .case-atlas-copy {
+  max-width: 700px;
+  padding: clamp(28px, 3.2vw, 48px);
+}
+
+.case-atlas-board-real .case-atlas-feature .case-atlas-copy h2 {
+  margin-block: 10px 18px;
+  font-size: clamp(34px, 3.5vw, 54px);
+}
+
 .case-atlas-board-real .case-atlas-rail a:first-child img {
   object-fit: contain;
   padding: 8%;
@@ -9759,6 +9783,73 @@ html.has-cursor button {
 
 .case-atlas-board-real .case-atlas-rail a:last-child img {
   object-position: center 28%;
+}
+
+.case-atlas-card-top {
+  position: absolute;
+  z-index: 3;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: calc(100% - 48px);
+  font-family: var(--mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  line-height: 1.35;
+  text-transform: uppercase;
+  color: rgba(242, 243, 246, 0.64);
+}
+
+.case-atlas-card-top > span:first-child {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  flex: 0 0 auto;
+  color: #04252c;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.case-atlas-rail .case-atlas-copy {
+  right: 0;
+  gap: 10px;
+  padding: 24px;
+}
+
+.case-atlas-rail .case-atlas-copy h3 {
+  max-width: 20ch;
+  margin: 0;
+  font-size: clamp(20px, 1.7vw, 28px);
+}
+
+.case-atlas-rail .case-atlas-result {
+  margin: 0;
+}
+
+.case-atlas-rail .case-atlas-result strong {
+  font-size: clamp(25px, 2.3vw, 36px);
+}
+
+.case-atlas-open {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding-top: 10px;
+  font-size: 11px;
+  font-weight: 650;
+  color: rgba(242, 243, 246, 0.82);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.case-atlas-open svg {
+  transition: transform 0.35s var(--ease);
+}
+
+.case-atlas-rail a:hover .case-atlas-open svg {
+  transform: translate(2px, -2px);
 }
 
 .case-proof-stamp {
@@ -13178,7 +13269,8 @@ html[data-studio-motion="running"]::view-transition-new(studio-detail-panel) {
 
 @media (min-width: 821px) {
   .case-atlas-board-real {
-    height: clamp(430px, 72svh, 680px);
+    grid-template-columns: minmax(0, 1.45fr) minmax(360px, 0.85fr);
+    height: clamp(430px, 58svh, 540px);
     min-height: 0;
   }
 }
