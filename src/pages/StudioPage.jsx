@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -86,8 +87,28 @@ export function StudioPage() {
       setPlaying((value) => !value);
       return;
     }
-    setActive(index);
-    setPlaying(Boolean(studio[index].video));
+
+    const activate = () => {
+      setActive(index);
+      setPlaying(Boolean(studio[index].video));
+    };
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    if (!document.startViewTransition || reducedMotion) {
+      activate();
+      return;
+    }
+
+    document.documentElement.dataset.studioMotion = "running";
+    const transition = document.startViewTransition(() => {
+      flushSync(activate);
+    });
+
+    transition.finished.finally(() => {
+      delete document.documentElement.dataset.studioMotion;
+    });
   };
 
   return (
@@ -161,6 +182,7 @@ export function StudioPage() {
                     aria-selected={active === index}
                     aria-controls="studio-detail"
                     aria-label={`${String(index + 1).padStart(2, "0")} · ${item.title}`}
+                    style={{ viewTransitionName: `studio-${item.id}` }}
                   >
                     <span className="studio-frame-media">
                       {active === index ? (
@@ -207,6 +229,7 @@ export function StudioPage() {
               id="studio-detail"
               role="tabpanel"
               key={current.id}
+              style={{ viewTransitionName: "studio-detail-panel" }}
             >
               <Meta>
                 {String(active + 1).padStart(2, "0")} / {current.title}
