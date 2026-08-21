@@ -243,6 +243,14 @@ export function Seo() {
       name: "robots",
       content: meta.noindex ? "noindex, follow" : "index, follow, max-image-preview:large",
     });
+    upsertMeta('meta[property="og:site_name"]', {
+      property: "og:site_name",
+      content: "AI Insider",
+    });
+    upsertMeta('meta[property="og:locale"]', {
+      property: "og:locale",
+      content: "uk_UA",
+    });
     upsertMeta('meta[property="og:title"]', { property: "og:title", content: meta.title });
     upsertMeta('meta[property="og:description"]', {
       property: "og:description",
@@ -250,6 +258,10 @@ export function Seo() {
     });
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: canonical });
     upsertMeta('meta[property="og:image"]', { property: "og:image", content: image });
+    upsertMeta('meta[property="og:image:alt"]', {
+      property: "og:image:alt",
+      content: `${meta.title} — AI Insider`,
+    });
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: meta.title });
     upsertMeta('meta[name="twitter:description"]', {
       name: "twitter:description",
