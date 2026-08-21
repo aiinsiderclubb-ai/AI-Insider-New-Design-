@@ -16,6 +16,8 @@ Secondary-page direction confirmed on 2026-08-20: Services, Cases, and Insights 
 
 Studio direction selected on 2026-08-20: implement the approved “Moving Contact Sheet” mockup. Use a pearl/ice hero with three connected proof metrics, followed by one unified dark film-board: four vertical 9:16 works, active work enlarged, adjacent works fully visible and clickable, selected-format editorial detail panel on the right, and a cyan progress rail. Continue with a light five-step production route and a focused Content Factory board. Preserve real video playback and keep all preview frames clickable; do not hide previews behind the active device.
 
+Studio media update confirmed on 2026-08-21: include the supplied beauty-product, SPF, luxury-entryway, and minimal-apartment reels in the same Moving Contact Sheet. Keep exactly four frames visible at once; selecting any preview rotates it into the enlarged first position and advances the cyclic queue instead of shrinking all eight works into one row.
+
 Current art direction, confirmed by the user: **mirror the UI/UX of the user's own site sweezy.world**, adapted to AI Insider. Green is banned. `src/system.css` is the single stylesheet — the older layered `styles.css` / `reference-elements.css` / `atelier.css` were deleted, do not reintroduce a stacking-override approach.
 
 SEO goal confirmed on 2026-08-20: grow qualified organic traffic toward 10,000 clicks per month while preserving useful signals from the previous site on `www.aiinsider.it.com`. Never trade relevance for raw impressions. Keep valuable legacy URLs mapped with relevant 301 redirects, return real 404 responses for unknown pages, and treat technical SEO, content clusters, proof, and authority as one program.

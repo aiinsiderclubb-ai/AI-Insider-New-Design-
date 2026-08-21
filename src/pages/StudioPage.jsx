@@ -64,9 +64,13 @@ function ActiveStudioMedia({ item, playing, onPlayingChange }) {
 export function StudioPage() {
   const openContact = useContact();
   const frameRefs = useRef([]);
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useState(0);
   const [playing, setPlaying] = useState(true);
   const current = studio[active];
+  const visibleSlides = Array.from({ length: 4 }, (_, offset) => {
+    const index = (active + offset) % studio.length;
+    return { item: studio[index], index };
+  });
 
   useEffect(() => {
     if (!window.matchMedia("(max-width: 720px)").matches) return;
@@ -132,10 +136,12 @@ export function StudioPage() {
           <div className="studio-contact-sheet">
             <div className="studio-film">
               <div className="studio-film-code" aria-hidden="true">
-                <span>00:00:04</span>
-                <span>00:00:08</span>
-                <span>00:00:12</span>
-                <span>00:00:16</span>
+                {visibleSlides.map(({ item, index }, position) => (
+                  <span key={item.id}>
+                    00:00:{String((index + 1) * 4).padStart(2, "0")}
+                    {position === 0 && ` · 0${active + 1}/0${studio.length}`}
+                  </span>
+                ))}
               </div>
 
               <div
@@ -143,7 +149,7 @@ export function StudioPage() {
                 role="tablist"
                 aria-label="Формати AI-контенту"
               >
-                {studio.map((item, index) => (
+                {visibleSlides.map(({ item, index }) => (
                   <button
                     key={item.id}
                     ref={(node) => {
@@ -154,6 +160,7 @@ export function StudioPage() {
                     role="tab"
                     aria-selected={active === index}
                     aria-controls="studio-detail"
+                    aria-label={`${String(index + 1).padStart(2, "0")} · ${item.title}`}
                   >
                     <span className="studio-frame-media">
                       {active === index ? (
@@ -177,7 +184,9 @@ export function StudioPage() {
                       )}
                     </span>
                     <span className="studio-frame-meta">
-                      <i className="num">0{index + 1}</i>
+                      <i className="num">
+                        {String(index + 1).padStart(2, "0")}
+                      </i>
                       <b>{item.title}</b>
                     </span>
                   </button>
@@ -200,7 +209,7 @@ export function StudioPage() {
               key={current.id}
             >
               <Meta>
-                0{active + 1} / {current.title}
+                {String(active + 1).padStart(2, "0")} / {current.title}
               </Meta>
               <h2 className="h-md">{current.screenTitle}</h2>
               <p>{current.screenNote}</p>
