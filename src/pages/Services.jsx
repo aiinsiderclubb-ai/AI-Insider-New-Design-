@@ -50,7 +50,7 @@ export function Services() {
               className="service-core-stage"
               style={{ "--core-index": active }}
             >
-              <img src="/assets/capability-system.png" alt="" />
+              <img src="/assets/capability-system-transparent.png" alt="" />
               <span className="service-core-satellite" aria-hidden="true" />
               <span className="service-core-center" aria-hidden="true">
                 <small>AI INSIDER</small>

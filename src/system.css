@@ -6041,9 +6041,9 @@ html.has-cursor button {
   width: 84%;
   height: 94%;
   object-fit: contain;
-  opacity: 0.78;
-  mix-blend-mode: multiply;
-  filter: saturate(0.72) contrast(0.96);
+  opacity: 0.88;
+  mix-blend-mode: normal;
+  filter: saturate(0.78) contrast(0.96);
 }
 
 .service-core-center {
