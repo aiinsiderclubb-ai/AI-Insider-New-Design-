@@ -6,6 +6,7 @@ import {
   Lightning,
   Pause,
   Play,
+  Sparkle,
 } from "@phosphor-icons/react";
 import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
@@ -18,6 +19,10 @@ const production = [
   ["04", "Тест", "Тестуємо креативи й аналізуємо performance."],
   ["05", "Масштаб", "Масштабуємо переможні креативи на нові аудиторії."],
 ];
+
+const demoFrames = ["beauty-spf", "product-shampoo", "interior-entryway"]
+  .map((id) => studio.find((item) => item.id === id))
+  .filter(Boolean);
 
 function ActiveStudioMedia({ item, playing, onPlayingChange }) {
   const videoRef = useRef(null);
@@ -249,6 +254,86 @@ export function StudioPage() {
               </button>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section
+        className="chapter c-paper studio-demo-section"
+        aria-labelledby="studio-demo-title"
+      >
+        <div className="wrap">
+          <Reveal className="studio-demo-offer">
+            <div className="studio-demo-copy">
+              <Meta>ДЕМО-ПРОПОЗИЦІЯ · ДЛЯ БІЗНЕСУ</Meta>
+              <span className="studio-demo-ticket" aria-hidden="true">
+                <strong>01</strong>
+                <small>БЕЗКОШТОВНЕ ДЕМО</small>
+              </span>
+              <h2 className="h-lg" id="studio-demo-title">
+                Покажемо вашу послугу у 10–15 секундах.
+              </h2>
+              <p>
+                Кожен бізнес може отримати один безкоштовний демо-ролик — щоб
+                побачити, як AI-відео працюватиме саме для вашої пропозиції, і
+                зрозуміти, чи підходить вам цей формат.
+              </p>
+
+              <div className="studio-demo-facts" aria-label="Умови пропозиції">
+                <span>
+                  <b>1</b>
+                  <small>демо-відео</small>
+                </span>
+                <span>
+                  <b>10–15 с</b>
+                  <small>хронометраж</small>
+                </span>
+                <span>
+                  <b>0</b>
+                  <small>оплати за демо</small>
+                </span>
+              </div>
+
+              <div className="studio-demo-action">
+                <button className="btn btn-accent" onClick={openContact}>
+                  Отримати безкоштовне демо
+                  <ArrowUpRight size={16} weight="bold" />
+                </button>
+                <small>
+                  Надішліть сайт або короткий опис послуги — цього достатньо
+                  для старту.
+                </small>
+              </div>
+            </div>
+
+            <div className="studio-demo-cut" aria-hidden="true">
+              <div className="studio-demo-cut-head">
+                <span>
+                  <i /> DEMO CUT
+                </span>
+                <b>00:00:15</b>
+              </div>
+              <div className="studio-demo-storyboard">
+                {demoFrames.map((item, index) => (
+                  <figure key={item.id}>
+                    <img src={item.poster} alt="" loading="lazy" />
+                    <figcaption>
+                      <span>0{index + 1}</span>
+                      {item.title}
+                    </figcaption>
+                  </figure>
+                ))}
+                <span className="studio-demo-spark">
+                  <Sparkle size={20} weight="fill" />
+                </span>
+              </div>
+              <div className="studio-demo-timeline">
+                <i />
+                {["00:00", "00:05", "00:10", "00:15"].map((time) => (
+                  <span key={time}>{time}</span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 

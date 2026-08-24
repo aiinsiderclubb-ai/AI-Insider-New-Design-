@@ -44,6 +44,8 @@ Current public case set, confirmed on 2026-08-21: replace placeholder logistics/
 
 Typography correction, confirmed on 2026-08-22: use Inter Variable for all display, heading, body, navigation, button, and UI copy across every route. JetBrains Mono remains reserved for uppercase meta labels, eyebrows, counters, timestamps, and technical captions. Never introduce page-specific Cormorant Garamond, Unbounded, Manrope, Georgia, or generic serif overrides.
 
+Studio demo offer, confirmed on 2026-08-24: `/studio` includes one current business offer — one free 10–15 second demo video tailored to the visitor's service so they can judge format relevance before commissioning full production. Present it after portfolio proof as a premium editorial offer with real Studio imagery and a direct contact CTA; never style it like a discount banner or invent scarcity.
+
 Viewport-fit rule, confirmed on 2026-08-21: large showcase compositions must fit inside short desktop and landscape viewports, not only scale from viewport width. Size interactive boards with both `vw` and `svh`; keep primary copy, controls, previews, and proof metrics visible together. On tablet and mobile, reflow vertically instead of shrinking text below readable size, and never clip content or create page-level horizontal overflow.
 
 Durable decisions:
