@@ -48,6 +48,8 @@ Studio demo offer, confirmed on 2026-08-24: `/studio` includes one current busin
 
 Contact delivery, confirmed on 2026-08-24: every popup contact form submits through the server-side `/api/contact` endpoint and reaches Telegram only through `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, and optional `TELEGRAM_THREAD_ID`. Never expose the bot token to client code, never show a fake success state, and keep intent, contact, company/site, brief, source page, and Zurich timestamp in the formatted lead message.
 
+Contact-form visual correction, confirmed on 2026-08-24: popup forms must use the site's light pearl/ice atlas language, calm editorial spacing, compact direction pills, white inputs, and restrained cyan route markers. Keep the full form visible in 390×844 without internal scrolling, and keep the custom cursor above the modal overlay on fine pointers; never return to a dense dark card grid.
+
 Viewport-fit rule, confirmed on 2026-08-21: large showcase compositions must fit inside short desktop and landscape viewports, not only scale from viewport width. Size interactive boards with both `vw` and `svh`; keep primary copy, controls, previews, and proof metrics visible together. On tablet and mobile, reflow vertically instead of shrinking text below readable size, and never clip content or create page-level horizontal overflow.
 
 Durable decisions:

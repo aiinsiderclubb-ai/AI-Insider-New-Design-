@@ -256,23 +256,36 @@ export function ContactModal({ onClose, intent = "general" }) {
           </div>
         ) : (
           <>
-            <Meta>
-              {isDemo ? "БЕЗКОШТОВНЕ ДЕМО · 10–15 С" : "ПОЧАТИ РОЗМОВУ"}
-            </Meta>
-            <h2 className="h-md" id="contact-title">
-              {isDemo
-                ? "Покажіть, що потрібно перетворити на відео."
-                : "Розкажіть, що має змінити AI."}
-            </h2>
-            <p className="modal-copy">
-              {isDemo
-                ? "Дайте посилання або коротко опишіть послугу. Ми повернемося з форматом демо."
-                : "Опишіть процес або можливість — запропонуємо практичний наступний крок."}
-            </p>
+            <div className="modal-intro">
+              <div>
+                <Meta>
+                  {isDemo
+                    ? "БЕЗКОШТОВНЕ ДЕМО · 10–15 С"
+                    : "НОВИЙ ПРОЄКТ · AI INSIDER"}
+                </Meta>
+                <h2 className="h-md" id="contact-title">
+                  {isDemo
+                    ? "Створімо перший кадр вашого бренду."
+                    : "Зберімо задачу в робочу систему."}
+                </h2>
+                <p className="modal-copy">
+                  {isDemo
+                    ? "Дайте посилання або коротко опишіть послугу — запропонуємо формат персонального демо."
+                    : "Короткий бриф допоможе одразу підготувати предметний наступний крок."}
+                </p>
+              </div>
+              <div className="modal-promise" aria-label="Час відповіді">
+                <span className="num">01</span>
+                <strong>робочий день</strong>
+                <small>на відповідь команди</small>
+              </div>
+            </div>
 
             <form onSubmit={submit} noValidate>
               <fieldset className="modal-intents">
-                <legend>Що вас цікавить?</legend>
+                <legend>
+                  <span className="num">01</span> Оберіть напрям
+                </legend>
                 <div>
                   {contactIntents.map(([value, label, copy]) => (
                     <label
@@ -307,122 +320,125 @@ export function ContactModal({ onClose, intent = "general" }) {
                 </div>
               )}
 
-              <label htmlFor="contact-name">
-                <span className="modal-field-label">Ім’я</span>
-                <input
-                  id="contact-name"
-                  name="name"
-                  autoComplete="name"
-                  value={fields.name}
-                  onChange={(event) => update("name", event.target.value)}
-                  onBlur={() =>
-                    setErrors((current) => ({
-                      ...current,
-                      name: fieldError("name", fields.name),
-                    }))
-                  }
-                  aria-invalid={Boolean(errors.name)}
-                  aria-describedby={
-                    errors.name ? "contact-name-error" : undefined
-                  }
-                  placeholder="Ваше ім’я"
-                />
-                {errors.name && (
-                  <small className="modal-field-error" id="contact-name-error">
-                    {errors.name}
-                  </small>
-                )}
-              </label>
-
-              <label htmlFor="contact-channel">
-                <span className="modal-field-label">
-                  Email, телефон або Telegram
-                </span>
-                <input
-                  id="contact-channel"
-                  name="contact"
-                  autoComplete="email"
-                  value={fields.contact}
-                  onChange={(event) => update("contact", event.target.value)}
-                  onBlur={() =>
-                    setErrors((current) => ({
-                      ...current,
-                      contact: fieldError("contact", fields.contact),
-                    }))
-                  }
-                  aria-invalid={Boolean(errors.contact)}
-                  aria-describedby={
-                    errors.contact ? "contact-channel-error" : undefined
-                  }
-                  placeholder="name@company.com або @username"
-                />
-                {errors.contact && (
-                  <small
-                    className="modal-field-error"
-                    id="contact-channel-error"
-                  >
-                    {errors.contact}
-                  </small>
-                )}
-              </label>
-
-              <label htmlFor="contact-company">
-                <span className="modal-field-label">
-                  Компанія або сайт <small>необов’язково</small>
-                </span>
-                <input
-                  id="contact-company"
-                  name="company"
-                  autoComplete="organization"
-                  value={fields.company}
-                  onChange={(event) => update("company", event.target.value)}
-                  placeholder="company.com"
-                />
-              </label>
-
-              <label htmlFor="contact-brief">
-                <span className="modal-field-label">
-                  Що потрібно створити або покращити?
-                </span>
-                <textarea
-                  id="contact-brief"
-                  name="brief"
-                  rows="4"
-                  maxLength="1600"
-                  value={fields.brief}
-                  onChange={(event) => update("brief", event.target.value)}
-                  onBlur={() =>
-                    setErrors((current) => ({
-                      ...current,
-                      brief: fieldError("brief", fields.brief),
-                    }))
-                  }
-                  aria-invalid={Boolean(errors.brief)}
-                  aria-describedby={`contact-brief-count${
-                    errors.brief ? " contact-brief-error" : ""
-                  }`}
-                  placeholder={
-                    isDemo
-                      ? "Яку послугу показати, для кого вона і де використаєте ролик?"
-                      : "Коротко опишіть задачу, процес або ідею…"
-                  }
-                />
-                <span className="modal-field-foot">
-                  {errors.brief ? (
+              <div className="modal-fields">
+                <label htmlFor="contact-name">
+                  <span className="modal-field-label">Ім’я</span>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    autoComplete="name"
+                    value={fields.name}
+                    onChange={(event) => update("name", event.target.value)}
+                    onBlur={() =>
+                      setErrors((current) => ({
+                        ...current,
+                        name: fieldError("name", fields.name),
+                      }))
+                    }
+                    aria-invalid={Boolean(errors.name)}
+                    aria-describedby={
+                      errors.name ? "contact-name-error" : undefined
+                    }
+                    placeholder="Ваше ім’я"
+                  />
+                  {errors.name && (
                     <small
                       className="modal-field-error"
-                      id="contact-brief-error"
+                      id="contact-name-error"
                     >
-                      {errors.brief}
+                      {errors.name}
                     </small>
-                  ) : (
-                    <span />
                   )}
-                  <small id="contact-brief-count">
-                    {fields.brief.length} / 1600
-                  </small>
-                </span>
-              </label>
+                </label>
+
+                <label htmlFor="contact-channel">
+                  <span className="modal-field-label">Як з вами зв’язатися</span>
+                  <input
+                    id="contact-channel"
+                    name="contact"
+                    autoComplete="email"
+                    value={fields.contact}
+                    onChange={(event) => update("contact", event.target.value)}
+                    onBlur={() =>
+                      setErrors((current) => ({
+                        ...current,
+                        contact: fieldError("contact", fields.contact),
+                      }))
+                    }
+                    aria-invalid={Boolean(errors.contact)}
+                    aria-describedby={
+                      errors.contact ? "contact-channel-error" : undefined
+                    }
+                    placeholder="Email, телефон або @username"
+                  />
+                  {errors.contact && (
+                    <small
+                      className="modal-field-error"
+                      id="contact-channel-error"
+                    >
+                      {errors.contact}
+                    </small>
+                  )}
+                </label>
+
+                <label htmlFor="contact-company">
+                  <span className="modal-field-label">
+                    Компанія або сайт <small>необов’язково</small>
+                  </span>
+                  <input
+                    id="contact-company"
+                    name="company"
+                    autoComplete="organization"
+                    value={fields.company}
+                    onChange={(event) => update("company", event.target.value)}
+                    placeholder="company.com"
+                  />
+                </label>
+
+                <label className="modal-field-wide" htmlFor="contact-brief">
+                  <span className="modal-field-label">
+                    <span className="num">02</span> Коротко про задачу
+                  </span>
+                  <textarea
+                    id="contact-brief"
+                    name="brief"
+                    rows="3"
+                    maxLength="1600"
+                    value={fields.brief}
+                    onChange={(event) => update("brief", event.target.value)}
+                    onBlur={() =>
+                      setErrors((current) => ({
+                        ...current,
+                        brief: fieldError("brief", fields.brief),
+                      }))
+                    }
+                    aria-invalid={Boolean(errors.brief)}
+                    aria-describedby={`contact-brief-count${
+                      errors.brief ? " contact-brief-error" : ""
+                    }`}
+                    placeholder={
+                      isDemo
+                        ? "Яку послугу показати, для кого вона і де використаєте ролик?"
+                        : "Що зараз не працює та якого результату очікуєте?"
+                    }
+                  />
+                  <span className="modal-field-foot">
+                    {errors.brief ? (
+                      <small
+                        className="modal-field-error"
+                        id="contact-brief-error"
+                      >
+                        {errors.brief}
+                      </small>
+                    ) : (
+                      <span />
+                    )}
+                    <small id="contact-brief-count">
+                      {fields.brief.length} / 1600
+                    </small>
+                  </span>
+                </label>
+              </div>
 
               <label className="modal-honeypot" aria-hidden="true">
                 Website
@@ -435,32 +451,34 @@ export function ContactModal({ onClose, intent = "general" }) {
                 />
               </label>
 
-              <button
-                className="btn btn-accent"
-                type="submit"
-                disabled={status === "sending"}
-              >
-                {status === "sending" ? (
-                  <>
-                    Надсилаємо
-                    <CircleNotch
-                      className="is-spinning"
-                      size={17}
-                      weight="bold"
-                    />
-                  </>
-                ) : (
-                  <>
-                    {isDemo ? "Отримати демо" : "Надіслати запит"}
-                    <PaperPlaneTilt size={16} weight="bold" />
-                  </>
-                )}
-              </button>
-
-              <p className="modal-privacy">
-                Надсилаючи форму, ви погоджуєтеся з{" "}
-                <a href="/privacy">політикою приватності</a>.
-              </p>
+              <div className="modal-submit">
+                <span className="modal-submit-index num">03 / SEND</span>
+                <button
+                  className="btn btn-accent"
+                  type="submit"
+                  disabled={status === "sending"}
+                >
+                  {status === "sending" ? (
+                    <>
+                      Надсилаємо
+                      <CircleNotch
+                        className="is-spinning"
+                        size={17}
+                        weight="bold"
+                      />
+                    </>
+                  ) : (
+                    <>
+                      {isDemo ? "Отримати демо" : "Надіслати запит"}
+                      <PaperPlaneTilt size={16} weight="bold" />
+                    </>
+                  )}
+                </button>
+                <p className="modal-privacy">
+                  Надсилаючи форму, ви погоджуєтеся з{" "}
+                  <a href="/privacy">політикою приватності</a>.
+                </p>
+              </div>
             </form>
           </>
         )}
