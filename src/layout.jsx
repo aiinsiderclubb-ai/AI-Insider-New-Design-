@@ -39,6 +39,7 @@ export const useContact = () => useContext(ContactCtx);
 export function Layout() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [contactOpen, setContactOpen] = useState(false);
+  const [contactIntent, setContactIntent] = useState("general");
   const [lang, setLang] = useState("UA");
   const [stuck, setStuck] = useState(false);
   const { pathname, hash } = useLocation();
@@ -47,8 +48,9 @@ export function Layout() {
       pathname,
     ) || pathname.startsWith("/cases/");
 
-  const openContact = useCallback(() => {
+  const openContact = useCallback((intent = "general") => {
     setMenuOpen(false);
+    setContactIntent(typeof intent === "string" ? intent : "general");
     setContactOpen(true);
   }, []);
 
@@ -283,7 +285,10 @@ export function Layout() {
           </div>
         </footer>
         {contactOpen && (
-          <ContactModal onClose={() => setContactOpen(false)} />
+          <ContactModal
+            intent={contactIntent}
+            onClose={() => setContactOpen(false)}
+          />
         )}{" "}
       </div>
     </ContactCtx.Provider>

@@ -145,8 +145,128 @@ test("does not turn missing API or write requests into the app shell", async () 
   }
 });
 
+test("delivers a validated contact request to Telegram", async () => {
+  const deliveries = [];
+  let assetCalls = 0;
+  const response = await worker.fetch(
+    new Request("https://example.test/api/contact", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        origin: "https://example.test",
+      },
+      body: JSON.stringify({
+        name: "Ірина <CEO>",
+        contact: "@iryna",
+        company: "Example & Co",
+        brief: "Потрібне демо відео для нової послуги.",
+        intent: "studio-demo",
+        source: "https://example.test/studio",
+      }),
+    }),
+    {
+      ASSETS: {
+        fetch: async () => {
+          assetCalls += 1;
+          return new Response("unused");
+        },
+      },
+      TELEGRAM_BOT_TOKEN: "test-token",
+      TELEGRAM_CHAT_ID: "-100123",
+      TELEGRAM_THREAD_ID: "42",
+      TELEGRAM_FETCH: async (url, options) => {
+        deliveries.push({ url, body: JSON.parse(options.body) });
+        return Response.json({ ok: true, result: { message_id: 1 } });
+      },
+    },
+  );
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { ok: true });
+  assert.equal(assetCalls, 0);
+  assert.equal(deliveries.length, 1);
+  assert.equal(deliveries[0].url, "https://api.telegram.org/bottest-token/sendMessage");
+  assert.equal(deliveries[0].body.chat_id, "-100123");
+  assert.equal(deliveries[0].body.message_thread_id, 42);
+  assert.equal(deliveries[0].body.parse_mode, "HTML");
+  assert.match(deliveries[0].body.text, /Безкоштовне демо-відео 10–15 с/);
+  assert.match(deliveries[0].body.text, /Ірина &lt;CEO&gt;/);
+  assert.match(deliveries[0].body.text, /Example &amp; Co/);
+});
+
+test("rejects invalid contact requests before Telegram delivery", async () => {
+  let telegramCalls = 0;
+  const response = await worker.fetch(
+    new Request("https://example.test/api/contact", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ name: "A", contact: "", brief: "short" }),
+    }),
+    {
+      TELEGRAM_BOT_TOKEN: "test-token",
+      TELEGRAM_CHAT_ID: "123",
+      TELEGRAM_FETCH: async () => {
+        telegramCalls += 1;
+        return Response.json({ ok: true });
+      },
+    },
+  );
+
+  assert.equal(response.status, 422);
+  const payload = await response.json();
+  assert.equal(payload.code, "validation_error");
+  assert.deepEqual(Object.keys(payload.errors).sort(), ["brief", "contact", "name"]);
+  assert.equal(telegramCalls, 0);
+});
+
+test("fails safely when Telegram credentials are missing", async () => {
+  const response = await worker.fetch(
+    new Request("https://example.test/api/contact", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: "Ірина",
+        contact: "@iryna",
+        brief: "Потрібна автоматизація процесу продажів.",
+      }),
+    }),
+    {},
+  );
+
+  assert.equal(response.status, 503);
+  assert.deepEqual(await response.json(), { ok: false, code: "not_configured" });
+});
+
+test("accepts honeypot submissions without delivering spam", async () => {
+  let telegramCalls = 0;
+  const response = await worker.fetch(
+    new Request("https://example.test/api/contact", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        name: "Spam Bot",
+        contact: "spam@example.test",
+        brief: "This should never reach Telegram.",
+        websiteUrl: "https://spam.example.test",
+      }),
+    }),
+    {
+      TELEGRAM_BOT_TOKEN: "test-token",
+      TELEGRAM_CHAT_ID: "123",
+      TELEGRAM_FETCH: async () => {
+        telegramCalls += 1;
+        return Response.json({ ok: true });
+      },
+    },
+  );
+
+  assert.equal(response.status, 200);
+  assert.equal(telegramCalls, 0);
+});
+
 test("emits the files required by Sites packaging", async () => {
   await access(new URL("../dist/client/index.html", import.meta.url));
   await access(new URL("../dist/server/index.js", import.meta.url));
+  await access(new URL("../dist/server/contact.js", import.meta.url));
   await access(new URL("../dist/.openai/hosting.json", import.meta.url));
 });

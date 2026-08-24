@@ -1,3 +1,5 @@
+import { handleContactRequest } from "./contact.js";
+
 const SITE_URL = "https://www.aiinsider.it.com";
 
 const routeSeo = {
@@ -191,6 +193,8 @@ export default {
     const isRead = ["GET", "HEAD"].includes(request.method);
     const acceptsHtml = request.headers.get("accept")?.includes("text/html");
     const target = isRead ? redirectTarget(pathname) : null;
+
+    if (pathname === "/api/contact") return handleContactRequest(request, env);
 
     if (target) return Response.redirect(new URL(target, SITE_URL), 301);
     if (isRead && pathname !== url.pathname && routeSeo[pathname]) {

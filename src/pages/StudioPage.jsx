@@ -133,7 +133,10 @@ export function StudioPage() {
                 агентств. Від ідеї до готового контенту — за дні, а не тижні.
               </p>
               <div className="page-actions">
-                <button className="btn btn-accent" onClick={openContact}>
+                <button
+                  className="btn btn-accent"
+                  onClick={() => openContact("ai-content")}
+                >
                   Обговорити контент <ArrowUpRight size={16} weight="bold" />
                 </button>
               </div>
@@ -249,7 +252,10 @@ export function StudioPage() {
                   </span>
                 ))}
               </div>
-              <button className="btn btn-accent" onClick={openContact}>
+              <button
+                className="btn btn-accent"
+                onClick={() => openContact("ai-content")}
+              >
                 Обговорити проєкт <ArrowRight size={16} weight="bold" />
               </button>
             </div>
@@ -294,7 +300,10 @@ export function StudioPage() {
               </div>
 
               <div className="studio-demo-action">
-                <button className="btn btn-accent" onClick={openContact}>
+                <button
+                  className="btn btn-accent"
+                  onClick={() => openContact("studio-demo")}
+                >
                   Отримати безкоштовне демо
                   <ArrowUpRight size={16} weight="bold" />
                 </button>
@@ -357,7 +366,10 @@ export function StudioPage() {
 
       <section className="chapter c-paper-2 studio-factory-section">
         <div className="wrap">
-          <button className="studio-factory" onClick={openContact}>
+          <button
+            className="studio-factory"
+            onClick={() => openContact("ai-content")}
+          >
             <span className="studio-factory-title">
               <Meta>ОКРЕМИЙ ПРОДУКТ</Meta>
               <strong>Content Factory</strong>

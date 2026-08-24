@@ -1,7 +1,7 @@
 # AI Insider — новий дизайн
 
-Односторінковий сайт-візитівка AI Insider. Vite + React 19, без роутера
-та без бекенду.
+Сайт AI Insider на Vite + React 19 із серверним endpoint для контактних
+запитів.
 
 ## Локальний запуск
 
@@ -21,7 +21,8 @@ npm run test:sites
 | `src/system.css` | дизайн-система і стилі всіх секцій |
 | `public/assets/journey/` | відео героя (скрол-скраб) |
 | `public/assets/studio/` | вертикальні ролики для секції AI-контенту |
-| `worker/`, `scripts/`, `.openai/` | збірка під OpenAI Sites, для Vercel не потрібні |
+| `api/contact.js` | Vercel endpoint, що передає заявки в Telegram |
+| `worker/`, `scripts/`, `.openai/` | збірка під OpenAI Sites та endpoint форми |
 
 ## Герой
 
@@ -44,8 +45,19 @@ npm run test:sites
 Vercel, framework Vite, output directory `dist/client` — зафіксовано у
 `vercel.json`.
 
-## Що ще не підключено
+## Контактна форма → Telegram
 
-Форма контактів зараз лише показує стан «надіслано» і нікуди не
-відправляє дані. Перед бойовим запуском її треба під'єднати до
-справжнього ендпоінта.
+Додайте у Vercel Project Settings → Environment Variables:
+
+| Змінна | Значення |
+| --- | --- |
+| `TELEGRAM_BOT_TOKEN` | токен бота від BotFather |
+| `TELEGRAM_CHAT_ID` | ID приватного чату, групи або каналу |
+| `TELEGRAM_THREAD_ID` | ID topic у forum-групі, необов’язково |
+
+Після додавання змінних зробіть redeploy. Токен має залишатися лише на
+сервері: не додавайте його у git і не використовуйте префікс `VITE_`.
+
+Endpoint перевіряє поля, обмежує розмір запиту, екранує Telegram HTML,
+фільтрує ботів через honeypot і має базовий rate limit. Інтерфейс показує
+успіх лише після підтвердженої доставки повідомлення Telegram API.

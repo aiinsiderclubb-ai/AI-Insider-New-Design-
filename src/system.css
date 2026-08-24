@@ -2122,9 +2122,9 @@ a:hover .arrow-link svg,
   z-index: 800;
   display: grid;
   place-items: center;
-  padding: 20px;
-  background: rgba(5, 6, 9, 0.74);
-  backdrop-filter: blur(10px);
+  padding: 18px;
+  background: rgba(5, 6, 9, 0.8);
+  backdrop-filter: blur(14px);
   animation: fade 0.3s ease;
 }
 
@@ -2136,14 +2136,31 @@ a:hover .arrow-link svg,
 
 .modal {
   position: relative;
-  width: min(520px, 100%);
-  max-height: 90vh;
+  width: min(680px, 100%);
+  max-height: min(92svh, 880px);
   overflow-y: auto;
   padding: clamp(26px, 4vw, 42px);
-  background: var(--ink-2);
+  background:
+    radial-gradient(
+      circle at 8% 0%,
+      rgba(79, 227, 255, 0.1),
+      transparent 27%
+    ),
+    var(--ink-2);
   border: 1px solid var(--ink-line);
   border-radius: var(--r-panel);
+  box-shadow: 0 38px 100px rgba(0, 0, 0, 0.44);
   animation: modal-in 0.45s var(--ease);
+}
+
+.modal::before {
+  content: "";
+  position: absolute;
+  left: 42px;
+  right: 74px;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), rgba(79, 227, 255, 0));
 }
 
 @keyframes modal-in {
@@ -2170,18 +2187,33 @@ a:hover .arrow-link svg,
   background: rgba(255, 255, 255, 0.16);
 }
 
+.modal-close:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.modal > .meta {
+  color: var(--accent);
+}
+
 .modal h2 {
-  margin: 14px 0 12px;
+  max-width: 16ch;
+  margin: 15px 0 12px;
+  padding-right: 42px;
+  font-size: clamp(28px, 4vw, 42px);
 }
 
 .modal-copy {
-  margin-bottom: 24px;
+  max-width: 56ch;
+  margin-bottom: 26px;
+  font-size: 13px;
+  line-height: 1.55;
 }
 
 .modal form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 17px;
 }
 
 .modal label {
@@ -2190,29 +2222,217 @@ a:hover .arrow-link svg,
   gap: 8px;
 }
 
+.modal-field-label,
+.modal-intents legend {
+  color: rgba(242, 243, 246, 0.82);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.modal-field-label > small {
+  margin-left: 5px;
+  color: var(--ink-dim);
+  font-size: 9px;
+  font-weight: 450;
+}
+
 .modal input,
 .modal textarea {
-  padding: 14px 16px;
+  width: 100%;
+  padding: 14px 15px;
   font-size: 14px;
   color: var(--ink-text);
-  background: var(--ink);
+  background: rgba(8, 9, 12, 0.82);
   border: 1px solid var(--ink-line);
   border-radius: 14px;
   outline: none;
   resize: vertical;
-  transition: border-color 0.3s ease;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .modal input:focus,
 .modal textarea:focus {
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(79, 227, 255, 0.09);
+}
+
+.modal input[aria-invalid="true"],
+.modal textarea[aria-invalid="true"] {
+  border-color: #ff7c8c;
+}
+
+.modal-intents {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.modal-intents legend {
+  margin-bottom: 10px;
+}
+
+.modal-intents > div {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.modal-intents label {
+  position: relative;
+  min-width: 0;
+  display: block;
+  cursor: pointer;
+}
+
+.modal-intents label:last-child {
+  grid-column: span 2;
+}
+
+.modal-intents input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-intents label > span {
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  padding: 11px 13px;
+  color: rgba(242, 243, 246, 0.7);
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid var(--ink-line);
+  border-radius: 13px;
+  transition:
+    color 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.modal-intents label:hover > span {
+  color: var(--ink-text);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-intents label.is-selected > span {
+  color: var(--ink-text);
+  background: rgba(79, 227, 255, 0.08);
+  border-color: rgba(79, 227, 255, 0.72);
+}
+
+.modal-intents input:focus-visible + span {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.modal-intents b,
+.modal-intents small {
+  display: block;
+}
+
+.modal-intents b {
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.modal-intents small {
+  overflow: hidden;
+  color: var(--ink-dim);
+  font-size: 8.5px;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modal-field-error {
+  color: #ff9aa7;
+  font-size: 9px;
+  line-height: 1.35;
+}
+
+.modal-field-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.modal-field-foot > small:last-child {
+  flex: 0 0 auto;
+  color: var(--ink-dim);
+  font-family: var(--mono);
+  font-size: 8px;
+}
+
+.modal-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 12px 13px;
+  color: #ffd4da;
+  background: rgba(255, 83, 107, 0.09);
+  border: 1px solid rgba(255, 124, 140, 0.3);
+  border-radius: 13px;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.modal-alert svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+.modal-alert a,
+.modal-privacy a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.modal-honeypot {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 
 .modal .btn {
   width: 100%;
 }
 
+.modal .btn:disabled {
+  cursor: wait;
+  opacity: 0.72;
+}
+
+.modal-privacy {
+  margin-top: -4px;
+  color: var(--ink-dim);
+  font-size: 8.5px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.is-spinning {
+  animation: modal-spin 0.75s linear infinite;
+}
+
+@keyframes modal-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .modal-success {
+  min-height: 330px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -2229,6 +2449,43 @@ a:hover .arrow-link svg,
   color: #04252c;
   background: var(--accent);
   border-radius: 50%;
+}
+
+@media (max-width: 560px) {
+  .modal-backdrop {
+    padding: 8px;
+  }
+
+  .modal {
+    max-height: calc(100svh - 16px);
+    padding: 28px 18px 24px;
+    border-radius: 24px;
+  }
+
+  .modal::before {
+    left: 22px;
+  }
+
+  .modal-close {
+    right: 12px;
+    top: 12px;
+  }
+
+  .modal h2 {
+    font-size: 28px;
+  }
+
+  .modal-intents > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .modal-intents label:last-child {
+    grid-column: auto;
+  }
+
+  .modal-intents label > span {
+    min-height: 58px;
+  }
 }
 
 /* ------------------------------------------------------------- responsive */

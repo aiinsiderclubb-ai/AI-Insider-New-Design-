@@ -46,6 +46,8 @@ Typography correction, confirmed on 2026-08-22: use Inter Variable for all displ
 
 Studio demo offer, confirmed on 2026-08-24: `/studio` includes one current business offer — one free 10–15 second demo video tailored to the visitor's service so they can judge format relevance before commissioning full production. Present it after portfolio proof as a premium editorial offer with real Studio imagery and a direct contact CTA; never style it like a discount banner or invent scarcity.
 
+Contact delivery, confirmed on 2026-08-24: every popup contact form submits through the server-side `/api/contact` endpoint and reaches Telegram only through `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, and optional `TELEGRAM_THREAD_ID`. Never expose the bot token to client code, never show a fake success state, and keep intent, contact, company/site, brief, source page, and Zurich timestamp in the formatted lead message.
+
 Viewport-fit rule, confirmed on 2026-08-21: large showcase compositions must fit inside short desktop and landscape viewports, not only scale from viewport width. Size interactive boards with both `vw` and `svh`; keep primary copy, controls, previews, and proof metrics visible together. On tablet and mobile, reflow vertically instead of shrinking text below readable size, and never clip content or create page-level horizontal overflow.
 
 Durable decisions:
