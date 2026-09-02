@@ -23,10 +23,191 @@
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/((?!assets/|api/).*)",
-      "destination": "/index.html"
+      "source": "/uk",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/en",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/uk/contact",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/en/contact",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/uk/cases",
+      "destination": "/cases",
+      "permanent": true
+    },
+    {
+      "source": "/en/cases",
+      "destination": "/cases",
+      "permanent": true
+    },
+    {
+      "source": "/cases/ai-pidtrymka-logistyka",
+      "destination": "/cases/operatsiina-systema-kreatyvnoi-ahentsii",
+      "permanent": true
+    },
+    {
+      "source": "/cases/anderrayting-insurtech",
+      "destination": "/cases/ai-rekruter-dlia-ahentsii",
+      "permanent": true
+    },
+    {
+      "source": "/cases/dokumentoobih-riteyl",
+      "destination": "/cases/content-factory-ai-video",
+      "permanent": true
+    },
+    {
+      "source": "/uk/ai-automation-for-business",
+      "destination": "/services",
+      "permanent": true
+    },
+    {
+      "source": "/en/ai-automation-for-business",
+      "destination": "/services",
+      "permanent": true
+    },
+    {
+      "source": "/uk/ai-receptionist",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/en/ai-receptionist",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/en/ai-voice-agents",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/services/ai-voice-agent",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/uk/services/ai-voice-agent",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/ai-voice-agent",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/ai-sdr",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/uk/ai-sdr",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/en/ai-sdr",
+      "destination": "/services#agents",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog/n8n-for-content-automation",
+      "destination": "/insights/n8n-ukrainskoiu",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/n8n-for-content-automation",
+      "destination": "/insights/n8n-ukrainskoiu",
+      "permanent": true
+    },
+    {
+      "source": "/blog/n8n-for-content-automation",
+      "destination": "/insights/n8n-ukrainskoiu",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog/building-ai-agents-that-take-actions",
+      "destination": "/insights/ai-agent-what-is-it",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/building-ai-agents-that-take-actions",
+      "destination": "/insights/ai-agent-what-is-it",
+      "permanent": true
+    },
+    {
+      "source": "/uk/services/ai-automation-for-real-estate",
+      "destination": "/solutions/real-estate-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/ai-automation-for-real-estate",
+      "destination": "/solutions/real-estate-automation",
+      "permanent": true
+    },
+    {
+      "source": "/uk/ai-automation-for-saas",
+      "destination": "/solutions/saas-onboarding-ai",
+      "permanent": true
+    },
+    {
+      "source": "/en/ai-automation-for-saas",
+      "destination": "/solutions/saas-onboarding-ai",
+      "permanent": true
+    },
+    {
+      "source": "/content-factory",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/uk/content-factory",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/en/content-factory",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/en/ai-content-creation",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/ai-ugc-content",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/uk/services/ai-ugc-content",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/ai-influencers",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/ai-video-production",
+      "destination": "/studio",
+      "permanent": true
     }
   ]
 }

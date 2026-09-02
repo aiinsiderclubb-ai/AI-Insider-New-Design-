@@ -1,0 +1,26 @@
+# AI Insider
+
+> AI Insider designs AI agents, business automation, n8n workflows and AI content systems for companies in Ukraine and Switzerland.
+
+Primary language: Ukrainian (uk-UA)
+Canonical site: https://www.aiinsider.it.com
+
+## Core pages
+- [Services](https://www.aiinsider.it.com/services)
+- [Verified case studies](https://www.aiinsider.it.com/cases)
+- [AI Content Studio](https://www.aiinsider.it.com/studio)
+- [Insights](https://www.aiinsider.it.com/insights)
+- [Contact](https://www.aiinsider.it.com/contact)
+
+## Current research clusters
+- [n8n українською](https://www.aiinsider.it.com/insights/n8n-ukrainskoiu)
+- [n8n MCP Server](https://www.aiinsider.it.com/insights/n8n-mcp-server)
+- [n8n AI Agent](https://www.aiinsider.it.com/insights/n8n-ai-agent)
+- [Google Workspace Studio](https://www.aiinsider.it.com/insights/google-workspace-studio-ukrainskoiu)
+- [Gemini Notebook / NotebookLM](https://www.aiinsider.it.com/insights/notebooklm-for-business)
+
+## Reusable assets
+- [10 n8n workflow JSON blueprints](https://www.aiinsider.it.com/tools/n8n-workflow-library)
+- [AI automation ROI calculator](https://www.aiinsider.it.com/tools/ai-automation-calculator)
+
+Editorial policy: official sources, explicit limitations, verification date, measurable process outcomes. No confidential client data is published.

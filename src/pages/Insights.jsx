@@ -128,7 +128,7 @@ export function Insights() {
         <div className="wrap">
           <div className="atlas-list-head">
             <Meta>04 / ОСТАННІ МАТЕРІАЛИ</Meta>
-            <Meta>{insightArticles.length} ГАЙДІВ · ОНОВЛЕНО 20.08.2026</Meta>
+            <Meta>{insightArticles.length} ГАЙДІВ · ОНОВЛЕНО 02.09.2026</Meta>
           </div>
           <div className="insight-index-rows">
             {articles.map((article, index) => (
@@ -334,7 +334,7 @@ export function InsightArticle() {
                 </section>
               ))}
 
-              {article.slug === "n8n-ukrainskoiu" && (
+              {article.slug.startsWith("n8n") && (
                 <Link
                   className="article-asset"
                   to="/tools/n8n-workflow-library"
@@ -351,6 +351,24 @@ export function InsightArticle() {
                     <DownloadSimple size={22} weight="bold" />
                   </span>
                 </Link>
+              )}
+
+              {article.sources?.length > 0 && (
+                <section
+                  className="article-sources"
+                  aria-labelledby="article-sources-title"
+                >
+                  <Meta id="article-sources-title">ОФІЦІЙНІ ДЖЕРЕЛА</Meta>
+                  <ul>
+                    {article.sources.map(([label, url]) => (
+                      <li key={url}>
+                        <a href={url} target="_blank" rel="noreferrer">
+                          {label} <ArrowUpRight size={14} weight="bold" />
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
               )}
 
               <section className="article-faq">

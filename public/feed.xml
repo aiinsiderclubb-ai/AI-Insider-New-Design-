@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>AI Insider Insights</title>
+    <link>https://www.aiinsider.it.com/insights</link>
+    <description>Практичні матеріали про n8n, AI-агентів та автоматизацію бізнесу.</description>
+    <language>uk-UA</language>
+    <item>
+      <title>n8n українською: повний гайд і 10 готових workflow</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-ukrainskoiu</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-ukrainskoiu</guid>
+      <description>Практичний гайд з n8n українською: як працюють workflows, nodes, credentials і webhooks. Плюс 10 стартових сценаріїв для бізнесу.</description>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Google AI Studio: як користуватися у 2026 році</title>
+      <link>https://www.aiinsider.it.com/insights/google-ai-studio-guide</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/google-ai-studio-guide</guid>
+      <description>Google AI Studio українською: створення prompt, structured output, function calling, тестування Gemini API, обмеження та сім бізнес-прототипів.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Gemini Notebook (NotebookLM) для бізнесу: база знань без хаосу</title>
+      <link>https://www.aiinsider.it.com/insights/notebooklm-for-business</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/notebooklm-for-business</guid>
+      <description>Gemini Notebook, раніше NotebookLM, для бізнесу: джерела, права доступу, перевірка цитат, support, sales і навчання команди.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n vs Make vs Zapier: що обрати для автоматизації</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-vs-make-vs-zapier</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-vs-make-vs-zapier</guid>
+      <description>Чесне порівняння n8n, Make і Zapier: складність, self-hosting, інтеграції, контроль даних, підтримка та модель вартості.</description>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>AI agent: що це, як працює і де приносить ROI</title>
+      <link>https://www.aiinsider.it.com/insights/ai-agent-what-is-it</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/ai-agent-what-is-it</guid>
+      <description>Що таке AI agent: модель, інструменти, пам’ять, правила й human approval. Реальні сценарії, ризики та формула оцінки ROI.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>Google Workspace Studio українською: AI-агенти для Gmail, Drive і Chat</title>
+      <link>https://www.aiinsider.it.com/insights/google-workspace-studio-ukrainskoiu</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/google-workspace-studio-ukrainskoiu</guid>
+      <description>Google Workspace Studio українською: як створювати AI-агентів і автоматизації для Gmail, Drive, Chat, Calendar та Sheets без коду.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n MCP Server: як створювати workflow через ChatGPT, Claude або Cursor</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-mcp-server</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-mcp-server</guid>
+      <description>n8n MCP Server українською: підключення AI-клієнта, створення й оновлення workflow, permissions, перевірка та безпечний production запуск.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n у Docker: production self-hosted без прихованих ризиків</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-docker-self-hosted</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-docker-self-hosted</guid>
+      <description>Як встановити n8n у Docker для production: PostgreSQL, reverse proxy, encryption key, backup, queue mode, monitoring, updates і rollback.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n Telegram bot: заявки, підтримка й AI-відповіді без втрати контролю</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-telegram-bot</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-telegram-bot</guid>
+      <description>n8n Telegram bot українською: BotFather, Telegram Trigger, заявки, AI-класифікація, human handoff, rate limits і production checklist.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n Google Sheets: автоматизація таблиць без дублів і зламаних рядків</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-google-sheets</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-google-sheets</guid>
+      <description>n8n Google Sheets українською: credentials, append/update, lookup, deduplication, pagination, rate limits і перехід від таблиці до CRM.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n Webhook: authentication, validation і відповідь без дублів</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-webhook</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-webhook</guid>
+      <description>n8n Webhook українською: test і production URL, authentication, signature validation, response mode, idempotency, retries та захист персональних даних.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n error handling: retries, error workflow і відновлення процесу</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-error-handling</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-error-handling</guid>
+      <description>n8n error handling українською: retry, Continue On Fail, Stop And Error, error workflow, idempotency, alerts і manual recovery runbook.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>n8n AI Agent: tools, memory, human approval і production guardrails</title>
+      <link>https://www.aiinsider.it.com/insights/n8n-ai-agent</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-ai-agent</guid>
+      <description>n8n AI Agent українською: Agent node, model, tools, memory, structured output, human approval, evaluations, costs і production safety.</description>
+      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

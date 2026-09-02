@@ -40,8 +40,8 @@ const routeSeo = {
     "Google AI Studio українською: prompt, structured output, function calling, Gemini API, обмеження та сім бізнес-прототипів.",
   ],
   "/insights/notebooklm-for-business": [
-    "NotebookLM для бізнесу: база знань без хаосу | AI Insider",
-    "Як використовувати NotebookLM для бізнесу: підготовка джерел, права доступу, перевірка цитат і сценарії для команди.",
+    "Gemini Notebook (NotebookLM) для бізнесу: гайд | AI Insider",
+    "Як використовувати Gemini Notebook, раніше NotebookLM, для бізнесу: джерела, цитати, доступи, обмеження й робочі сценарії.",
   ],
   "/insights/n8n-vs-make-vs-zapier": [
     "n8n vs Make vs Zapier: що обрати | AI Insider",
@@ -50,6 +50,38 @@ const routeSeo = {
   "/insights/ai-agent-what-is-it": [
     "AI agent: що це, як працює і де приносить ROI | AI Insider",
     "Що таке AI agent: модель, інструменти, пам’ять, правила й human approval. Сценарії, ризики та формула ROI.",
+  ],
+  "/insights/google-workspace-studio-ukrainskoiu": [
+    "Google Workspace Studio українською: автоматизація без коду | AI Insider",
+    "Що таке Google Workspace Studio, як збирати flows у Gmail, Drive і Chat, де потрібен контроль людини та чим сервіс відрізняється від AI Studio.",
+  ],
+  "/insights/n8n-mcp-server": [
+    "n8n MCP Server: як керувати workflow через AI | AI Insider",
+    "Як підключити офіційний n8n MCP Server до AI-клієнта, безпечно створювати й оновлювати workflow та не відкрити production credentials.",
+  ],
+  "/insights/n8n-docker-self-hosted": [
+    "n8n у Docker: self-hosted гайд для production | AI Insider",
+    "Практичний запуск n8n у Docker: Postgres, reverse proxy, secrets, backups, queue mode, оновлення та production-чекліст.",
+  ],
+  "/insights/n8n-telegram-bot": [
+    "n8n Telegram bot: заявки, команди й AI-відповіді | AI Insider",
+    "Як побудувати Telegram-бота в n8n: webhook, валідація, маршрутизація, AI-відповіді, логування та захист від дублів.",
+  ],
+  "/insights/n8n-google-sheets": [
+    "n8n та Google Sheets: автоматизація без дублів | AI Insider",
+    "Як інтегрувати n8n з Google Sheets: читання, upsert, дедуплікація, pagination, rate limits і перехід від таблиці до бази даних.",
+  ],
+  "/insights/n8n-webhook": [
+    "n8n Webhook: production-гайд з безпеки й відповіді | AI Insider",
+    "Як налаштувати n8n Webhook: test і production URL, auth, валідація payload, швидка відповідь, retry та idempotency.",
+  ],
+  "/insights/n8n-error-handling": [
+    "n8n error handling: retry, alerts і відновлення workflow | AI Insider",
+    "Production error handling у n8n: Error Trigger, retry, dead-letter flow, alerts, idempotency й контроль часткових помилок.",
+  ],
+  "/insights/n8n-ai-agent": [
+    "n8n AI Agent: інструменти, пам’ять і human approval | AI Insider",
+    "Як побудувати AI Agent у n8n: tools, memory, structured output, human approval, permissions, evaluation та контроль вартості.",
   ],
   "/tools/n8n-workflow-library": [
     "10 готових n8n workflow: безкоштовні JSON | AI Insider",
@@ -79,8 +111,14 @@ const routeSeo = {
     "n8n hosting Switzerland: контроль даних | AI Insider",
     "n8n hosting у Швейцарії або EU: приватна мережа, secrets, backup, audit logs, monitoring і revDSG-ready архітектура.",
   ],
-  "/privacy": ["Політика приватності | AI Insider", "Політика приватності сайту AI Insider."],
-  "/terms": ["Умови користування | AI Insider", "Умови користування сайтом AI Insider."],
+  "/privacy": [
+    "Політика приватності | AI Insider",
+    "Політика приватності сайту AI Insider.",
+  ],
+  "/terms": [
+    "Умови користування | AI Insider",
+    "Умови користування сайтом AI Insider.",
+  ],
   "/cases/operatsiina-systema-kreatyvnoi-ahentsii": [
     "Конвеєр замість таблиць — кейс автоматизації | AI Insider",
     "Як креативна агенція об’єднала ClickUp, n8n і фінмодель: 539 задач під контролем, нуль втрат при переносі та звіт за 45 секунд.",
@@ -102,7 +140,10 @@ const legacyRedirects = new Map([
   ["/en/contact", "/contact"],
   ["/uk/cases", "/cases"],
   ["/en/cases", "/cases"],
-  ["/cases/ai-pidtrymka-logistyka", "/cases/operatsiina-systema-kreatyvnoi-ahentsii"],
+  [
+    "/cases/ai-pidtrymka-logistyka",
+    "/cases/operatsiina-systema-kreatyvnoi-ahentsii",
+  ],
   ["/cases/anderrayting-insurtech", "/cases/ai-rekruter-dlia-ahentsii"],
   ["/cases/dokumentoobih-riteyl", "/cases/content-factory-ai-video"],
   ["/uk/ai-automation-for-business", "/services"],
@@ -127,10 +168,22 @@ const legacyRedirects = new Map([
   ["/uk/blog/n8n-for-content-automation", "/insights/n8n-ukrainskoiu"],
   ["/en/blog/n8n-for-content-automation", "/insights/n8n-ukrainskoiu"],
   ["/blog/n8n-for-content-automation", "/insights/n8n-ukrainskoiu"],
-  ["/uk/blog/building-ai-agents-that-take-actions", "/insights/ai-agent-what-is-it"],
-  ["/en/blog/building-ai-agents-that-take-actions", "/insights/ai-agent-what-is-it"],
-  ["/uk/services/ai-automation-for-real-estate", "/solutions/real-estate-automation"],
-  ["/en/services/ai-automation-for-real-estate", "/solutions/real-estate-automation"],
+  [
+    "/uk/blog/building-ai-agents-that-take-actions",
+    "/insights/ai-agent-what-is-it",
+  ],
+  [
+    "/en/blog/building-ai-agents-that-take-actions",
+    "/insights/ai-agent-what-is-it",
+  ],
+  [
+    "/uk/services/ai-automation-for-real-estate",
+    "/solutions/real-estate-automation",
+  ],
+  [
+    "/en/services/ai-automation-for-real-estate",
+    "/solutions/real-estate-automation",
+  ],
   ["/uk/ai-automation-for-saas", "/solutions/saas-onboarding-ai"],
   ["/en/ai-automation-for-saas", "/solutions/saas-onboarding-ai"],
 ]);
@@ -176,20 +229,49 @@ function withSeo(html, pathname) {
   const titleText = escapeHtml(title);
   const descriptionText = escapeHtml(description);
 
-  let result = replaceTag(html, /<title>[\s\S]*?<\/title>/i, `<title>${titleText}</title>`);
-  result = replaceTag(result, /<meta\s+name=["']description["'][\s\S]*?>/i, `<meta name="description" content="${descriptionText}" />`);
-  result = replaceTag(result, /<meta\s+name=["']robots["'][\s\S]*?>/i, `<meta name="robots" content="${robots}" />`);
-  result = replaceTag(result, /<link\s+rel=["']canonical["'][\s\S]*?>/i, `<link rel="canonical" href="${canonical}" />`);
-  result = replaceTag(result, /<meta\s+property=["']og:title["'][\s\S]*?>/i, `<meta property="og:title" content="${titleText}" />`);
-  result = replaceTag(result, /<meta\s+property=["']og:description["'][\s\S]*?>/i, `<meta property="og:description" content="${descriptionText}" />`);
-  result = replaceTag(result, /<meta\s+property=["']og:url["'][\s\S]*?>/i, `<meta property="og:url" content="${canonical}" />`);
+  let result = replaceTag(
+    html,
+    /<title>[\s\S]*?<\/title>/i,
+    `<title>${titleText}</title>`,
+  );
+  result = replaceTag(
+    result,
+    /<meta\s+name=["']description["'][\s\S]*?>/i,
+    `<meta name="description" content="${descriptionText}" />`,
+  );
+  result = replaceTag(
+    result,
+    /<meta\s+name=["']robots["'][\s\S]*?>/i,
+    `<meta name="robots" content="${robots}" />`,
+  );
+  result = replaceTag(
+    result,
+    /<link\s+rel=["']canonical["'][\s\S]*?>/i,
+    `<link rel="canonical" href="${canonical}" />`,
+  );
+  result = replaceTag(
+    result,
+    /<meta\s+property=["']og:title["'][\s\S]*?>/i,
+    `<meta property="og:title" content="${titleText}" />`,
+  );
+  result = replaceTag(
+    result,
+    /<meta\s+property=["']og:description["'][\s\S]*?>/i,
+    `<meta property="og:description" content="${descriptionText}" />`,
+  );
+  result = replaceTag(
+    result,
+    /<meta\s+property=["']og:url["'][\s\S]*?>/i,
+    `<meta property="og:url" content="${canonical}" />`,
+  );
   return result;
 }
 
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
-    const pathname = url.pathname.length > 1 ? url.pathname.replace(/\/+$/, "") : url.pathname;
+    const pathname =
+      url.pathname.length > 1 ? url.pathname.replace(/\/+$/, "") : url.pathname;
     const isRead = ["GET", "HEAD"].includes(request.method);
     const acceptsHtml = request.headers.get("accept")?.includes("text/html");
     const target = isRead ? redirectTarget(pathname) : null;
@@ -198,7 +280,10 @@ export default {
 
     if (target) return Response.redirect(new URL(target, SITE_URL), 301);
     if (isRead && pathname !== url.pathname && routeSeo[pathname]) {
-      return Response.redirect(new URL(`${pathname}${url.search}`, SITE_URL), 301);
+      return Response.redirect(
+        new URL(`${pathname}${url.search}`, SITE_URL),
+        301,
+      );
     }
 
     let response = await env.ASSETS.fetch(request);
@@ -208,12 +293,17 @@ export default {
     if (response.status === 404) {
       if (!routeSeo[pathname]) return response;
       const indexUrl = new URL(request.url);
-      indexUrl.pathname = pathname === "/" ? "/index.html" : `${pathname}/index.html`;
+      indexUrl.pathname =
+        pathname === "/" ? "/index.html" : `${pathname}/index.html`;
       indexUrl.search = "";
       response = await env.ASSETS.fetch(new Request(indexUrl, request));
     }
 
-    if (request.method === "HEAD" || response.status !== 200 || !routeSeo[pathname]) {
+    if (
+      request.method === "HEAD" ||
+      response.status !== 200 ||
+      !routeSeo[pathname]
+    ) {
       return response;
     }
 

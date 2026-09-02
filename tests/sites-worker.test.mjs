@@ -5,14 +5,17 @@ import worker from "../worker/index.js";
 
 test("serves existing static assets without a fallback", async () => {
   const calls = [];
-  const response = await worker.fetch(new Request("https://example.test/assets/app.js"), {
-    ASSETS: {
-      fetch: async (request) => {
-        calls.push(new URL(request.url).pathname);
-        return new Response("asset", { status: 200 });
+  const response = await worker.fetch(
+    new Request("https://example.test/assets/app.js"),
+    {
+      ASSETS: {
+        fetch: async (request) => {
+          calls.push(new URL(request.url).pathname);
+          return new Response("asset", { status: 200 });
+        },
       },
     },
-  });
+  );
 
   assert.equal(response.status, 200);
   assert.deepEqual(calls, ["/assets/app.js"]);
@@ -30,9 +33,14 @@ test("falls back to index.html for a known app route", async () => {
           const url = new URL(request.url);
           calls.push(url.pathname + url.search);
           const isRouteHtml = url.pathname === "/services/index.html";
-          return new Response(isRouteHtml ? "<html><head></head><body>app</body></html>" : "missing", {
-            status: isRouteHtml ? 200 : 404,
-          });
+          return new Response(
+            isRouteHtml
+              ? "<html><head></head><body>app</body></html>"
+              : "missing",
+            {
+              status: isRouteHtml ? 200 : 404,
+            },
+          );
         },
       },
     },
@@ -68,7 +76,10 @@ test("redirects valuable legacy URLs with 301", async () => {
   );
 
   assert.equal(response.status, 301);
-  assert.equal(response.headers.get("location"), "https://www.aiinsider.it.com/services");
+  assert.equal(
+    response.headers.get("location"),
+    "https://www.aiinsider.it.com/services",
+  );
 });
 
 test("preserves the strongest legacy n8n URL on the new guide", async () => {
@@ -96,7 +107,10 @@ test("serves insight routes with query-specific metadata", async () => {
         fetch: async (request) => {
           const pathname = new URL(request.url).pathname;
           return pathname === "/insights/n8n-ukrainskoiu/index.html"
-            ? new Response("<html><head><title>Old</title></head><body>n8n guide</body></html>", { status: 200 })
+            ? new Response(
+                "<html><head><title>Old</title></head><body>n8n guide</body></html>",
+                { status: 200 },
+              )
             : new Response("missing", { status: 404 });
         },
       },
@@ -106,8 +120,39 @@ test("serves insight routes with query-specific metadata", async () => {
   const html = await response.text();
   assert.equal(response.status, 200);
   assert.match(html, /n8n українською: повний гайд/);
-  assert.match(html, /rel="canonical" href="https:\/\/www\.aiinsider\.it\.com\/insights\/n8n-ukrainskoiu"/);
+  assert.match(
+    html,
+    /rel="canonical" href="https:\/\/www\.aiinsider\.it\.com\/insights\/n8n-ukrainskoiu"/,
+  );
   assert.match(html, /max-image-preview:large/);
+});
+
+test("serves new n8n cluster routes through Sites", async () => {
+  const response = await worker.fetch(
+    new Request("https://example.test/insights/n8n-mcp-server", {
+      headers: { accept: "text/html" },
+    }),
+    {
+      ASSETS: {
+        fetch: async (request) => {
+          const pathname = new URL(request.url).pathname;
+          return pathname === "/insights/n8n-mcp-server/index.html"
+            ? new Response(
+                "<html><head><title>Old</title></head><body>MCP guide</body></html>",
+                {
+                  status: 200,
+                },
+              )
+            : new Response("missing", { status: 404 });
+        },
+      },
+    },
+  );
+
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /n8n MCP Server: як керувати workflow через AI/);
+  assert.match(html, /\/insights\/n8n-mcp-server/);
 });
 
 test("normalizes trailing slashes on known routes", async () => {
@@ -127,8 +172,13 @@ test("normalizes trailing slashes on known routes", async () => {
 
 test("does not turn missing API or write requests into the app shell", async () => {
   for (const request of [
-    new Request("https://example.test/api/missing", { headers: { accept: "application/json" } }),
-    new Request("https://example.test/flow", { method: "POST", headers: { accept: "text/html" } }),
+    new Request("https://example.test/api/missing", {
+      headers: { accept: "application/json" },
+    }),
+    new Request("https://example.test/flow", {
+      method: "POST",
+      headers: { accept: "text/html" },
+    }),
   ]) {
     let calls = 0;
     const response = await worker.fetch(request, {
@@ -185,7 +235,10 @@ test("delivers a validated contact request to Telegram", async () => {
   assert.deepEqual(await response.json(), { ok: true });
   assert.equal(assetCalls, 0);
   assert.equal(deliveries.length, 1);
-  assert.equal(deliveries[0].url, "https://api.telegram.org/bottest-token/sendMessage");
+  assert.equal(
+    deliveries[0].url,
+    "https://api.telegram.org/bottest-token/sendMessage",
+  );
   assert.equal(deliveries[0].body.chat_id, "-100123");
   assert.equal(deliveries[0].body.message_thread_id, 42);
   assert.equal(deliveries[0].body.parse_mode, "HTML");
@@ -215,7 +268,11 @@ test("rejects invalid contact requests before Telegram delivery", async () => {
   assert.equal(response.status, 422);
   const payload = await response.json();
   assert.equal(payload.code, "validation_error");
-  assert.deepEqual(Object.keys(payload.errors).sort(), ["brief", "contact", "name"]);
+  assert.deepEqual(Object.keys(payload.errors).sort(), [
+    "brief",
+    "contact",
+    "name",
+  ]);
   assert.equal(telegramCalls, 0);
 });
 
@@ -234,7 +291,10 @@ test("fails safely when Telegram credentials are missing", async () => {
   );
 
   assert.equal(response.status, 503);
-  assert.deepEqual(await response.json(), { ok: false, code: "not_configured" });
+  assert.deepEqual(await response.json(), {
+    ok: false,
+    code: "not_configured",
+  });
 });
 
 test("accepts honeypot submissions without delivering spam", async () => {

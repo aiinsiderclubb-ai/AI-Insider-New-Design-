@@ -16,8 +16,10 @@ export const prefersReduced = () =>
   typeof window !== "undefined" &&
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-export const Meta = ({ children, className = "" }) => (
-  <span className={`meta ${className}`.trim()}>{children}</span>
+export const Meta = ({ children, className = "", ...props }) => (
+  <span className={`meta ${className}`.trim()} {...props}>
+    {children}
+  </span>
 );
 
 export function Reveal({
@@ -297,7 +299,9 @@ export function ContactModal({ onClose, intent = "general" }) {
                         name="intent"
                         value={value}
                         checked={fields.intent === value}
-                        onChange={(event) => update("intent", event.target.value)}
+                        onChange={(event) =>
+                          update("intent", event.target.value)
+                        }
                       />
                       <span>
                         <b>{label}</b>
@@ -352,7 +356,9 @@ export function ContactModal({ onClose, intent = "general" }) {
                 </label>
 
                 <label htmlFor="contact-channel">
-                  <span className="modal-field-label">Як з вами зв’язатися</span>
+                  <span className="modal-field-label">
+                    Як з вами зв’язатися
+                  </span>
                   <input
                     id="contact-channel"
                     name="contact"

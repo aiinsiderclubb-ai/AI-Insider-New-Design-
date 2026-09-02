@@ -6611,10 +6611,9 @@ html.has-cursor button {
 
 .service-atlas-nav button {
   display: grid;
-  grid-template-columns: 42px minmax(120px, 0.78fr) minmax(
-      120px,
-      1.1fr
-    ) 62px 20px;
+  grid-template-columns:
+    42px minmax(120px, 0.78fr) minmax(120px, 1.1fr)
+    62px 20px;
   gap: 14px;
   align-items: center;
   min-height: 145px;
@@ -7500,10 +7499,9 @@ html.has-cursor button {
     grid-template-columns: 42px 140px 70px minmax(0, 1fr) 42px;
   }
   .principle-line {
-    grid-template-columns: 42px 110px minmax(180px, 0.7fr) minmax(
-        220px,
-        1fr
-      ) 18px;
+    grid-template-columns:
+      42px 110px minmax(180px, 0.7fr) minmax(220px, 1fr)
+      18px;
   }
   .office-line {
     grid-template-columns: 120px 170px minmax(0, 1fr) auto;
@@ -10163,7 +10161,11 @@ html.has-cursor button {
 .case-atlas-board-real {
   min-height: 0;
   background:
-    radial-gradient(circle at 72% 50%, rgba(43, 75, 255, 0.12), transparent 34%),
+    radial-gradient(
+      circle at 72% 50%,
+      rgba(43, 75, 255, 0.12),
+      transparent 34%
+    ),
     #080b10;
 }
 
@@ -11461,7 +11463,11 @@ html[data-studio-motion="running"]::view-transition-new(studio-detail-panel) {
   padding: clamp(28px, 4vw, 52px);
   color: var(--ink-text);
   background:
-    radial-gradient(circle at 34% 28%, rgba(79, 227, 255, 0.12), transparent 26%),
+    radial-gradient(
+      circle at 34% 28%,
+      rgba(79, 227, 255, 0.12),
+      transparent 26%
+    ),
     #08101b;
   border-left: 1px solid rgba(8, 9, 12, 0.13);
 }
@@ -13321,6 +13327,39 @@ html[data-studio-motion="running"]::view-transition-new(studio-detail-panel) {
   margin-top: 58px;
   padding-top: 24px;
   border-top: 1px solid var(--paper-line);
+}
+
+.article-sources {
+  margin-top: 58px;
+  padding: 28px 30px;
+  background: color-mix(in srgb, var(--tint) 58%, #fff);
+  border: 1px solid var(--paper-line);
+  border-radius: 22px;
+}
+
+.article-sources ul {
+  display: grid;
+  gap: 0;
+  margin-top: 15px;
+}
+
+.article-sources li {
+  border-top: 1px solid var(--paper-line);
+}
+
+.article-sources a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 0;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.article-sources a:hover {
+  color: var(--cobalt);
 }
 
 .article-review-note p {

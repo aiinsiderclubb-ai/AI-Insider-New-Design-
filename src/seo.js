@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { caseItems } from "./data.js";
 import { insightArticles, solutionPages } from "./content.js";
 
-const SITE_URL = "https://www.aiinsider.it.com";
+export const SITE_URL = "https://www.aiinsider.it.com";
 const DEFAULT_IMAGE = `${SITE_URL}/assets/journey/hero.jpg`;
 
 const pages = {
@@ -97,6 +97,7 @@ const insightMeta = Object.fromEntries(
       datePublished: article.published,
       dateModified: article.updated,
       faq: article.faq,
+      sources: article.sources,
     },
   ]),
 );
@@ -134,7 +135,7 @@ function upsertLink(rel, href) {
   node.href = href;
 }
 
-function pageJsonLd(page, pathname, canonical) {
+export function pageJsonLd(page, pathname, canonical) {
   const base = [
     {
       "@type": "Organization",
@@ -161,7 +162,10 @@ function pageJsonLd(page, pathname, canonical) {
       inLanguage: "uk-UA",
       isPartOf: { "@id": `${SITE_URL}/#website` },
       about: { "@id": `${SITE_URL}/#organization` },
-      primaryImageOfPage: { "@type": "ImageObject", url: page.image || DEFAULT_IMAGE },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: page.image || DEFAULT_IMAGE,
+      },
     },
   ];
 
@@ -176,6 +180,8 @@ function pageJsonLd(page, pathname, canonical) {
         url: `${SITE_URL}/about`,
       },
       publisher: { "@id": `${SITE_URL}/#organization` },
+      mainEntityOfPage: { "@id": `${canonical}#webpage` },
+      citation: page.sources?.map(([, url]) => url),
     });
   }
 
@@ -213,25 +219,37 @@ function pageJsonLd(page, pathname, canonical) {
   return { "@context": "https://schema.org", "@graph": base };
 }
 
+export function getSeoForPath(rawPathname) {
+  const pathname =
+    rawPathname.length > 1 ? rawPathname.replace(/\/+$/, "") : rawPathname;
+  const page =
+    pages[pathname] ||
+    caseMeta[pathname] ||
+    insightMeta[pathname] ||
+    solutionMeta[pathname];
+  const isMissing = !page;
+  const meta = page || {
+    title: "Сторінку не знайдено | AI Insider",
+    description: "Запитану сторінку не знайдено.",
+    schema: "WebPage",
+    noindex: true,
+  };
+  const canonical = `${SITE_URL}${pathname === "/" ? "" : pathname}`;
+
+  return {
+    pathname,
+    meta,
+    canonical,
+    image: meta.image || DEFAULT_IMAGE,
+    isMissing,
+  };
+}
+
 export function Seo() {
   const { pathname: rawPathname } = useLocation();
 
   useEffect(() => {
-    const pathname = rawPathname.length > 1 ? rawPathname.replace(/\/+$/, "") : rawPathname;
-    const page =
-      pages[pathname] ||
-      caseMeta[pathname] ||
-      insightMeta[pathname] ||
-      solutionMeta[pathname];
-    const isMissing = !page;
-    const meta = page || {
-      title: "Сторінку не знайдено | AI Insider",
-      description: "Запитану сторінку не знайдено.",
-      schema: "WebPage",
-      noindex: true,
-    };
-    const canonical = `${SITE_URL}${isMissing ? pathname : pathname === "/" ? "" : pathname}`;
-    const image = meta.image || DEFAULT_IMAGE;
+    const { pathname, meta, canonical, image } = getSeoForPath(rawPathname);
 
     document.documentElement.lang = "uk";
     document.title = meta.title;
@@ -241,7 +259,9 @@ export function Seo() {
     });
     upsertMeta('meta[name="robots"]', {
       name: "robots",
-      content: meta.noindex ? "noindex, follow" : "index, follow, max-image-preview:large",
+      content: meta.noindex
+        ? "noindex, follow"
+        : "index, follow, max-image-preview:large",
     });
     upsertMeta('meta[property="og:site_name"]', {
       property: "og:site_name",
@@ -251,23 +271,42 @@ export function Seo() {
       property: "og:locale",
       content: "uk_UA",
     });
-    upsertMeta('meta[property="og:title"]', { property: "og:title", content: meta.title });
+    upsertMeta('meta[property="og:type"]', {
+      property: "og:type",
+      content: meta.schema === "Article" ? "article" : "website",
+    });
+    upsertMeta('meta[property="og:title"]', {
+      property: "og:title",
+      content: meta.title,
+    });
     upsertMeta('meta[property="og:description"]', {
       property: "og:description",
       content: meta.description,
     });
-    upsertMeta('meta[property="og:url"]', { property: "og:url", content: canonical });
-    upsertMeta('meta[property="og:image"]', { property: "og:image", content: image });
+    upsertMeta('meta[property="og:url"]', {
+      property: "og:url",
+      content: canonical,
+    });
+    upsertMeta('meta[property="og:image"]', {
+      property: "og:image",
+      content: image,
+    });
     upsertMeta('meta[property="og:image:alt"]', {
       property: "og:image:alt",
       content: `${meta.title} — AI Insider`,
     });
-    upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: meta.title });
+    upsertMeta('meta[name="twitter:title"]', {
+      name: "twitter:title",
+      content: meta.title,
+    });
     upsertMeta('meta[name="twitter:description"]', {
       name: "twitter:description",
       content: meta.description,
     });
-    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: image });
+    upsertMeta('meta[name="twitter:image"]', {
+      name: "twitter:image",
+      content: image,
+    });
     upsertLink("canonical", canonical);
 
     let script = document.head.querySelector("#page-jsonld");
