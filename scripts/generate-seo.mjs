@@ -8,7 +8,7 @@ import { insightArticles, solutionPages } from "../src/content.js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(root, "public");
 const siteUrl = "https://www.aiinsider.it.com";
-const today = "2026-09-02";
+const today = "2026-09-03";
 
 const pages = [
   ["/", today, "weekly", "1.0"],

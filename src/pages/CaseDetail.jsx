@@ -93,10 +93,10 @@ const detail = {
       ["9–11", "днів планового запуску"],
     ],
     facts: [
-      ["01", "вакансії"],
-      ["02", "вхідний потік"],
-      ["03", "outbound"],
-      ["04", "тестові"],
+      ["11", "пройшли відбір у демо"],
+      ["11", "отримали тестове"],
+      ["10", "здали роботу"],
+      ["4", "модулі агента"],
     ],
     steps: [
       [
@@ -129,14 +129,29 @@ const detail = {
       "нагадування",
     ],
     media: [
-      ["/assets/editorial-about.webp", "Живий контекст", "66% center"],
-      ["/assets/capability-system.png", "4 модулі", "center"],
-      ["/assets/editorial-insights.webp", "Передача людині", "76% center"],
+      [
+        "/assets/cases/ai-recruiter-demo-poster.webp",
+        "Зведення процесу",
+        "center",
+      ],
+      [
+        "/assets/cases/ai-recruiter-criteria.webp",
+        "Критерії відбору",
+        "center",
+      ],
+      [
+        "/assets/cases/ai-recruiter-control.webp",
+        "Керування вакансіями",
+        "center",
+      ],
     ],
-    proofImage: "/assets/editorial-about.webp",
-    proofTitle: "Агент веде процес. Людина приймає рішення.",
+    proofImage: "/assets/cases/ai-recruiter-demo-poster.webp",
+    proofVideo: "/assets/cases/ai-recruiter-demo.mp4",
+    proofLayout: "portrait",
+    proofEyebrow: "LIVE CASE · 01:05",
+    proofTitle: "Подивіться агента в роботі",
     proofCopy:
-      "Вакансія, скринінг, outbound і тестове працюють в одному Telegram-контурі.",
+      "Реальна демонстрація: вакансія, критерії, розсилка, shortlist, тестове та підсумкова статистика в одному Telegram-контурі.",
     proofStages: ["Вакансія", "Відбір", "Контакт", "Тестове"],
   },
   "content-factory-ai-video": {
@@ -205,7 +220,7 @@ const detail = {
   },
 };
 
-function CaseProofMedia({ image, video }) {
+function CaseProofMedia({ image, video, layout, eyebrow }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -214,7 +229,25 @@ function CaseProofMedia({ image, video }) {
   };
 
   return (
-    <div className="case-proof-media">
+    <div
+      className={`case-proof-media${layout === "portrait" ? " is-portrait" : ""}`}
+      style={
+        layout === "portrait"
+          ? { "--proof-poster": `url(${image})` }
+          : undefined
+      }
+    >
+      {layout === "portrait" && (
+        <div className="case-proof-media-copy" aria-hidden="true">
+          <span>{eyebrow}</span>
+          <strong>
+            Від вакансії
+            <br />
+            до зданого тестового
+          </strong>
+          <small>Натисніть play — повна 64-секундна демонстрація</small>
+        </div>
+      )}
       {video ? (
         <video
           ref={videoRef}
@@ -309,7 +342,12 @@ export function CaseDetail() {
             <h2>{extra.proofTitle}</h2>
             <p>{extra.proofCopy}</p>
           </div>
-          <CaseProofMedia image={extra.proofImage} video={extra.proofVideo} />
+          <CaseProofMedia
+            image={extra.proofImage}
+            video={extra.proofVideo}
+            layout={extra.proofLayout}
+            eyebrow={extra.proofEyebrow}
+          />
           <ol className="case-proof-stages">
             {extra.proofStages.map((stage, index) => (
               <li className={index === 1 ? "is-active" : ""} key={stage}>

@@ -90,7 +90,21 @@ export const caseItems = [
     title: "Рекрутер, який веде кандидата до тестового",
     metric: "4",
     metricLabel: "модулі однієї системи",
-    image: "/assets/capability-system-transparent.png",
+    image: "/assets/cases/ai-recruiter-demo-poster.webp",
+    seoTitle: "AI-рекрутер для агенції: Telegram-бот — кейс | AI Insider",
+    seoDescription:
+      "Кейс AI-рекрутера в Telegram: створення вакансій, кваліфікація кандидатів, розсилка, shortlist, тестові завдання й контроль дедлайнів.",
+    published: "2026-08-21",
+    updated: "2026-09-03",
+    video: {
+      name: "AI-рекрутер у Telegram — демонстрація робочої системи",
+      description:
+        "64-секундна демонстрація AI-рекрутера: налаштування вакансії, критерії відбору, розсилка, shortlist, тестові завдання та зведення результатів.",
+      thumbnail: "/assets/cases/ai-recruiter-demo-poster.webp",
+      contentUrl: "/assets/cases/ai-recruiter-demo.mp4",
+      uploadDate: "2026-09-03T10:00:00+02:00",
+      duration: "PT1M5S",
+    },
   },
   {
     index: "03",

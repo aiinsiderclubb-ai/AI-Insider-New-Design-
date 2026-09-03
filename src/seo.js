@@ -79,10 +79,15 @@ const caseMeta = Object.fromEntries(
   caseItems.map((item) => [
     `/cases/${item.slug}`,
     {
-      title: `${item.title} — кейс | AI Insider`,
-      description: `${item.title}. Результат: ${item.metric} — ${item.metricLabel}. Архітектура рішення та бізнес-ефект.`,
+      title: item.seoTitle || `${item.title} — кейс | AI Insider`,
+      description:
+        item.seoDescription ||
+        `${item.title}. Результат: ${item.metric} — ${item.metricLabel}. Архітектура рішення та бізнес-ефект.`,
       schema: "Article",
       image: `${SITE_URL}${item.image}`,
+      datePublished: item.published || "2026-08-21",
+      dateModified: item.updated || item.published || "2026-08-21",
+      video: item.video,
     },
   ]),
 );
@@ -106,7 +111,7 @@ const solutionMeta = Object.fromEntries(
   solutionPages.map((solution) => [
     `/solutions/${solution.slug}`,
     {
-      title: `${solution.title} | AI Insider`,
+      title: solution.seoTitle || `${solution.title} | AI Insider`,
       description: solution.description,
       schema: "Service",
       faq: solution.faq,
@@ -182,6 +187,24 @@ export function pageJsonLd(page, pathname, canonical) {
       publisher: { "@id": `${SITE_URL}/#organization` },
       mainEntityOfPage: { "@id": `${canonical}#webpage` },
       citation: page.sources?.map(([, url]) => url),
+    });
+  }
+
+  if (page.video) {
+    const videoId = `${canonical}#video`;
+    base[2].video = { "@id": videoId };
+    base.push({
+      "@type": "VideoObject",
+      "@id": videoId,
+      name: page.video.name,
+      description: page.video.description,
+      thumbnailUrl: `${SITE_URL}${page.video.thumbnail}`,
+      uploadDate: page.video.uploadDate,
+      duration: page.video.duration,
+      contentUrl: `${SITE_URL}${page.video.contentUrl}`,
+      embedUrl: canonical,
+      inLanguage: "uk-UA",
+      isFamilyFriendly: true,
     });
   }
 

@@ -111,6 +111,18 @@ const routeSeo = {
     "n8n hosting Switzerland: контроль даних | AI Insider",
     "n8n hosting у Швейцарії або EU: приватна мережа, secrets, backup, audit logs, monitoring і revDSG-ready архітектура.",
   ],
+  "/solutions/ai-proposal-generator-for-agencies": [
+    "AI proposal generator for agencies | AI Insider",
+    "AI proposal generator для агенцій: CRM, scope, кошторис, комерційна пропозиція, human review і автоматичний follow-up.",
+  ],
+  "/solutions/ai-email-automation": [
+    "AI email automation для бізнесу | AI Insider",
+    "Класифікація листів, витяг даних, draft відповіді, створення задачі та контроль SLA з ескалацією людині.",
+  ],
+  "/solutions/ai-company-knowledge-search": [
+    "AI search assistant for company knowledge | AI Insider",
+    "AI-пошук у документах компанії: відповіді з цитатами, права доступу, контроль актуальності та передача людині.",
+  ],
   "/privacy": [
     "Політика приватності | AI Insider",
     "Політика приватності сайту AI Insider.",
@@ -186,6 +198,49 @@ const legacyRedirects = new Map([
   ],
   ["/uk/ai-automation-for-saas", "/solutions/saas-onboarding-ai"],
   ["/en/ai-automation-for-saas", "/solutions/saas-onboarding-ai"],
+  ["/en/cases/real-estate-operations-os", "/solutions/real-estate-automation"],
+  ["/uk/avtomatizaciya-nerukhomosti", "/solutions/real-estate-automation"],
+  [
+    "/uk/blog/online-booking-automation-for-beauty-salon",
+    "/solutions/beauty-salon-automation",
+  ],
+  [
+    "/en/blog/beauty-salon-kpi-dashboard-automation",
+    "/solutions/beauty-salon-automation",
+  ],
+  [
+    "/en/solutions/ai-for-appointment-booking",
+    "/solutions/beauty-salon-automation",
+  ],
+  [
+    "/en/ai-proposal-generator",
+    "/solutions/ai-proposal-generator-for-agencies",
+  ],
+  [
+    "/uk/ai-proposal-generator",
+    "/solutions/ai-proposal-generator-for-agencies",
+  ],
+  ["/en/solutions/ai-for-email-automation", "/solutions/ai-email-automation"],
+  [
+    "/en/blog/ai-search-assistant-for-company-knowledge",
+    "/solutions/ai-company-knowledge-search",
+  ],
+  [
+    "/uk/blog/ai-agent-for-social-media-management",
+    "/insights/ai-agent-what-is-it",
+  ],
+  [
+    "/uk/blog/multimodal-ai-agents-for-customer-experience",
+    "/insights/ai-agent-what-is-it",
+  ],
+  ["/uk/blog/ai-generated-models-for-advertising", "/studio"],
+  ["/uk/blog/ai-virtual-influencer-complete-business-guide", "/studio"],
+  ["/uk/blog/ai-digital-twin-for-personal-brand", "/studio"],
+  ["/en/blog/ai-content-ideas-generator-for-business", "/studio"],
+  ["/uk/blog/ai-avatar-for-business-marketing", "/studio"],
+  ["/en/blog/ai-influencer-strategy-for-brands", "/studio"],
+  ["/uk/careers", "/about"],
+  ["/en/cases/flower-shop-ai-sales", "/solutions/lead-routing-ai"],
 ]);
 
 const legacyGroups = [

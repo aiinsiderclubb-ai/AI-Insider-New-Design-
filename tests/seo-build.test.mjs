@@ -19,6 +19,20 @@ test("Vercel keeps prerendered documents and real 404 responses", async () => {
         destination === "/insights/n8n-ukrainskoiu",
     ),
   );
+  assert.ok(
+    config.redirects.some(
+      ({ source, destination }) =>
+        source === "/en/cases/real-estate-operations-os" &&
+        destination === "/solutions/real-estate-automation",
+    ),
+  );
+  assert.ok(
+    config.redirects.some(
+      ({ source, destination }) =>
+        source === "/en/ai-proposal-generator" &&
+        destination === "/solutions/ai-proposal-generator-for-agencies",
+    ),
+  );
 });
 
 test("every indexable content route is present once in sitemap", async () => {
@@ -107,4 +121,14 @@ test("RSS and llms discovery files expose current research routes", async () => 
   assert.match(feed, /<language>uk-UA<\/language>/);
   assert.match(feed, /\/insights\/n8n-mcp-server/);
   assert.match(llms, /\/insights\/google-workspace-studio-ukrainskoiu/);
+});
+
+test("AI recruiter case exposes indexable video proof", async () => {
+  const html = await read(
+    "dist/client/cases/ai-rekruter-dlia-ahentsii/index.html",
+  );
+  assert.match(html, /AI-рекрутер для агенції: Telegram-бот/);
+  assert.match(html, /"@type":"VideoObject"/);
+  assert.match(html, /ai-recruiter-demo\.mp4/);
+  assert.match(html, /Подивіться агента в роботі/);
 });

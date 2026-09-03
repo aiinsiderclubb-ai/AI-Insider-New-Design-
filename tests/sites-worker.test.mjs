@@ -97,6 +97,21 @@ test("preserves the strongest legacy n8n URL on the new guide", async () => {
   );
 });
 
+test("preserves the strongest GSC case URL on its matching solution", async () => {
+  const response = await worker.fetch(
+    new Request("https://example.test/en/cases/real-estate-operations-os", {
+      headers: { accept: "text/html" },
+    }),
+    { ASSETS: { fetch: async () => new Response("unused") } },
+  );
+
+  assert.equal(response.status, 301);
+  assert.equal(
+    response.headers.get("location"),
+    "https://www.aiinsider.it.com/solutions/real-estate-automation",
+  );
+});
+
 test("serves insight routes with query-specific metadata", async () => {
   const response = await worker.fetch(
     new Request("https://example.test/insights/n8n-ukrainskoiu", {
