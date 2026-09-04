@@ -344,17 +344,19 @@ export function CaseDetail() {
                 <ArrowUpRight size={18} weight="bold" aria-hidden="true" />
               </div>
             </div>
-            <Reveal className="case-media-flow" delay={90}>
-              {extra.media.map(([src, label], index) => (
-                <figure className={index === 0 ? "is-main" : ""} key={label}>
-                  <span className="case-shot">
-                    <Device image={src} hue="var(--accent)" />
-                  </span>
-                  <figcaption>{label}</figcaption>
-                </figure>
-              ))}
-            </Reveal>
           </div>
+
+          <Reveal className="case-media-flow" delay={90}>
+            <span className="case-media-glow" aria-hidden="true" />
+            {extra.media.map(([src, label], index) => (
+              <figure className={index === 1 ? "is-main" : ""} key={label}>
+                <span className="case-shot">
+                  <Device image={src} hue="var(--accent)" />
+                </span>
+                <figcaption>{label}</figcaption>
+              </figure>
+            ))}
+          </Reveal>
         </div>
       </section>
 

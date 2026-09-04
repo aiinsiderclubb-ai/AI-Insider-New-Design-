@@ -14527,3 +14527,336 @@ html[data-studio-motion="running"]::view-transition-new(studio-detail-panel) {
 .case-media-flow {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
+
+/* ================================================================
+   DEVICE — closer to a real flagship handset
+   the old frame was one gradient pretending to be metal: no bezel
+   ring, no edge highlight, no glass depth
+   ================================================================ */
+
+.dev {
+  /* real handsets are ~19.5:9 with a corner radius near 1/5 of width */
+  aspect-ratio: 9 / 19.5;
+}
+
+.dev-frame {
+  border-radius: clamp(28px, 18%, 62px);
+  background:
+    /* the polished chamfer catches light hardest at the corners */ linear-gradient(
+    100deg,
+    #23262c 0%,
+    #8a9099 3%,
+    #4b5058 8%,
+    #2a2d33 22%,
+    #5a606a 38%,
+    #cdd3db 50%,
+    #5a606a 62%,
+    #2a2d33 78%,
+    #4b5058 92%,
+    #8a9099 97%,
+    #23262c 100%
+  );
+  box-shadow:
+    /* outer chamfer highlight */
+    0 0 0 0.5px rgba(255, 255, 255, 0.34) inset,
+    /* the rail sits proud of the glass */ 0 1px 0 rgba(255, 255, 255, 0.12)
+      inset,
+    0 -1px 0 rgba(0, 0, 0, 0.5) inset,
+    /* body */ 0 0 0 1px rgba(0, 0, 0, 0.62),
+    /* contact + ambient shadow */ 0 10px 22px -8px rgba(0, 0, 0, 0.6),
+    0 52px 96px -28px rgba(0, 0, 0, 0.78);
+}
+
+/* the black bezel ring between rail and display */
+.dev-screen {
+  inset: 6px;
+  border-radius: clamp(24px, 15.4%, 54px);
+  box-shadow:
+    0 0 0 2px #05070a,
+    0 0 0 3px rgba(255, 255, 255, 0.05),
+    0 2px 18px rgba(0, 0, 0, 0.7) inset;
+}
+
+/* glass has thickness: a soft sheen down the top-left edge */
+.dev::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  border-radius: clamp(28px, 18%, 62px);
+  pointer-events: none;
+  background: linear-gradient(
+    128deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.04) 8%,
+    transparent 22%,
+    transparent 78%,
+    rgba(255, 255, 255, 0.05) 96%
+  );
+}
+
+.dev-island {
+  top: 3.1%;
+  width: 30%;
+  height: 3.4%;
+  min-height: 14px;
+  background: #000;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.dev-home {
+  width: 33%;
+  height: 3px;
+  bottom: 1.2%;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+/* side buttons machined into the rail, with their own lit edge */
+.dev-rail {
+  width: 2.5px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #7a808a, #33373d 40%, #7a808a);
+  box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.55);
+}
+
+.dev-rail-act {
+  left: -2.5px;
+  top: 16.5%;
+  height: 3.6%;
+}
+
+.dev-rail-vol {
+  left: -2.5px;
+  top: 24%;
+  height: 11.5%;
+}
+
+.dev-rail-pwr {
+  right: -2.5px;
+  top: 26.5%;
+  height: 13.5%;
+}
+
+/* ================================================================
+   CASE MEDIA v2 — a staged trio, not three thumbnails
+   ================================================================ */
+
+.case-media-flow {
+  position: relative;
+  max-width: none;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(10px, 1.4vw, 20px);
+  padding: clamp(26px, 3vw, 46px) clamp(18px, 2.2vw, 34px)
+    clamp(20px, 2.4vw, 34px);
+  perspective: 1800px;
+}
+
+/* the plate the devices stand on */
+.case-media-flow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  border-radius: 32px;
+  background:
+    radial-gradient(
+      80% 60% at 50% 0%,
+      rgba(79, 227, 255, 0.16),
+      transparent 62%
+    ),
+    linear-gradient(180deg, #0e1218 0%, #080a0e 100%);
+  filter: none;
+}
+
+/* a technical grid, masked so it fades before the edges */
+.case-media-flow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 32px;
+  pointer-events: none;
+  opacity: 0.5;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(78% 70% at 50% 34%, #000 20%, transparent 82%);
+}
+
+.case-media-flow figure {
+  gap: 16px;
+  transform-style: preserve-3d;
+  transition: transform 0.7s var(--ease-out);
+}
+
+/* the middle device steps forward, the outer two angle away */
+.case-media-flow figure:nth-child(1) {
+  transform: translateY(26px) rotateY(9deg) scale(0.94);
+}
+
+.case-media-flow figure:nth-child(2) {
+  transform: translateY(-6px);
+  z-index: 2;
+}
+
+.case-media-flow figure:nth-child(3) {
+  transform: translateY(26px) rotateY(-9deg) scale(0.94);
+}
+
+.case-media-flow figure:hover {
+  transform: translateY(-10px) rotateY(0deg) scale(1);
+  z-index: 3;
+}
+
+.case-media-flow figure:not(.is-main) {
+  padding-top: 0;
+}
+
+/* captions read as plates under each device */
+.case-media-flow figcaption {
+  padding: 7px 12px;
+  align-self: center;
+  font-size: 9.5px;
+  color: rgba(242, 243, 246, 0.72);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+  transition:
+    color 0.35s ease,
+    background 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.case-media-flow figure:hover figcaption {
+  color: #04252c;
+  background: var(--accent);
+  border-color: transparent;
+}
+
+.case-media-flow figure.is-main figcaption {
+  font-size: 9.5px;
+  color: rgba(242, 243, 246, 0.72);
+}
+
+@media (max-width: 900px) {
+  .case-media-flow figure:nth-child(1),
+  .case-media-flow figure:nth-child(3) {
+    transform: none;
+  }
+
+  .case-media-flow figure:nth-child(2) {
+    transform: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .case-media-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 20px 14px;
+  }
+
+  .case-media-flow figure.is-main {
+    grid-column: 1 / -1;
+    max-width: 230px;
+    margin-inline: auto;
+  }
+}
+
+/* give the devices a wider column so they read at a usable size */
+.case-editorial-grid {
+  grid-template-columns: minmax(0, 0.8fr) minmax(520px, 1.05fr);
+  gap: clamp(28px, 4vw, 64px);
+}
+
+@media (max-width: 1080px) {
+  .case-editorial-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ================================================================
+   CASE MEDIA v3 — its own full-width band
+   squeezed into a side column the devices resolved to 186px; the
+   screenshots are dense chat UI and need the room
+   ================================================================ */
+
+.case-editorial-grid {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+}
+
+.case-editorial-grid .case-media-flow {
+  display: none;
+}
+
+.case-media-flow {
+  display: grid;
+  width: 100%;
+  max-width: none;
+  margin-top: clamp(30px, 4vw, 56px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 34px);
+  padding: clamp(30px, 3.6vw, 56px) clamp(24px, 4vw, 70px)
+    clamp(24px, 3vw, 40px);
+  align-items: end;
+}
+
+.case-media-glow {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  width: 62%;
+  aspect-ratio: 1;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(79, 227, 255, 0.22),
+    transparent 62%
+  );
+  filter: blur(70px);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* outer devices sit back, the middle one is the hero */
+.case-media-flow figure:nth-child(2),
+.case-media-flow figure:nth-child(4) {
+  transform: translateY(30px) rotateY(9deg) scale(0.9);
+}
+
+.case-media-flow figure:nth-child(4) {
+  transform: translateY(30px) rotateY(-9deg) scale(0.9);
+}
+
+.case-media-flow figure:nth-child(3) {
+  transform: translateY(-8px) scale(1.04);
+  z-index: 2;
+}
+
+.case-media-flow figure:hover {
+  transform: translateY(-14px) rotateY(0deg) scale(1.06);
+  z-index: 4;
+}
+
+@media (max-width: 900px) {
+  .case-media-flow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding: 20px 14px;
+  }
+
+  .case-media-flow figure:nth-child(2),
+  .case-media-flow figure:nth-child(3),
+  .case-media-flow figure:nth-child(4) {
+    transform: none;
+  }
+}
+
+/* the screenshots carry their own status bar and home indicator, so the
+   frame must not draw a second set over them */
+.case-shot .dev-island,
+.case-shot .dev-home {
+  display: none;
+}
