@@ -40,6 +40,8 @@ Case-detail media grid correction, confirmed 2026-08-21: match the selected mock
 
 Case-detail proof-board correction, confirmed 2026-08-21: second block is a compact full-bleed deep-navy strip, not a floating rounded card. Use three fixed desktop zones — 31% editorial intro, 52% media, 17% numbered stages — with thin vertical dividers, a central circular play control, square outer corners, and height near 230–260px. Keep real video playback behind the poster.
 
+Case-detail system-section correction, confirmed 2026-09-03: never follow proof with a four-column KPI strip and another row-based process list. Use one editorial system canvas: one dominant outcome, a continuous meaningful process route, richer operational explanation, and explicit system-memory / human-control notes. Keep stages open and connected rather than boxed into repeated cards.
+
 Current public case set, confirmed on 2026-08-21: replace placeholder logistics/insurtech/retail stories with three real offers or implementations — the production operating system for a creative agency, an AI recruiter for an agency, and Content Factory / AI video. Contract-backed pages may publish verified scope, architecture, stages, and supplied performance figures only. Never expose client personal data, signatures, tax details, contacts, contract prices, or confidential clauses.
 
 Typography correction, confirmed on 2026-08-22: use Inter Variable for all display, heading, body, navigation, button, and UI copy across every route. JetBrains Mono remains reserved for uppercase meta labels, eyebrows, counters, timestamps, and technical captions. Never introduce page-specific Cormorant Garamond, Unbounded, Manrope, Georgia, or generic serif overrides.

@@ -1,10 +1,4 @@
-import {
-  ArrowLeft,
-  ArrowUpRight,
-  Check,
-  CircleNotch,
-  Play,
-} from "@phosphor-icons/react";
+import { ArrowLeft, ArrowUpRight, Check, Play } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { SplitText } from "../wow.jsx";
@@ -28,12 +22,6 @@ const detail = {
       ["539", "задач під контролем"],
       ["0", "втрат при переносі"],
       ["45 с", "побудова звіту замість 4 хв"],
-    ],
-    facts: [
-      ["19", "активних сценаріїв"],
-      ["15", "живих таблиць"],
-      ["47", "полів задачі"],
-      ["3×/день", "зведення керівнику"],
     ],
     steps: [
       [
@@ -76,6 +64,21 @@ const detail = {
     proofCopy:
       "Задача проходить production, QA, доставку й фінанси без повторного введення даних.",
     proofStages: ["Вхід", "Production", "QA", "Фінанси"],
+    system: {
+      title: "Один ID веде задачу від брифу до фінансів.",
+      copy: "Кожен перехід змінює не просто статус. Він запускає наступну відповідальність, переносить потрібні матеріали й залишає перевірний слід для команди.",
+      outcome: ["0", "втрат під час переносу задач між етапами"],
+      controls: [
+        [
+          "ЄДИНЕ ДЖЕРЕЛО",
+          "Опис, файли, ревізії, дедлайн і відповідальний живуть біля одного task ID.",
+        ],
+        [
+          "HUMAN GATE",
+          "QA та finance підтверджують критичні переходи; автоматизація не закриває їх мовчки.",
+        ],
+      ],
+    },
   },
   "ai-rekruter-dlia-ahentsii": {
     label: "AI-АГЕНТ · РЕКРУТИНГОВА АГЕНЦІЯ",
@@ -91,12 +94,6 @@ const detail = {
       ["4", "модулі в одному агенті"],
       ["12+", "активних проєктів у контексті"],
       ["9–11", "днів планового запуску"],
-    ],
-    facts: [
-      ["11", "пройшли відбір у демо"],
-      ["11", "отримали тестове"],
-      ["10", "здали роботу"],
-      ["4", "модулі агента"],
     ],
     steps: [
       [
@@ -153,6 +150,24 @@ const detail = {
     proofCopy:
       "Реальна демонстрація: вакансія, критерії, розсилка, shortlist, тестове та підсумкова статистика в одному Telegram-контурі.",
     proofStages: ["Вакансія", "Відбір", "Контакт", "Тестове"],
+    system: {
+      title: "Кандидат рухається далі лише коли сигналів достатньо.",
+      copy: "Агент пам’ятає критерії конкретної вакансії, ставить уточнення, фіксує відповідь і сам готує наступну дію. Рекрутер бачить контекст, а не розрізнені повідомлення.",
+      outcome: [
+        "10/11",
+        "кандидатів, які отримали тестове в демо, здали роботу",
+      ],
+      controls: [
+        [
+          "ПАМ’ЯТЬ ВАКАНСІЇ",
+          "Стек, рівень, кейси, компенсація та вага кожного критерію супроводжують діалог.",
+        ],
+        [
+          "РІШЕННЯ ЛЮДИНИ",
+          "Агент готує shortlist і нагадування. Найм, складна відмова та оцінка роботи залишаються рекрутеру.",
+        ],
+      ],
+    },
   },
   "content-factory-ai-video": {
     label: "CONTENT FACTORY · AI-ВІДЕО",
@@ -168,12 +183,6 @@ const detail = {
       ["500+", "відео на місяць"],
       ["10+", "мов для адаптації"],
       ["−80%", "вартість креативу"],
-    ],
-    facts: [
-      ["9:16", "reels і shorts"],
-      ["UGC", "нативна подача"],
-      ["AI", "персонажі"],
-      ["A/B", "варіації"],
     ],
     steps: [
       [
@@ -217,6 +226,21 @@ const detail = {
     proofCopy:
       "Від брифу до готового відео й адаптацій для десяти мов — в одному production-потоці.",
     proofStages: ["Бриф", "AI-виробництво", "Локалізація", "Публікація"],
+    system: {
+      title: "Одна creative-система випускає десятки варіацій.",
+      copy: "Бриф не починається з чистого аркуша на кожному ролику. Герой, продукт, артдирекція й перевірені hooks переходять у нові формати та ринки як керована бібліотека.",
+      outcome: ["10+", "мов для адаптації без повторної знімальної зміни"],
+      controls: [
+        [
+          "BRAND MEMORY",
+          "Референси, персонажі, голос, заборони та переможні концепти зберігаються між ітераціями.",
+        ],
+        [
+          "HUMAN QA",
+          "Монтажер перевіряє продукт, анатомію, титри, звук і відповідність майданчику до публікації.",
+        ],
+      ],
+    },
   },
 };
 
@@ -390,30 +414,45 @@ export function CaseDetail() {
       </section>
 
       <section className="chapter c-paper-2 case-evidence">
-        <div className="wrap">
-          <Reveal className="case-fact-strip">
-            {extra.facts.map(([value, label]) => (
-              <div key={label}>
-                <strong>{value}</strong>
-                <span>{label}</span>
-              </div>
-            ))}
-          </Reveal>
-          <div className="case-system-grid">
-            <Reveal className="case-system-head">
+        <div className="wrap case-system-canvas">
+          <div className="case-system-overview">
+            <Reveal>
               <Meta>04 / ЛОГІКА СИСТЕМИ</Meta>
-              <h2 className="h-lg">Не один workflow. Повний маршрут.</h2>
+              <h2 className="h-lg">{extra.system.title}</h2>
+              <p className="lede">{extra.system.copy}</p>
             </Reveal>
-            <div className="case-system-steps">
+            <Reveal className="case-system-outcome" delay={80}>
+              <Meta>СИГНАЛ ІЗ ДЕМО</Meta>
+              <strong>{extra.system.outcome[0]}</strong>
+              <p>{extra.system.outcome[1]}</p>
+            </Reveal>
+          </div>
+
+          <div className="case-system-map" aria-label="Маршрут системи">
+            <div className="case-system-route" aria-hidden="true">
+              <span />
+            </div>
+            <div className="case-system-stage-grid">
               {extra.steps.map(([number, title, copy], index) => (
-                <Reveal as="article" key={number} delay={index * 55}>
-                  <span className="num">{number}</span>
-                  <CircleNotch size={18} weight="regular" />
+                <Reveal as="article" key={number} delay={index * 65}>
+                  <div className="case-system-stage-head">
+                    <span className="num">{number}</span>
+                    <i aria-hidden="true" />
+                  </div>
                   <h3>{title}</h3>
                   <p>{copy}</p>
                 </Reveal>
               ))}
             </div>
+
+            <Reveal className="case-system-controls" delay={160}>
+              {extra.system.controls.map(([label, copy]) => (
+                <div key={label}>
+                  <Meta>{label}</Meta>
+                  <p>{copy}</p>
+                </div>
+              ))}
+            </Reveal>
           </div>
         </div>
       </section>
