@@ -14352,3 +14352,178 @@ html[data-studio-motion="running"]::view-transition-new(studio-detail-panel) {
     overflow-wrap: anywhere;
   }
 }
+
+/* ================================================================
+   CASE MEDIA — screenshots in real device frames
+   the two side slabs were 0.65 and 0.77 wide against a 0.56 source,
+   so `cover` cut 15% and 37% off dense chat UI; captions sat on top of
+   the very text they were labelling
+   ================================================================ */
+
+.case-media-flow {
+  position: static;
+  display: grid;
+  grid-template-columns: 1.24fr 1fr;
+  grid-template-rows: auto auto;
+  gap: clamp(16px, 2vw, 28px);
+  height: auto;
+  min-height: 0;
+  max-width: 640px;
+  align-items: start;
+}
+
+.case-media-flow::before {
+  inset: 6% -8% 4% 6%;
+}
+
+.case-media-flow figure {
+  position: static;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+}
+
+/* the tall shot spans both rows, the two supporting ones stack beside it */
+.case-media-flow figure.is-main {
+  grid-row: span 2;
+}
+
+/* every frame keeps the source ratio, so nothing is cropped */
+.case-shot {
+  display: block;
+}
+
+.case-shot .dev-wrap {
+  width: 100%;
+  gap: 0;
+}
+
+.case-shot .dev {
+  width: 100%;
+  --rx: 0deg;
+  --ry: 0deg;
+}
+
+.case-media-flow figure:not(.is-main) .dev-island {
+  width: 58px;
+  height: 17px;
+  top: 7px;
+}
+
+.case-media-flow figure:not(.is-main) .dev-home {
+  width: 54px;
+  height: 2px;
+  bottom: 5px;
+}
+
+/* screenshots of chat UI are dense: show the top, not the middle */
+.case-shot .dev-shot {
+  object-position: top center;
+}
+
+/* the caption sits under the device instead of over the content */
+.case-media-flow figcaption {
+  position: static;
+  display: block;
+  padding: 0;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--paper-dim);
+  background: none;
+}
+
+.case-media-flow figure.is-main figcaption {
+  font-size: 11px;
+  color: var(--paper-text);
+}
+
+@media (max-width: 900px) {
+  .case-media-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: none;
+  }
+
+  .case-media-flow figure.is-main {
+    grid-column: 1 / -1;
+    grid-row: auto;
+    max-width: 300px;
+    margin-inline: auto;
+  }
+}
+
+/* the absolute-positioning rules above still carried width/height/offsets;
+   the grid layout needs them cleared, not just `position` */
+.case-media-flow figure.is-main,
+.case-media-flow figure:nth-child(2),
+.case-media-flow figure:nth-child(3) {
+  top: auto;
+  left: auto;
+  width: auto;
+  height: auto;
+  transform: none;
+}
+
+.case-media-flow figure.is-main {
+  grid-row: span 2;
+}
+
+/* row-spanning fought the fixed aspect ratio: the two stacked frames
+   drove the row heights, which then squeezed the spanning column.
+   One row, three frames, no spanning — predictable at every width. */
+.case-media-flow {
+  grid-template-columns: 1.22fr 1fr 1fr;
+  grid-template-rows: auto;
+  align-items: start;
+  max-width: 620px;
+}
+
+.case-media-flow figure.is-main {
+  grid-row: auto;
+}
+
+.case-media-flow figure:not(.is-main) {
+  padding-top: clamp(14px, 3vw, 34px);
+}
+
+@media (max-width: 900px) {
+  .case-media-flow {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .case-media-flow figure.is-main {
+    grid-column: auto;
+    max-width: none;
+    margin-inline: 0;
+  }
+}
+
+@media (max-width: 560px) {
+  .case-media-flow {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-media-flow figure.is-main {
+    grid-column: 1 / -1;
+    max-width: 240px;
+    margin-inline: auto;
+  }
+
+  .case-media-flow figure:not(.is-main) {
+    padding-top: 0;
+  }
+}
+
+/* the ratio lock makes all three frames resolve to the same size anyway,
+   so say so instead of pretending column 1 is wider */
+.case-media-flow {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}

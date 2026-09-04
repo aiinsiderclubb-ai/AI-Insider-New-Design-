@@ -1,7 +1,7 @@
 import { ArrowLeft, ArrowUpRight, Check, Play } from "@phosphor-icons/react";
 import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { SplitText } from "../wow.jsx";
+import { Device, SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { caseItems } from "../data.js";
@@ -345,13 +345,12 @@ export function CaseDetail() {
               </div>
             </div>
             <Reveal className="case-media-flow" delay={90}>
-              {extra.media.map(([src, label, position], index) => (
+              {extra.media.map(([src, label], index) => (
                 <figure className={index === 0 ? "is-main" : ""} key={label}>
-                  <img src={src} alt="" style={{ objectPosition: position }} />
-                  <figcaption>
-                    <span>9:16</span>
-                    <strong>{label}</strong>
-                  </figcaption>
+                  <span className="case-shot">
+                    <Device image={src} hue="var(--accent)" />
+                  </span>
+                  <figcaption>{label}</figcaption>
                 </figure>
               ))}
             </Reveal>
