@@ -46,6 +46,10 @@ function ArticleCard({ article, index }) {
 
 export function Insights() {
   const [featured, ...articles] = insightArticles;
+  const latestUpdate = insightArticles.reduce(
+    (latest, article) => (article.updated > latest ? article.updated : latest),
+    "",
+  );
 
   return (
     <main className="atlas-page atlas-insights">
@@ -128,7 +132,10 @@ export function Insights() {
         <div className="wrap">
           <div className="atlas-list-head">
             <Meta>04 / ОСТАННІ МАТЕРІАЛИ</Meta>
-            <Meta>{insightArticles.length} ГАЙДІВ · ОНОВЛЕНО 02.09.2026</Meta>
+            <Meta>
+              {insightArticles.length} ГАЙДІВ · ОНОВЛЕНО{" "}
+              {formatDate(latestUpdate)}
+            </Meta>
           </div>
           <div className="insight-index-rows">
             {articles.map((article, index) => (
@@ -350,6 +357,20 @@ export function InsightArticle() {
                   <span>
                     <DownloadSimple size={22} weight="bold" />
                   </span>
+                </Link>
+              )}
+
+              {article.destination && (
+                <Link
+                  className="article-destination"
+                  to={article.destination.to}
+                >
+                  <div>
+                    <Meta>{article.destination.kicker}</Meta>
+                    <h2>{article.destination.title}</h2>
+                    <p>{article.destination.copy}</p>
+                  </div>
+                  <ArrowUpRight size={22} weight="bold" />
                 </Link>
               )}
 

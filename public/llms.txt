@@ -14,6 +14,7 @@ Canonical site: https://www.aiinsider.it.com
 
 ## Current research clusters
 - [n8n українською](https://www.aiinsider.it.com/insights/n8n-ukrainskoiu)
+- [Курс n8n українською](https://www.aiinsider.it.com/insights/n8n-kurs-ukrainskoiu)
 - [n8n MCP Server](https://www.aiinsider.it.com/insights/n8n-mcp-server)
 - [n8n AI Agent](https://www.aiinsider.it.com/insights/n8n-ai-agent)
 - [Google Workspace Studio](https://www.aiinsider.it.com/insights/google-workspace-studio-ukrainskoiu)
@@ -22,5 +23,10 @@ Canonical site: https://www.aiinsider.it.com
 ## Reusable assets
 - [10 n8n workflow JSON blueprints](https://www.aiinsider.it.com/tools/n8n-workflow-library)
 - [AI automation ROI calculator](https://www.aiinsider.it.com/tools/ai-automation-calculator)
+
+## Commercial solutions
+- [AI-рекрутер для агенції](https://www.aiinsider.it.com/solutions/ai-recruiter-agency)
+- [ШІ-обробка вхідних дзвінків](https://www.aiinsider.it.com/solutions/ai-inbound-call-automation)
+- [Автоматизація салону краси](https://www.aiinsider.it.com/solutions/beauty-salon-automation)
 
 Editorial policy: official sources, explicit limitations, verification date, measurable process outcomes. No confidential client data is published.

@@ -112,6 +112,52 @@ test("preserves the strongest GSC case URL on its matching solution", async () =
   );
 });
 
+test("maps legacy voice-agent demand to the matching call solution", async () => {
+  for (const pathname of [
+    "/en/ai-receptionist",
+    "/en/blog/ai-cold-calling-agent-that-books-meetings",
+  ]) {
+    const response = await worker.fetch(
+      new Request(`https://example.test${pathname}`, {
+        headers: { accept: "text/html" },
+      }),
+      { ASSETS: { fetch: async () => new Response("unused") } },
+    );
+
+    assert.equal(response.status, 301);
+    assert.equal(
+      response.headers.get("location"),
+      "https://www.aiinsider.it.com/solutions/ai-inbound-call-automation",
+    );
+  }
+});
+
+test("serves new n8n course route with query-specific metadata", async () => {
+  const response = await worker.fetch(
+    new Request("https://example.test/insights/n8n-kurs-ukrainskoiu", {
+      headers: { accept: "text/html" },
+    }),
+    {
+      ASSETS: {
+        fetch: async (request) => {
+          const pathname = new URL(request.url).pathname;
+          return pathname === "/insights/n8n-kurs-ukrainskoiu/index.html"
+            ? new Response(
+                "<html><head><title>Old</title></head><body>Course</body></html>",
+                { status: 200 },
+              )
+            : new Response("missing", { status: 404 });
+        },
+      },
+    },
+  );
+
+  const html = await response.text();
+  assert.equal(response.status, 200);
+  assert.match(html, /Курс n8n українською: 7 практичних уроків/);
+  assert.match(html, /\/insights\/n8n-kurs-ukrainskoiu/);
+});
+
 test("serves insight routes with query-specific metadata", async () => {
   const response = await worker.fetch(
     new Request("https://example.test/insights/n8n-ukrainskoiu", {

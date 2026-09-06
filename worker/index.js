@@ -35,6 +35,10 @@ const routeSeo = {
     "n8n українською: повний гайд і 10 готових workflow | AI Insider",
     "Практичний гайд з n8n українською: як працюють workflows, nodes, credentials і webhooks. Плюс 10 стартових сценаріїв для бізнесу.",
   ],
+  "/insights/n8n-kurs-ukrainskoiu": [
+    "Курс n8n українською: 7 практичних уроків від workflow до production | AI Insider",
+    "Безкоштовний курс n8n українською: 7 практичних уроків, перший workflow, webhook, API, AI Agent, обробка помилок і production checklist.",
+  ],
   "/insights/google-ai-studio-guide": [
     "Google AI Studio: як користуватися у 2026 році | AI Insider",
     "Google AI Studio українською: prompt, structured output, function calling, Gemini API, обмеження та сім бізнес-прототипів.",
@@ -96,8 +100,16 @@ const routeSeo = {
     "Автоматизація лідів, підбору об’єктів, follow-up і документів для агенцій нерухомості. Архітектура процесу та інтеграції.",
   ],
   "/solutions/beauty-salon-automation": [
-    "Автоматизація салону краси: менше no-show | AI Insider",
-    "Нагадування, перенесення запису, повернення клієнтів і синхронізація CRM без ручних повідомлень.",
+    "Автоматизація салону краси та KPI | AI Insider",
+    "AI-автоматизація салону краси: нагадування, перенесення запису, повернення клієнтів і синхронізація CRM без ручних повідомлень.",
+  ],
+  "/solutions/ai-recruiter-agency": [
+    "AI-рекрутер для агенції та автоматизація найму | AI Insider",
+    "AI-рекрутер для агенції: вакансія, кваліфікація кандидатів, shortlist, тестове завдання, дедлайни та передача рекрутеру в одному процесі.",
+  ],
+  "/solutions/ai-inbound-call-automation": [
+    "ШІ обробка вхідних дзвінків та AI call agent | AI Insider",
+    "ШІ-обробка вхідних дзвінків: відповідь, транскрипція, кваліфікація, бронювання, CRM, маршрутизація оператору та контроль пропущених звернень.",
   ],
   "/solutions/saas-onboarding-ai": [
     "AI-onboarding для SaaS: від signup до activation | AI Insider",
@@ -160,12 +172,20 @@ const legacyRedirects = new Map([
   ["/cases/dokumentoobih-riteyl", "/cases/content-factory-ai-video"],
   ["/uk/ai-automation-for-business", "/services"],
   ["/en/ai-automation-for-business", "/services"],
-  ["/uk/ai-receptionist", "/services#agents"],
-  ["/en/ai-receptionist", "/services#agents"],
-  ["/en/ai-voice-agents", "/services#agents"],
-  ["/services/ai-voice-agent", "/services#agents"],
-  ["/uk/services/ai-voice-agent", "/services#agents"],
-  ["/en/services/ai-voice-agent", "/services#agents"],
+  ["/uk/ai-receptionist", "/solutions/ai-inbound-call-automation"],
+  ["/en/ai-receptionist", "/solutions/ai-inbound-call-automation"],
+  ["/en/ai-voice-agents", "/solutions/ai-inbound-call-automation"],
+  ["/services/ai-voice-agent", "/solutions/ai-inbound-call-automation"],
+  ["/uk/services/ai-voice-agent", "/solutions/ai-inbound-call-automation"],
+  ["/en/services/ai-voice-agent", "/solutions/ai-inbound-call-automation"],
+  [
+    "/en/blog/ai-cold-calling-agent-that-books-meetings",
+    "/solutions/ai-inbound-call-automation",
+  ],
+  [
+    "/uk/blog/ai-cold-calling-agent-that-books-meetings",
+    "/solutions/ai-inbound-call-automation",
+  ],
   ["/ai-sdr", "/services#agents"],
   ["/uk/ai-sdr", "/services#agents"],
   ["/en/ai-sdr", "/services#agents"],

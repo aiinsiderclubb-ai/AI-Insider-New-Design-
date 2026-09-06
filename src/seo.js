@@ -114,6 +114,7 @@ const solutionMeta = Object.fromEntries(
       title: solution.seoTitle || `${solution.title} | AI Insider`,
       description: solution.description,
       schema: "Service",
+      serviceType: solution.title,
       faq: solution.faq,
     },
   ]),
@@ -149,6 +150,7 @@ export function pageJsonLd(page, pathname, canonical) {
       url: SITE_URL,
       email: "hello@aiinsider.it.com",
       areaServed: ["UA", "CH"],
+      sameAs: ["https://product-radar.com/products/ai-insider"],
     },
     {
       "@type": "WebSite",
@@ -187,6 +189,14 @@ export function pageJsonLd(page, pathname, canonical) {
       publisher: { "@id": `${SITE_URL}/#organization` },
       mainEntityOfPage: { "@id": `${canonical}#webpage` },
       citation: page.sources?.map(([, url]) => url),
+    });
+  }
+
+  if (page.schema === "Service") {
+    Object.assign(base[2], {
+      serviceType: page.serviceType || page.title.split(" | ")[0],
+      provider: { "@id": `${SITE_URL}/#organization` },
+      areaServed: ["UA", "CH"],
     });
   }
 

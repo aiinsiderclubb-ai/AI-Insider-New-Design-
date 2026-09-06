@@ -8,7 +8,7 @@ import { insightArticles, solutionPages } from "../src/content.js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(root, "public");
 const siteUrl = "https://www.aiinsider.it.com";
-const today = "2026-09-03";
+const today = "2026-09-07";
 
 const pages = [
   ["/", today, "weekly", "1.0"],
@@ -92,6 +92,7 @@ Canonical site: ${siteUrl}
 
 ## Current research clusters
 - [n8n українською](${siteUrl}/insights/n8n-ukrainskoiu)
+- [Курс n8n українською](${siteUrl}/insights/n8n-kurs-ukrainskoiu)
 - [n8n MCP Server](${siteUrl}/insights/n8n-mcp-server)
 - [n8n AI Agent](${siteUrl}/insights/n8n-ai-agent)
 - [Google Workspace Studio](${siteUrl}/insights/google-workspace-studio-ukrainskoiu)
@@ -100,6 +101,11 @@ Canonical site: ${siteUrl}
 ## Reusable assets
 - [10 n8n workflow JSON blueprints](${siteUrl}/tools/n8n-workflow-library)
 - [AI automation ROI calculator](${siteUrl}/tools/ai-automation-calculator)
+
+## Commercial solutions
+- [AI-рекрутер для агенції](${siteUrl}/solutions/ai-recruiter-agency)
+- [ШІ-обробка вхідних дзвінків](${siteUrl}/solutions/ai-inbound-call-automation)
+- [Автоматизація салону краси](${siteUrl}/solutions/beauty-salon-automation)
 
 Editorial policy: official sources, explicit limitations, verification date, measurable process outcomes. No confidential client data is published.
 `;

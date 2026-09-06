@@ -90,32 +90,42 @@
     },
     {
       "source": "/uk/ai-receptionist",
-      "destination": "/services#agents",
+      "destination": "/solutions/ai-inbound-call-automation",
       "permanent": true
     },
     {
       "source": "/en/ai-receptionist",
-      "destination": "/services#agents",
+      "destination": "/solutions/ai-inbound-call-automation",
       "permanent": true
     },
     {
       "source": "/en/ai-voice-agents",
-      "destination": "/services#agents",
+      "destination": "/solutions/ai-inbound-call-automation",
       "permanent": true
     },
     {
       "source": "/services/ai-voice-agent",
-      "destination": "/services#agents",
+      "destination": "/solutions/ai-inbound-call-automation",
       "permanent": true
     },
     {
       "source": "/uk/services/ai-voice-agent",
-      "destination": "/services#agents",
+      "destination": "/solutions/ai-inbound-call-automation",
       "permanent": true
     },
     {
       "source": "/en/services/ai-voice-agent",
-      "destination": "/services#agents",
+      "destination": "/solutions/ai-inbound-call-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/ai-cold-calling-agent-that-books-meetings",
+      "destination": "/solutions/ai-inbound-call-automation",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog/ai-cold-calling-agent-that-books-meetings",
+      "destination": "/solutions/ai-inbound-call-automation",
       "permanent": true
     },
     {

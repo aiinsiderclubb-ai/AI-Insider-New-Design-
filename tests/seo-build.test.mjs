@@ -22,6 +22,13 @@ test("Vercel keeps prerendered documents and real 404 responses", async () => {
   assert.ok(
     config.redirects.some(
       ({ source, destination }) =>
+        source === "/en/blog/ai-cold-calling-agent-that-books-meetings" &&
+        destination === "/solutions/ai-inbound-call-automation",
+    ),
+  );
+  assert.ok(
+    config.redirects.some(
+      ({ source, destination }) =>
         source === "/en/cases/real-estate-operations-os" &&
         destination === "/solutions/real-estate-automation",
     ),
@@ -91,6 +98,30 @@ test("insight library has unique, sourced, internally linked articles", () => {
       `${article.slug}: bad related slug`,
     );
   }
+
+  const course = insightArticles.find(
+    ({ slug }) => slug === "n8n-kurs-ukrainskoiu",
+  );
+  assert.ok(course);
+  assert.equal(
+    course.sections.filter(({ id }) => id.startsWith("lesson-")).length,
+    7,
+  );
+  assert.equal(course.destination?.to, "/solutions/n8n-hosting-switzerland");
+});
+
+test("GSC opportunity solutions have rich proof and measurement content", () => {
+  for (const slug of [
+    "beauty-salon-automation",
+    "ai-recruiter-agency",
+    "ai-inbound-call-automation",
+  ]) {
+    const solution = solutionPages.find((item) => item.slug === slug);
+    assert.ok(solution, slug);
+    assert.ok(solution.details.length >= 3, `${slug}: details`);
+    assert.ok(solution.measurement.length >= 3, `${slug}: measurement`);
+    assert.ok(solution.related.length >= 2, `${slug}: related`);
+  }
 });
 
 test("prerendered insight has route-specific head, schema and body", async () => {
@@ -131,4 +162,21 @@ test("AI recruiter case exposes indexable video proof", async () => {
   assert.match(html, /"@type":"VideoObject"/);
   assert.match(html, /ai-recruiter-demo\.mp4/);
   assert.match(html, /Подивіться агента в роботі/);
+});
+
+test("new SEO cluster pages expose canonical content and Service schema", async () => {
+  const [course, recruiter, calls] = await Promise.all([
+    read("dist/client/insights/n8n-kurs-ukrainskoiu/index.html"),
+    read("dist/client/solutions/ai-recruiter-agency/index.html"),
+    read("dist/client/solutions/ai-inbound-call-automation/index.html"),
+  ]);
+
+  assert.match(course, /Курс n8n українською: 7 практичних уроків/);
+  assert.match(course, /https:\/\/docs\.n8n\.io\/learning-paths/);
+  assert.match(course, /\/solutions\/n8n-hosting-switzerland/);
+  assert.match(recruiter, /AI-рекрутер для агенції/);
+  assert.match(recruiter, /"@type":"Service"/);
+  assert.match(recruiter, /\/cases\/ai-rekruter-dlia-ahentsii/);
+  assert.match(calls, /ШІ-обробка вхідних дзвінків/);
+  assert.match(calls, /"serviceType":"ШІ-обробка вхідних дзвінків/);
 });
