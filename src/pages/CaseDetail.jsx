@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowUpRight, Check, Play } from "@phosphor-icons/react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Device, SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
@@ -308,6 +308,124 @@ function CaseProofMedia({ image, video, layout, eyebrow }) {
   );
 }
 
+function RecruiterFilm({ demo = false }) {
+  const ref = useRef(null);
+  const [started, setStarted] = useState(false);
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    const media = ref.current;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) media?.pause();
+      },
+      { threshold: 0.1 },
+    );
+    if (media) observer.observe(media);
+    return () => observer.disconnect();
+  }, []);
+  const play = async () => {
+    try {
+      await ref.current.play();
+      setStarted(true);
+      setError(false);
+    } catch {
+      setError(true);
+    }
+  };
+  return (
+    <div className={`recruiter-film${demo ? " recruiter-film-demo" : ""}`}>
+      <video
+        ref={ref}
+        controls={started || error}
+        playsInline
+        preload="none"
+        poster={
+          demo
+            ? "/assets/cases/ai-recruiter-demo-poster.webp"
+            : "/assets/cases/ai-recruiter-demo-v2-poster.jpg"
+        }
+        src={
+          demo
+            ? "/assets/cases/ai-recruiter-demo.mp4"
+            : "/assets/cases/ai-recruiter-demo-v2.mp4"
+        }
+        aria-label={
+          demo
+            ? "Запис роботи AI-рекрутера в Telegram"
+            : "Як працює AI-рекрутер — відеоогляд"
+        }
+        onPlay={() => {
+          setStarted(true);
+          document.querySelectorAll("video").forEach((media) => {
+            if (media !== ref.current) media.pause();
+          });
+        }}
+        onError={() => setError(true)}
+      />
+      {!started && !error && (
+        <button className="recruiter-film-play" type="button" onClick={play}>
+          <span>
+            <Play size={22} weight="fill" />
+          </span>
+          {demo ? "Дивитися демо" : "Дивитися відео"}
+          <small>{demo ? "01:05" : "00:55"}</small>
+        </button>
+      )}
+      {error && (
+        <p className="recruiter-film-error">
+          Не вдалося відтворити. <a href={ref.current?.src}>Відкрити відео</a>
+        </p>
+      )}
+    </div>
+  );
+}
+
+function RecruiterProof() {
+  const steps = [
+    ["Вакансія", "Опис, умови та критерії — в одному чаті."],
+    ["Відбір", "Уточнення досвіду й відповідності кандидата."],
+    ["Контакт", "Розсилка та shortlist для рекрутера."],
+    ["Тестове", "Завдання, дедлайни й підсумкова статистика."],
+  ];
+  return (
+    <section className="recruiter-proof">
+      <div className="wrap recruiter-proof-layout">
+        <div className="recruiter-proof-copy">
+          <Meta>РЕАЛЬНИЙ ІНТЕРФЕЙС · TELEGRAM</Meta>
+          <h2>
+            Один чат.
+            <br />
+            Увесь шлях кандидата.
+          </h2>
+          <p>
+            Зазирніть усередину системи: від створення вакансії до зданого
+            тестового. Так агент працює в Telegram.
+          </p>
+          <ol className="recruiter-proof-route">
+            {steps.map(([title, copy], index) => (
+              <li key={title}>
+                <span>{String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="recruiter-proof-screen">
+          <div className="recruiter-proof-caption">
+            <Meta>ЗАПИС РОБОТИ</Meta>
+            <span>TELEGRAM / 01:05</span>
+          </div>
+          <RecruiterFilm demo />
+          <p>Вакансія → відбір → тестове</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function CaseDetail() {
   const { slug } = useParams();
   const openContact = useContact();
@@ -316,6 +434,7 @@ export function CaseDetail() {
 
   if (!item || !extra) return <NotFound />;
 
+  const isRecruiter = slug === "ai-rekruter-dlia-ahentsii";
   const others = caseItems.filter((c) => c.slug !== slug);
 
   return (
@@ -345,44 +464,58 @@ export function CaseDetail() {
               </div>
             </div>
 
-            <Reveal className="case-media-flow" delay={90}>
-              <span className="case-media-glow" aria-hidden="true" />
-              {extra.media.map(([src, label], index) => (
-                <figure className={index === 1 ? "is-main" : ""} key={label}>
-                  <span className="case-shot">
-                    <Device image={src} hue="var(--accent)" />
-                  </span>
-                  <figcaption>{label}</figcaption>
-                </figure>
-              ))}
-            </Reveal>
+            {isRecruiter ? (
+              <div className="recruiter-hero-film">
+                <RecruiterFilm />
+                <div className="recruiter-hero-caption">
+                  <Meta>AI-РЕКРУТЕР / ОГЛЯД</Meta>
+                  <span>55 секунд про систему</span>
+                </div>
+              </div>
+            ) : (
+              <Reveal className="case-media-flow" delay={90}>
+                <span className="case-media-glow" aria-hidden="true" />
+                {extra.media.map(([src, label], index) => (
+                  <figure className={index === 1 ? "is-main" : ""} key={label}>
+                    <span className="case-shot">
+                      <Device image={src} hue="var(--accent)" />
+                    </span>
+                    <figcaption>{label}</figcaption>
+                  </figure>
+                ))}
+              </Reveal>
+            )}
           </div>
         </div>
       </section>
 
-      <section className="case-proof-board-wrap c-paper">
-        <div className="case-proof-board">
-          <div className="case-proof-intro">
-            <Meta>AI PROOF</Meta>
-            <h2>{extra.proofTitle}</h2>
-            <p>{extra.proofCopy}</p>
+      {isRecruiter ? (
+        <RecruiterProof />
+      ) : (
+        <section className="case-proof-board-wrap c-paper">
+          <div className="case-proof-board">
+            <div className="case-proof-intro">
+              <Meta>AI PROOF</Meta>
+              <h2>{extra.proofTitle}</h2>
+              <p>{extra.proofCopy}</p>
+            </div>
+            <CaseProofMedia
+              image={extra.proofImage}
+              video={extra.proofVideo}
+              layout={extra.proofLayout}
+              eyebrow={extra.proofEyebrow}
+            />
+            <ol className="case-proof-stages">
+              {extra.proofStages.map((stage, index) => (
+                <li className={index === 1 ? "is-active" : ""} key={stage}>
+                  <span>{String(index + 1).padStart(2, "0")}</span>
+                  {stage}
+                </li>
+              ))}
+            </ol>
           </div>
-          <CaseProofMedia
-            image={extra.proofImage}
-            video={extra.proofVideo}
-            layout={extra.proofLayout}
-            eyebrow={extra.proofEyebrow}
-          />
-          <ol className="case-proof-stages">
-            {extra.proofStages.map((stage, index) => (
-              <li className={index === 1 ? "is-active" : ""} key={stage}>
-                <span>{String(index + 1).padStart(2, "0")}</span>
-                {stage}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section className="case-story c-paper">
         <div className="wrap case-story-grid">

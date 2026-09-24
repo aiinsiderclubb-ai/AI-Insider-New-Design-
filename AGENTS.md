@@ -73,3 +73,5 @@ Durable decisions:
 Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts/prepare-sites-build.mjs`, and `tests/sites-worker.test.mjs` intact so the same local prototype can be handed to Sites. Before a Sites handoff, run `npm run build` and `npm run test:sites`; the build must leave `dist/client/index.html`, `dist/server/index.js`, and `dist/.openai/hosting.json`.
 
 Workflow preference confirmed on 2026-08-21: after each completed, verified implementation change, create a clear Git commit and push it to the current upstream branch automatically. Do not leave finished work only in the local working tree.
+
+Recruiter case update, confirmed 2026-09-24: replace the three-phone hero collage with the supplied 55-second vertical ai-recruiter-demo-v2.mp4, preserving the full frame and user-triggered audio. Keep the original interface recording as separate proof below; use readable editorial copy, clear process stages, and a prominent playable portrait instead of blurred filler.

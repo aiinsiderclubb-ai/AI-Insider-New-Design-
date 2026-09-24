@@ -161,7 +161,8 @@ test("AI recruiter case exposes indexable video proof", async () => {
   assert.match(html, /AI-рекрутер для агенції: Telegram-бот/);
   assert.match(html, /"@type":"VideoObject"/);
   assert.match(html, /ai-recruiter-demo\.mp4/);
-  assert.match(html, /Подивіться агента в роботі/);
+  assert.match(html, /Увесь шлях кандидата/);
+  assert.match(html, /ai-recruiter-demo-v2\.mp4/);
 });
 
 test("new SEO cluster pages expose canonical content and Service schema", async () => {
