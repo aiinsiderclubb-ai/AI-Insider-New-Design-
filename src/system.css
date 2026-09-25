@@ -14811,3 +14811,284 @@ html[data-studio-motion="running"]::view-transition-new(studio-detail-panel) {
     width: min(100%, 330px);
   }
 }
+
+/* ================================================================
+   CASES PAGE — one row per case, no repeats
+   the page listed the same three cases three times: a feature board,
+   a method rail and a full dark index underneath
+   ================================================================ */
+
+.case-rows-section {
+  padding-top: clamp(20px, 2.6vw, 40px);
+}
+
+.case-rows {
+  display: grid;
+  gap: clamp(14px, 1.8vw, 26px);
+}
+
+.case-row-full > a {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+  gap: clamp(20px, 3vw, 52px);
+  align-items: center;
+  padding: clamp(16px, 1.8vw, 24px);
+  background: #fff;
+  border: 1px solid var(--paper-line);
+  border-radius: 26px;
+  overflow: hidden;
+  transition:
+    transform 0.6s var(--ease-out),
+    border-color 0.4s ease,
+    box-shadow 0.5s var(--ease-out);
+}
+
+.case-row-full > a:hover {
+  transform: translateY(-5px);
+  border-color: rgba(8, 9, 12, 0.3);
+  box-shadow: 0 30px 60px -28px rgba(11, 16, 30, 0.42);
+}
+
+/* every other row mirrors, so the page does not read as a list of tiles */
+.case-row-full:nth-child(even) > a {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+}
+
+.case-row-full:nth-child(even) .case-row-full-shot {
+  order: 2;
+}
+
+.case-row-full-shot {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 11;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+.case-row-full-shot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.06);
+  transition: transform 1s var(--ease-out);
+}
+
+.case-row-full > a:hover .case-row-full-shot img {
+  transform: translate3d(0, var(--py, 0px), 0) scale(1.12);
+}
+
+.case-row-full-index {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  padding: 5px 10px;
+  font-size: 9.5px;
+  color: #fff;
+  background: rgba(8, 9, 12, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+
+.case-row-full-body {
+  display: block;
+  padding-right: clamp(0px, 1vw, 18px);
+}
+
+.case-row-full-body h2 {
+  margin: 8px 0 14px;
+  max-width: 20ch;
+}
+
+/* the one line that says what was broken */
+.case-row-full-problem {
+  position: relative;
+  display: block;
+  padding-left: 16px;
+  max-width: 44ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: #5b5f68;
+}
+
+.case-row-full-problem i {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--accent-deep);
+}
+
+.case-row-full-foot {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-top: clamp(18px, 2vw, 28px);
+  padding-top: 16px;
+  border-top: 1px solid var(--paper-line);
+}
+
+.case-row-full-metric strong {
+  display: block;
+  font-family: var(--display);
+  font-size: clamp(26px, 3vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+  line-height: 1;
+  color: var(--paper-text);
+}
+
+.case-row-full-metric small {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--paper-dim);
+}
+
+.case-row-full-go {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 620;
+  letter-spacing: -0.015em;
+  white-space: nowrap;
+}
+
+.case-row-full-go i {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--paper-line);
+  border-radius: 50%;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease,
+    transform 0.5s var(--ease-out);
+}
+
+.case-row-full > a:hover .case-row-full-go i {
+  color: #fff;
+  background: var(--ink);
+  border-color: transparent;
+  transform: rotate(45deg);
+}
+
+/* --- the four stages --- */
+
+.case-stages-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+  gap: clamp(20px, 3vw, 56px);
+  align-items: end;
+  margin-bottom: clamp(28px, 3.4vw, 48px);
+}
+
+.case-stages {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(16px, 2.4vw, 38px);
+  padding-top: 34px;
+}
+
+/* the rail draws itself once the row arrives */
+.case-stages-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--ink-line);
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: stage-line 1.1s var(--ease-out) forwards;
+}
+
+@keyframes stage-line {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.case-stage {
+  position: relative;
+}
+
+.case-stage-dot {
+  position: absolute;
+  top: -38px;
+  left: 0;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--ink);
+  border: 1px solid var(--accent);
+  box-shadow: 0 0 0 0 rgba(79, 227, 255, 0.5);
+}
+
+.case-stage.is-in .case-stage-dot {
+  animation: stage-ping 1.6s var(--ease-out) forwards;
+}
+
+@keyframes stage-ping {
+  40% {
+    box-shadow: 0 0 0 9px rgba(79, 227, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(79, 227, 255, 0);
+  }
+}
+
+.case-stage strong {
+  display: block;
+  margin: 10px 0 8px;
+  font-size: clamp(15px, 1.5vw, 19px);
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+
+.case-stage p {
+  max-width: 28ch;
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .case-row-full > a,
+  .case-row-full:nth-child(even) > a {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-row-full:nth-child(even) .case-row-full-shot {
+    order: 0;
+  }
+
+  .case-stages-head {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-stages {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 34px 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .case-stages {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-row-full-foot {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
