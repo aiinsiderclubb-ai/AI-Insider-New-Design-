@@ -161,7 +161,12 @@ export function pageJsonLd(page, pathname, canonical) {
       "@id": organizationId,
       name: "AI Insider",
       url: `${SITE_URL}/`,
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.svg` },
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/assets/brand/ai-insider-logo.png`,
+        width: 2172,
+        height: 724,
+      },
       email: "hello@aiinsider.it.com",
       areaServed: ["UA", "CH"],
       sameAs: ["https://product-radar.com/products/ai-insider"],

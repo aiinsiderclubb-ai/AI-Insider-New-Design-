@@ -408,25 +408,6 @@ a:hover .arrow-link svg,
   white-space: nowrap;
 }
 
-.brand-mark {
-  width: 32px;
-  height: 32px;
-  display: grid;
-  place-items: center;
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #04252c;
-  background: var(--accent);
-  border-radius: 10px;
-  transition: transform 0.5s var(--ease);
-}
-
-.brand:hover .brand-mark {
-  transform: rotate(-8deg) scale(1.06);
-}
-
 .hdr-right {
   display: flex;
   align-items: center;
@@ -6314,7 +6295,6 @@ html.has-cursor button {
   color: var(--paper-text);
 }
 
-.hdr.is-light .brand-text small,
 .hdr.is-light .lang button {
   color: var(--paper-dim);
 }
@@ -8217,60 +8197,32 @@ html.has-cursor button {
   gap: clamp(16px, 2vw, 34px);
 }
 
-/* --- brand: the mark is a 2×2 cell grid that reshuffles on hover --- */
-
-.brand-mark {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2px;
-  width: 30px;
-  height: 30px;
-  padding: 5px;
-  background: var(--accent);
-  border-radius: 10px;
-  transition:
-    transform 0.55s var(--ease),
-    border-radius 0.55s var(--ease);
-}
-
-.brand-mark i {
+/* Supplied logo lockup: violet mark/tagline, white wordmark on ink surfaces. */
+.brand-logo {
   display: block;
-  background: #04252c;
-  border-radius: 1.5px;
-  transition:
-    transform 0.55s var(--ease),
-    opacity 0.4s ease;
+  width: 230px;
+  height: auto;
+  flex: 0 0 auto;
+  overflow: hidden;
 }
-
-.brand:hover .brand-mark {
-  transform: rotate(-90deg);
-  border-radius: 15px;
+.brand-logo-light-ink {
+  filter: brightness(0) invert(1);
 }
-
-.brand:hover .brand-mark i:nth-child(1) {
-  transform: translate(1px, 1px);
+.hdr.is-light .brand-logo-light-ink {
+  display: none;
 }
-.brand:hover .brand-mark i:nth-child(4) {
-  transform: translate(-1px, -1px);
+.footer-brand .brand-logo {
+  width: min(260px, 100%);
 }
-.brand:hover .brand-mark i:nth-child(2),
-.brand:hover .brand-mark i:nth-child(3) {
-  opacity: 0.35;
+@media (min-width: 1201px) and (max-width: 1400px) {
+  .hdr .hdr-live {
+    display: none;
+  }
 }
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.05;
-}
-
-.brand-text small {
-  margin-top: 3px;
-  font-family: var(--mono);
-  font-size: 7.5px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  color: var(--ink-dim);
+@media (max-width: 560px) {
+  .hdr .brand-logo {
+    width: 194px;
+  }
 }
 
 /* --- inline nav with numbered labels --- */
@@ -8283,6 +8235,7 @@ html.has-cursor button {
 }
 
 .hdr-nav a {
+  white-space: nowrap;
   position: relative;
   display: inline-flex;
   align-items: baseline;
@@ -8373,12 +8326,6 @@ html.has-cursor button {
 @media (max-width: 1200px) {
   .hdr-nav,
   .hdr-live {
-    display: none;
-  }
-}
-
-@media (max-width: 560px) {
-  .brand-text small {
     display: none;
   }
 }

@@ -32,6 +32,38 @@ import { modules, navLinks } from "./data.js";
 import { ContactModal, Meta } from "./ui.jsx";
 import { getSeoForPath, Seo } from "./seo.js";
 
+// The transparent supplied lockup is cropped by the SVG viewport, not redrawn.
+function BrandLogo({ clipId }) {
+  return (
+    <svg
+      className="brand-logo"
+      viewBox="48 173 2070 360"
+      width="230"
+      height="40"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <defs>
+        <clipPath id={clipId}>
+          <rect x="540" y="210" width="1590" height="235" />
+        </clipPath>
+      </defs>
+      <image
+        href="/assets/brand/ai-insider-logo.png"
+        width="2172"
+        height="724"
+      />
+      <image
+        className="brand-logo-light-ink"
+        href="/assets/brand/ai-insider-logo.png"
+        width="2172"
+        height="724"
+        clipPath={`url(#${clipId})`}
+      />
+    </svg>
+  );
+}
+
 const ContactCtx = createContext(() => {});
 
 export const useContact = () => useContext(ContactCtx);
@@ -125,16 +157,7 @@ export function Layout() {
         >
           <div className="hdr-in">
             <Link className="brand" to="/" aria-label="AI Insider — головна">
-              <span className="brand-mark" aria-hidden="true">
-                <i />
-                <i />
-                <i />
-                <i />
-              </span>
-              <span className="brand-text">
-                AI Insider
-                <small>AI-СИСТЕМИ ДЛЯ БІЗНЕСУ</small>
-              </span>
+              <BrandLogo clipId="header-brand-wordmark" />
             </Link>
 
             <nav className="hdr-nav" aria-label="Розділи сайту">
@@ -223,14 +246,12 @@ export function Layout() {
 
             <div className="footer-grid">
               <div className="footer-brand">
-                <Link className="brand" to="/">
-                  <span className="brand-mark" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                  </span>
-                  <span className="brand-text">AI Insider</span>
+                <Link
+                  className="brand"
+                  to="/"
+                  aria-label="AI Insider — головна"
+                >
+                  <BrandLogo clipId="footer-brand-wordmark" />
                 </Link>
                 <p>
                   Проєктуємо, будуємо та масштабуємо AI-системи з вимірюваним

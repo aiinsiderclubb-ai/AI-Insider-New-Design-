@@ -77,3 +77,5 @@ Workflow preference confirmed on 2026-08-21: after each completed, verified impl
 Recruiter case update, confirmed 2026-09-24: replace the three-phone hero collage with the supplied 55-second vertical ai-recruiter-demo-v2.mp4, preserving the full frame and user-triggered audio. Keep the original interface recording as separate proof below; use readable editorial copy, clear process stages, and a prominent playable portrait instead of blurred filler.
 
 SEO recovery goal, confirmed on 2026-10-05: work toward 500 relevant Google Search impressions per day. Preserve intent-matched legacy routes, useful Ukrainian topic clusters and measurable commercial processes; never claim rankings or impressions are guaranteed. Unknown addresses must show a branded pearl/ice 404 with useful navigation and a real HTTP 404 response.
+
+Brand logo confirmed on 2026-10-05: use the user-supplied AI INSIDER / AI AUTOMATION PARTNER AGENCY lockup with its background removed. Preserve the violet emblem and tagline; render the wordmark white on dark surfaces for contrast. Replace the temporary cyan square mark in the global header and footer, keeping the supplied logo geometry.
