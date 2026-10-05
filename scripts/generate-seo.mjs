@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { writeFileSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { caseItems } from "../src/data.js";
@@ -8,35 +8,31 @@ import { insightArticles, solutionPages } from "../src/content.js";
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const publicDir = path.join(root, "public");
 const siteUrl = "https://www.aiinsider.it.com";
-const today = "2026-09-07";
+const reviewed = "2026-10-05";
+const previousReview = "2026-09-07";
 
 const pages = [
-  ["/", today, "weekly", "1.0"],
-  ["/services", today, "monthly", "0.9"],
-  ["/cases", today, "monthly", "0.8"],
+  ["/", reviewed],
+  ["/services", reviewed],
+  ["/cases", previousReview],
   ...caseItems.map((item) => [
     `/cases/${item.slug}`,
-    "2026-08-21",
-    "monthly",
-    "0.8",
+    item.updated || item.published || "2026-08-21",
   ]),
-  ["/studio", today, "monthly", "0.8"],
-  ["/about", today, "monthly", "0.6"],
-  ["/contact", today, "monthly", "0.6"],
-  ["/insights", today, "weekly", "0.9"],
+  ["/studio", previousReview],
+  ["/about", previousReview],
+  ["/contact", previousReview],
+  ["/solutions", reviewed],
+  ["/insights", reviewed],
   ...insightArticles.map((article) => [
     `/insights/${article.slug}`,
     article.updated,
-    "monthly",
-    article.slug.startsWith("n8n") ? "0.9" : "0.8",
   ]),
-  ["/tools/n8n-workflow-library", today, "monthly", "0.9"],
-  ["/tools/ai-automation-calculator", today, "monthly", "0.9"],
+  ["/tools/n8n-workflow-library", previousReview],
+  ["/tools/ai-automation-calculator", previousReview],
   ...solutionPages.map((solution) => [
     `/solutions/${solution.slug}`,
-    today,
-    "monthly",
-    "0.8",
+    solution.updated || previousReview,
   ]),
 ];
 
@@ -50,7 +46,7 @@ const escapeXml = (value) =>
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${pages.map(([pathname, lastmod, changefreq, priority]) => `  <url><loc>${siteUrl}${pathname}</loc><lastmod>${lastmod}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`).join("\n")}
+${pages.map(([pathname, lastmod]) => `  <url><loc>${siteUrl}${pathname}</loc><lastmod>${lastmod}</lastmod></url>`).join("\n")}
 </urlset>
 `;
 
@@ -68,7 +64,7 @@ ${insightArticles
       <link>${siteUrl}/insights/${article.slug}</link>
       <guid isPermaLink="true">${siteUrl}/insights/${article.slug}</guid>
       <description>${escapeXml(article.description)}</description>
-      <pubDate>${new Date(`${article.updated}T12:00:00Z`).toUTCString()}</pubDate>
+      <pubDate>${new Date(`${article.published}T12:00:00Z`).toUTCString()}</pubDate>
     </item>`,
   )
   .join("\n")}
@@ -107,7 +103,7 @@ Canonical site: ${siteUrl}
 - [ШІ-обробка вхідних дзвінків](${siteUrl}/solutions/ai-inbound-call-automation)
 - [Автоматизація салону краси](${siteUrl}/solutions/beauty-salon-automation)
 
-Editorial policy: official sources, explicit limitations, verification date, measurable process outcomes. No confidential client data is published.
+Editorial policy: official sources, explicit limitations, review date, measurable process outcomes. No confidential client data is published.
 `;
 
 writeFileSync(path.join(publicDir, "sitemap.xml"), sitemap);
@@ -117,3 +113,43 @@ writeFileSync(path.join(publicDir, "llms.txt"), llms);
 console.log(
   `Generated SEO discovery files for ${pages.length} indexable URLs.`,
 );
+
+// Original, synthetic exercises. No credentials or claimed client results.
+const guideDir = path.join(publicDir, "downloads", "guides");
+mkdirSync(guideDir, { recursive: true });
+for (const article of insightArticles.filter((item) => item.practice)) {
+  const exercise = article.practice;
+  const lines = [
+    `# ${exercise.title}`,
+    "",
+    `AI Insider · Оновлено ${article.updated}`,
+    `Гайд: ${siteUrl}/insights/${article.slug}`,
+    "",
+    "Навчальне завдання на синтетичних даних. Не результат клієнтського проєкту.",
+    "",
+    exercise.intro,
+    "",
+    "## Порядок роботи",
+    "",
+    ...exercise.steps.map((step, index) => `${index + 1}. ${step}`),
+    "",
+    ...(exercise.sample
+      ? ["## Вхідні дані", "", "```json", exercise.sample, "```", ""]
+      : []),
+    "## Перевірка",
+    "",
+    "| Вхід або ситуація | Очікувана поведінка |",
+    "| --- | --- |",
+    ...exercise.checks.map(([input, expected]) => `| ${input} | ${expected} |`),
+    "",
+    "## Межі прикладу",
+    "",
+    exercise.limit,
+    "",
+    "## Джерела",
+    "",
+    ...article.sources.map(([label, url]) => `- [${label}](${url})`),
+    "",
+  ];
+  writeFileSync(path.join(guideDir, `${article.slug}.md`), lines.join("\n"));
+}

@@ -75,3 +75,5 @@ Build app UI in `src/`. Keep `.openai/hosting.json`, `worker/index.js`, `scripts
 Workflow preference confirmed on 2026-08-21: after each completed, verified implementation change, create a clear Git commit and push it to the current upstream branch automatically. Do not leave finished work only in the local working tree.
 
 Recruiter case update, confirmed 2026-09-24: replace the three-phone hero collage with the supplied 55-second vertical ai-recruiter-demo-v2.mp4, preserving the full frame and user-triggered audio. Keep the original interface recording as separate proof below; use readable editorial copy, clear process stages, and a prominent playable portrait instead of blurred filler.
+
+SEO recovery goal, confirmed on 2026-10-05: work toward 500 relevant Google Search impressions per day. Preserve intent-matched legacy routes, useful Ukrainian topic clusters and measurable commercial processes; never claim rankings or impressions are guaranteed. Unknown addresses must show a branded pearl/ice 404 with useful navigation and a real HTTP 404 response.

@@ -9,6 +9,7 @@ import { insightArticles, insightBySlug, solutionPages } from "../content.js";
 import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { NotFound } from "./NotFound.jsx";
+import { topicGroups } from "../content-practice.js";
 
 const formatDate = (value) =>
   new Intl.DateTimeFormat("uk-UA", {
@@ -60,7 +61,7 @@ export function Insights() {
               <Meta>03 / INSIGHTS · ПРАКТИЧНІ ГАЙДИ</Meta>
             </Reveal>
             <h1 className="h-xl" data-reveal>
-              AI без туману. Системи, які можна перевірити.
+              n8n та AI-агенти. Практичні гайди українською.
             </h1>
             <Reveal delay={120}>
               <p className="lede">
@@ -78,18 +79,12 @@ export function Insights() {
             </Reveal>
           </div>
           <Reveal className="insight-topics" delay={100}>
-            {[
-              "Автоматизація",
-              "Інструменти",
-              "Бази знань",
-              "Порівняння",
-              "AI-агенти",
-            ].map((topic, index) => (
-              <span key={topic}>
+            {topicGroups.map((topic, index) => (
+              <a key={topic.id} href={`#topic-${topic.id}`}>
                 <i className="num">0{index + 1}</i>
-                {topic}
+                {topic.title}
                 <b />
-              </span>
+              </a>
             ))}
           </Reveal>
         </div>
@@ -115,7 +110,7 @@ export function Insights() {
             </span>
             <span className="insight-standard">
               <Meta>РЕДАКЦІЙНИЙ СТАНДАРТ</Meta>
-              {["Власний тест", "Чіткі межі", "Дата перевірки"].map(
+              {["Практичне завдання", "Чіткі межі", "Дата оновлення"].map(
                 (item, index) => (
                   <span key={item}>
                     <i className="num">0{index + 1}</i>
@@ -125,6 +120,35 @@ export function Insights() {
               )}
             </span>
           </Link>
+        </div>
+      </section>
+
+      <section className="chapter c-paper learning-paths">
+        <div className="wrap">
+          <Meta>ОБЕРІТЬ ТЕМУ</Meta>
+          {topicGroups.map((group) => (
+            <div
+              className="learning-group"
+              id={`topic-${group.id}`}
+              key={group.id}
+            >
+              <div>
+                <h2>{group.title}</h2>
+                <p>{group.description}</p>
+              </div>
+              <nav aria-label={group.title}>
+                {group.slugs
+                  .map((slug) => insightBySlug[slug])
+                  .filter(Boolean)
+                  .map((article) => (
+                    <Link to={`/insights/${article.slug}`} key={article.slug}>
+                      {article.shortTitle}
+                      <ArrowUpRight size={15} />
+                    </Link>
+                  ))}
+              </nav>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -169,8 +193,8 @@ export function Insights() {
               <h2 className="h-lg">Рішення для конкретної операції.</h2>
             </div>
             <p>
-              Менше пошукового обсягу. Вища цінність наміру. Кожна сторінка
-              показує flow, інтеграції, контроль і метрику запуску.
+              Знайдіть свій процес: CRM, дзвінки, підтримка чи рекрутинг.
+              Перевірте сценарій, інтеграції та умови запуску.
             </p>
           </div>
           <div className="atlas-solution-rows">
@@ -192,14 +216,14 @@ export function Insights() {
         <div className="wrap insight-method-grid">
           <div>
             <Meta>РЕДАКЦІЙНИЙ СТАНДАРТ</Meta>
-            <h2 className="h-lg">Показуємо, як перевіряли.</h2>
+            <h2 className="h-lg">Даємо спосіб перевірити.</h2>
           </div>
           <div className="insight-method-points">
             {[
               [
                 "01",
-                "Власний тест",
-                "Реальний workflow, набір документів або прототип.",
+                "Практичне завдання",
+                "Навчальний сценарій, вхідні дані та очікувана поведінка.",
               ],
               [
                 "02",
@@ -208,7 +232,7 @@ export function Insights() {
               ],
               [
                 "03",
-                "Дата перевірки",
+                "Дата оновлення",
                 "Оновлюємо матеріал після суттєвих змін продукту.",
               ],
             ].map(([number, title, copy]) => (
@@ -264,8 +288,7 @@ export function InsightArticle() {
                 <div>
                   <strong>AI Insider Research</strong>
                   <span>
-                    Перевірено {formatDate(article.updated)} ·{" "}
-                    {article.readTime}
+                    Оновлено {formatDate(article.updated)} · {article.readTime}
                   </span>
                 </div>
               </div>
@@ -283,6 +306,11 @@ export function InsightArticle() {
                   {section.title}
                 </a>
               ))}
+              {article.practice && (
+                <a href="#practice">
+                  <span>↗</span>Практичне завдання
+                </a>
+              )}
             </aside>
 
             <div className="article-content">
@@ -294,6 +322,56 @@ export function InsightArticle() {
                   ))}
                 </ul>
               </section>
+
+              {article.practice && (
+                <section className="article-practice" id="practice">
+                  <Meta>ПРАКТИЧНЕ ЗАВДАННЯ · НАВЧАЛЬНІ ДАНІ</Meta>
+                  <h2>{article.practice.title}</h2>
+                  <p>{article.practice.intro}</p>
+                  <ol>
+                    {article.practice.steps.map((step) => (
+                      <li key={step}>{step}</li>
+                    ))}
+                  </ol>
+                  {article.practice.sample && (
+                    <pre>
+                      <code>{article.practice.sample}</code>
+                    </pre>
+                  )}
+                  <h3>Що перевірити</h3>
+                  <div
+                    className="comparison-wrap"
+                    role="region"
+                    tabIndex="0"
+                    aria-label="Контрольні приклади"
+                  >
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Приклад</th>
+                          <th>Очікуваний результат</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {article.practice.checks.map(([input, expected]) => (
+                          <tr key={input}>
+                            <td>{input}</td>
+                            <td>{expected}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <p className="practice-limit">{article.practice.limit}</p>
+                  <a
+                    className="arrow-link"
+                    href={`/downloads/guides/${article.slug}.md`}
+                    download
+                  >
+                    Завантажити завдання <DownloadSimple size={18} />
+                  </a>
+                </section>
+              )}
 
               {article.comparison && (
                 <div
@@ -350,8 +428,8 @@ export function InsightArticle() {
                     <Meta>БЕЗКОШТОВНИЙ ASSET</Meta>
                     <h2>10 стартових n8n workflow</h2>
                     <p>
-                      Імпортуйте JSON, замініть blueprint nodes на власні
-                      інтеграції та додайте production-контроль.
+                      Стартові схеми у JSON. Підключіть власні інтеграції,
+                      перевірте помилки й дублікати перед запуском.
                     </p>
                   </div>
                   <span>

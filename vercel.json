@@ -120,27 +120,27 @@
     },
     {
       "source": "/en/blog/ai-cold-calling-agent-that-books-meetings",
-      "destination": "/solutions/ai-inbound-call-automation",
+      "destination": "/insights/ai-sdr-b2b-outbound",
       "permanent": true
     },
     {
       "source": "/uk/blog/ai-cold-calling-agent-that-books-meetings",
-      "destination": "/solutions/ai-inbound-call-automation",
+      "destination": "/insights/ai-sdr-b2b-outbound",
       "permanent": true
     },
     {
       "source": "/ai-sdr",
-      "destination": "/services#agents",
+      "destination": "/insights/ai-sdr-b2b-outbound",
       "permanent": true
     },
     {
       "source": "/uk/ai-sdr",
-      "destination": "/services#agents",
+      "destination": "/insights/ai-sdr-b2b-outbound",
       "permanent": true
     },
     {
       "source": "/en/ai-sdr",
-      "destination": "/services#agents",
+      "destination": "/insights/ai-sdr-b2b-outbound",
       "permanent": true
     },
     {
@@ -321,6 +321,156 @@
     {
       "source": "/en/cases/flower-shop-ai-sales",
       "destination": "/solutions/lead-routing-ai",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/insights",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog",
+      "destination": "/insights",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog",
+      "destination": "/insights",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ai-sdr-workflow-for-b2b-outbound",
+      "destination": "/insights/ai-sdr-b2b-outbound",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog/ai-sdr-workflow-for-b2b-outbound",
+      "destination": "/insights/ai-sdr-b2b-outbound",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/ai-sdr-workflow-for-b2b-outbound",
+      "destination": "/insights/ai-sdr-b2b-outbound",
+      "permanent": true
+    },
+    {
+      "source": "/solutions/ai-for-hr-teams",
+      "destination": "/solutions/ai-recruiter-agency",
+      "permanent": true
+    },
+    {
+      "source": "/uk/solutions/ai-for-hr-teams",
+      "destination": "/solutions/ai-recruiter-agency",
+      "permanent": true
+    },
+    {
+      "source": "/en/solutions/ai-for-hr-teams",
+      "destination": "/solutions/ai-recruiter-agency",
+      "permanent": true
+    },
+    {
+      "source": "/solutions/ai-for-ecommerce",
+      "destination": "/solutions/ecommerce-automation",
+      "permanent": true
+    },
+    {
+      "source": "/uk/solutions/ai-for-ecommerce",
+      "destination": "/solutions/ecommerce-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/solutions/ai-for-ecommerce",
+      "destination": "/solutions/ecommerce-automation",
+      "permanent": true
+    },
+    {
+      "source": "/solutions/ai-for-crm-automation",
+      "destination": "/solutions/crm-automation",
+      "permanent": true
+    },
+    {
+      "source": "/uk/solutions/ai-for-crm-automation",
+      "destination": "/solutions/crm-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/solutions/ai-for-crm-automation",
+      "destination": "/solutions/crm-automation",
+      "permanent": true
+    },
+    {
+      "source": "/solutions/ai-for-data-entry-automation",
+      "destination": "/solutions/crm-automation",
+      "permanent": true
+    },
+    {
+      "source": "/uk/solutions/ai-for-data-entry-automation",
+      "destination": "/solutions/crm-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/solutions/ai-for-data-entry-automation",
+      "destination": "/solutions/crm-automation",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ai-proposal-generator-for-agencies",
+      "destination": "/solutions/ai-proposal-generator-for-agencies",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog/ai-proposal-generator-for-agencies",
+      "destination": "/solutions/ai-proposal-generator-for-agencies",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/ai-proposal-generator-for-agencies",
+      "destination": "/solutions/ai-proposal-generator-for-agencies",
+      "permanent": true
+    },
+    {
+      "source": "/blog/ai-spokesperson-for-corporate-video",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/uk/blog/ai-spokesperson-for-corporate-video",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/ai-spokesperson-for-corporate-video",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/cases/ai-voice-agent-calls",
+      "destination": "/solutions/ai-inbound-call-automation",
+      "permanent": true
+    },
+    {
+      "source": "/uk/cases/ai-voice-agent-calls",
+      "destination": "/solutions/ai-inbound-call-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/cases/ai-voice-agent-calls",
+      "destination": "/solutions/ai-inbound-call-automation",
+      "permanent": true
+    },
+    {
+      "source": "/solutions/ai-for-marketing-teams",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/uk/solutions/ai-for-marketing-teams",
+      "destination": "/studio",
+      "permanent": true
+    },
+    {
+      "source": "/en/solutions/ai-for-marketing-teams",
+      "destination": "/studio",
       "permanent": true
     }
   ]

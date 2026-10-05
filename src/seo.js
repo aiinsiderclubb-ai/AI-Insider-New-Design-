@@ -19,6 +19,12 @@ const pages = {
       "AI-агенти, автоматизація процесів, корпоративні бази знань і AI-стратегія з розрахунком бізнес-ефекту.",
     schema: "Service",
   },
+  "/solutions": {
+    title: "AI-автоматизація за бізнес-процесом | AI Insider",
+    description:
+      "Рішення для CRM, рекрутингу, дзвінків, email, нерухомості та інтернет-магазинів. Сценарії, обмеження, інтеграції й критерії запуску.",
+    schema: "CollectionPage",
+  },
   "/cases": {
     title: "Кейси AI-автоматизації, AI-рекрутингу та відео | AI Insider",
     description:
@@ -44,13 +50,13 @@ const pages = {
     schema: "ContactPage",
   },
   "/insights": {
-    title: "Практичні AI-гайди, n8n та автоматизація | AI Insider",
+    title: "n8n, AI-агенти та автоматизація: гайди українською | AI Insider",
     description:
-      "Практичні гайди про n8n, AI agents, Google AI Studio, NotebookLM та автоматизацію бізнесу. Власні тести, workflow і калькулятори.",
+      "Практичні гайди про n8n, AI agents, Google AI Studio, NotebookLM та автоматизацію бізнесу. Навчальні приклади, workflow і калькулятори.",
     schema: "CollectionPage",
   },
   "/tools/n8n-workflow-library": {
-    title: "10 готових n8n workflow: безкоштовні JSON | AI Insider",
+    title: "10 стартових n8n workflow: безкоштовні JSON | AI Insider",
     description:
       "Завантажте 10 стартових n8n workflow у JSON: ліди, підтримка, документи, контент, CRM, звіти та база знань.",
     schema: "CollectionPage",
@@ -96,7 +102,8 @@ const insightMeta = Object.fromEntries(
   insightArticles.map((article) => [
     `/insights/${article.slug}`,
     {
-      title: `${article.title} | AI Insider`,
+      title: `${article.seoTitle || article.title} | AI Insider`,
+      image: `${SITE_URL}/assets/editorial-insights.webp`,
       description: article.description,
       schema: "Article",
       datePublished: article.published,
@@ -142,12 +149,19 @@ function upsertLink(rel, href) {
 }
 
 export function pageJsonLd(page, pathname, canonical) {
-  const base = [
+  const organizationId = `${SITE_URL}/#organization`;
+  const pageId = `${canonical}#webpage`;
+  const entityId = `${canonical}#entity`;
+  const contentEntity = ["Article", "Service", "WebApplication"].includes(
+    page.schema,
+  );
+  const graph = [
     {
       "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
+      "@id": organizationId,
       name: "AI Insider",
-      url: SITE_URL,
+      url: `${SITE_URL}/`,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/favicon.svg` },
       email: "hello@aiinsider.it.com",
       areaServed: ["UA", "CH"],
       sameAs: ["https://product-radar.com/products/ai-insider"],
@@ -155,30 +169,38 @@ export function pageJsonLd(page, pathname, canonical) {
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
-      url: SITE_URL,
+      url: `${SITE_URL}/`,
       name: "AI Insider",
       inLanguage: "uk-UA",
-      publisher: { "@id": `${SITE_URL}/#organization` },
+      publisher: { "@id": organizationId },
     },
     {
-      "@type": page.schema,
-      "@id": `${canonical}#webpage`,
+      "@type": contentEntity ? "WebPage" : page.schema,
+      "@id": pageId,
       url: canonical,
       name: page.title,
       description: page.description,
       inLanguage: "uk-UA",
       isPartOf: { "@id": `${SITE_URL}/#website` },
-      about: { "@id": `${SITE_URL}/#organization` },
+      about: { "@id": organizationId },
+      ...(contentEntity ? { mainEntity: { "@id": entityId } } : {}),
       primaryImageOfPage: {
         "@type": "ImageObject",
         url: page.image || DEFAULT_IMAGE,
       },
     },
   ];
+  if (page.noindex)
+    return { "@context": "https://schema.org", "@graph": graph };
 
-  if (page.schema === "Article") {
-    Object.assign(base[2], {
+  if (page.schema === "Article")
+    graph.push({
+      "@type": "Article",
+      "@id": entityId,
       headline: page.title.split(" | ")[0],
+      description: page.description,
+      image: [page.image || DEFAULT_IMAGE],
+      inLanguage: "uk-UA",
       datePublished: page.datePublished,
       dateModified: page.dateModified,
       author: {
@@ -186,26 +208,36 @@ export function pageJsonLd(page, pathname, canonical) {
         name: "AI Insider Research",
         url: `${SITE_URL}/about`,
       },
-      publisher: { "@id": `${SITE_URL}/#organization` },
-      mainEntityOfPage: { "@id": `${canonical}#webpage` },
+      publisher: { "@id": organizationId },
+      mainEntityOfPage: { "@id": pageId },
       citation: page.sources?.map(([, url]) => url),
     });
-  }
-
-  if (page.schema === "Service") {
-    Object.assign(base[2], {
+  if (page.schema === "Service")
+    graph.push({
+      "@type": "Service",
+      "@id": entityId,
+      name: page.serviceType || page.title.split(" | ")[0],
       serviceType: page.serviceType || page.title.split(" | ")[0],
-      provider: { "@id": `${SITE_URL}/#organization` },
+      description: page.description,
+      url: canonical,
+      provider: { "@id": organizationId },
       areaServed: ["UA", "CH"],
+      mainEntityOfPage: { "@id": pageId },
     });
-  }
-
-  if (page.video) {
-    const videoId = `${canonical}#video`;
-    base[2].video = { "@id": videoId };
-    base.push({
+  if (page.schema === "WebApplication")
+    graph.push({
+      "@type": "WebApplication",
+      "@id": entityId,
+      name: page.title.split(" | ")[0],
+      url: canonical,
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web browser",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+    });
+  if (page.video)
+    graph.push({
       "@type": "VideoObject",
-      "@id": videoId,
+      "@id": `${canonical}#video`,
       name: page.video.name,
       description: page.video.description,
       thumbnailUrl: `${SITE_URL}${page.video.thumbnail}`,
@@ -216,40 +248,59 @@ export function pageJsonLd(page, pathname, canonical) {
       inLanguage: "uk-UA",
       isFamilyFriendly: true,
     });
-  }
-
-  if (page.faq?.length) {
-    base.push({
+  if (page.faq?.length)
+    graph.push({
       "@type": "FAQPage",
+      "@id": `${canonical}#faq`,
       mainEntity: page.faq.map(([question, answer]) => ({
         "@type": "Question",
         name: question,
         acceptedAnswer: { "@type": "Answer", text: answer },
       })),
     });
-  }
 
+  const parent = pathname.startsWith("/insights/")
+    ? ["/insights", "Гайди"]
+    : pathname.startsWith("/cases/")
+      ? ["/cases", "Кейси"]
+      : pathname.startsWith("/solutions/")
+        ? ["/solutions", "Рішення"]
+        : null;
   if (pathname !== "/") {
-    base.push({
+    const crumbs = [
+      ["/", "Головна"],
+      ...(parent ? [parent] : []),
+      [pathname, page.title.split(" | ")[0]],
+    ];
+    graph.push({
       "@type": "BreadcrumbList",
-      itemListElement: [
-        {
-          "@type": "ListItem",
-          position: 1,
-          name: "Головна",
-          item: SITE_URL,
-        },
-        {
-          "@type": "ListItem",
-          position: 2,
-          name: page.title.split(" | ")[0],
-          item: canonical,
-        },
-      ],
+      itemListElement: crumbs.map(([route, name], index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name,
+        item: `${SITE_URL}${route}`,
+      })),
     });
   }
-
-  return { "@context": "https://schema.org", "@graph": base };
+  const collection =
+    pathname === "/insights"
+      ? insightArticles.map((a) => [`/insights/${a.slug}`, a.title])
+      : pathname === "/solutions"
+        ? solutionPages.map((a) => [`/solutions/${a.slug}`, a.title])
+        : pathname === "/cases"
+          ? caseItems.map((a) => [`/cases/${a.slug}`, a.title])
+          : [];
+  if (collection.length)
+    graph.push({
+      "@type": "ItemList",
+      itemListElement: collection.map(([route, name], index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${SITE_URL}${route}`,
+        name,
+      })),
+    });
+  return { "@context": "https://schema.org", "@graph": graph };
 }
 
 export function getSeoForPath(rawPathname) {
@@ -340,7 +391,18 @@ export function Seo() {
       name: "twitter:image",
       content: image,
     });
-    upsertLink("canonical", canonical);
+    if (meta.noindex)
+      document.head.querySelector('link[rel="canonical"]')?.remove();
+    else upsertLink("canonical", canonical);
+    upsertMeta('meta[property="og:image:secure_url"]', {
+      property: "og:image:secure_url",
+      content: image,
+    });
+    document.head
+      .querySelectorAll(
+        'meta[property="og:image:width"], meta[property="og:image:height"], meta[property="og:image:type"]',
+      )
+      .forEach((node) => node.remove());
 
     let script = document.head.querySelector("#page-jsonld");
     if (!script) {

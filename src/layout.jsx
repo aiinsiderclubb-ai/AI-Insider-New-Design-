@@ -30,7 +30,7 @@ import {
 } from "./wow.jsx";
 import { modules, navLinks } from "./data.js";
 import { ContactModal, Meta } from "./ui.jsx";
-import { Seo } from "./seo.js";
+import { getSeoForPath, Seo } from "./seo.js";
 
 const ContactCtx = createContext(() => {});
 
@@ -44,9 +44,17 @@ export function Layout() {
   const [stuck, setStuck] = useState(false);
   const { pathname, hash } = useLocation();
   const lightHeader =
-    ["/services", "/cases", "/about", "/insights", "/studio"].includes(
-      pathname,
-    ) || pathname.startsWith("/cases/");
+    [
+      "/services",
+      "/solutions",
+      "/404",
+      "/cases",
+      "/about",
+      "/insights",
+      "/studio",
+    ].includes(pathname) ||
+    pathname.startsWith("/cases/") ||
+    getSeoForPath(pathname).isMissing;
 
   const openContact = useCallback((intent = "general") => {
     setMenuOpen(false);
@@ -242,6 +250,7 @@ export function Layout() {
               </div>
               <div className="footer-col">
                 <Meta>ПОСЛУГИ</Meta>
+                <Link to="/solutions">Рішення за процесом</Link>
                 {modules.map((module) => (
                   <Link to={`/services#${module.id}`} key={module.id}>
                     {module.tab}

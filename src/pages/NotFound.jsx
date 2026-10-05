@@ -1,32 +1,61 @@
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowUpRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-import { Meta, Reveal } from "../ui.jsx";
+import { Meta } from "../ui.jsx";
 
 export function NotFound() {
   return (
-    <main>
-      <section className="chapter c-ink page-head is-tall">
-        <div className="wrap">
-          <Reveal>
-            <Meta>ПОМИЛКА 404</Meta>
-          </Reveal>
-          <h1 className="h-xl" data-reveal>
-            Такої сторінки немає.
-          </h1>
-          <Reveal delay={120}>
-            <p className="lede page-lede">
-              Можливо, посилання застаріло. Почніть з головної або подивіться,
-              що ми робимо.
+    <main className="lost-page">
+      <section className="lost-atlas">
+        <div className="wrap lost-layout">
+          <div className="lost-copy">
+            <Meta>404 / МАРШРУТ НЕ ЗНАЙДЕНО</Meta>
+            <h1>
+              Загубили сторінку.
+              <br />
+              Знайдемо напрям.
+            </h1>
+            <p>
+              Це посилання більше не веде до сторінки. Гайди, рішення та реальні
+              кейси — поруч.
             </p>
-            <div className="page-actions">
-              <Link className="btn btn-accent" to="/">
-                На головну <ArrowUpRight size={16} weight="bold" />
+            <Link className="btn btn-dark" to="/">
+              <ArrowLeft size={16} weight="bold" /> Повернутися на головну
+            </Link>
+          </div>
+          <div className="lost-map" aria-hidden="true">
+            <span className="lost-number">404</span>
+            <svg viewBox="0 0 600 240" fill="none">
+              <path d="M20 180H145C185 180 185 65 230 65H310" />
+              <path d="M355 65H420C465 65 465 180 510 180H580" />
+              <circle cx="20" cy="180" r="6" />
+              <circle cx="580" cy="180" r="6" />
+              <circle className="lost-node" cx="333" cy="65" r="11" />
+            </svg>
+            <Meta>ПОСИЛАННЯ ОБІРВАЛОСЯ. ШЛЯХ ТРИВАЄ.</Meta>
+          </div>
+          <nav className="lost-directions" aria-label="Знайти потрібний розділ">
+            {[
+              [
+                "/insights",
+                "Практичні гайди",
+                "n8n, AI-агенти, Google AI Studio",
+              ],
+              [
+                "/services",
+                "Рішення для бізнесу",
+                "Процеси, інтеграції, контроль",
+              ],
+              ["/cases", "Реальні кейси", "Рекрутинг, операції, AI-відео"],
+            ].map(([to, title, copy]) => (
+              <Link to={to} key={to}>
+                <div>
+                  <h2>{title}</h2>
+                  <p>{copy}</p>
+                </div>
+                <ArrowUpRight size={22} weight="bold" />
               </Link>
-              <Link className="btn btn-outline" to="/services">
-                Послуги
-              </Link>
-            </div>
-          </Reveal>
+            ))}
+          </nav>
         </div>
       </section>
     </main>

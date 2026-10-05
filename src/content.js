@@ -1,8 +1,15 @@
+import { articlePractice } from "./content-practice.js";
+import {
+  outboundGuide,
+  additionalSolutions,
+  solutionDepth,
+} from "./content-commercial.js";
+
 export const insightArticles = [
   {
     slug: "n8n-ukrainskoiu",
     category: "АВТОМАТИЗАЦІЯ",
-    title: "n8n українською: повний гайд і 10 готових workflow",
+    title: "n8n українською: повний гайд і 10 стартових workflow",
     shortTitle: "n8n українською",
     description:
       "Практичний гайд з n8n українською: як працюють workflows, nodes, credentials і webhooks. Плюс 10 стартових сценаріїв для бізнесу.",
@@ -87,7 +94,7 @@ export const insightArticles = [
       ["Офіційна документація n8n", "https://docs.n8n.io/"],
       [
         "Security audit n8n",
-        "https://docs.n8n.io/hosting/securing/security-audit/",
+        "https://docs.n8n.io/deploy/host-n8n/configure-n8n/security/run-security-audits",
       ],
     ],
   },
@@ -324,7 +331,7 @@ export const insightArticles = [
       "n8n-error-handling",
     ],
     sources: [
-      ["n8n hosting documentation", "https://docs.n8n.io/hosting/"],
+      ["n8n hosting documentation", "https://docs.n8n.io/deploy/host-n8n"],
       ["Make Help Center", "https://help.make.com/"],
       ["Zapier Help Center", "https://help.zapier.com/"],
     ],
@@ -582,7 +589,7 @@ export const insightArticles = [
       ["Офіційний анонс n8n MCP Server", "https://blog.n8n.io/n8n-mcp-server/"],
       [
         "n8n MCP documentation",
-        "https://docs.n8n.io/advanced-ai/accessing-n8n-mcp-server/",
+        "https://docs.n8n.io/build/ways-of-building-workflows/connect-to-n8n-mcp-server",
       ],
     ],
   },
@@ -658,11 +665,11 @@ export const insightArticles = [
     sources: [
       [
         "n8n Docker installation",
-        "https://docs.n8n.io/hosting/installation/docker/",
+        "https://docs.n8n.io/deploy/host-n8n/install-options/install-with-docker",
       ],
       [
         "n8n environment variables",
-        "https://docs.n8n.io/hosting/configuration/environment-variables/",
+        "https://docs.n8n.io/deploy/host-n8n/configure-n8n/basic-configuration/use-environment-variables",
       ],
     ],
   },
@@ -903,7 +910,10 @@ export const insightArticles = [
         "Webhook node — n8n documentation",
         "https://docs.n8n.io/integrations/builtin/core-nodes/n8n-nodes-base.webhook/",
       ],
-      ["Webhook security guidance", "https://docs.n8n.io/hosting/securing/"],
+      [
+        "Webhook security guidance",
+        "https://docs.n8n.io/deploy/host-n8n/configure-n8n/security",
+      ],
     ],
   },
   {
@@ -978,7 +988,7 @@ export const insightArticles = [
     sources: [
       [
         "Error handling — n8n documentation",
-        "https://docs.n8n.io/flow-logic/error-handling/",
+        "https://docs.n8n.io/build/flow-logic/handle-errors-gracefully",
       ],
       [
         "Error Trigger node",
@@ -1064,7 +1074,7 @@ export const insightArticles = [
       ],
       [
         "Human fallback for AI workflows",
-        "https://docs.n8n.io/advanced-ai/examples/human-fallback/",
+        "https://docs.n8n.io/build/integrate-ai/ai-examples/set-a-human-fallback-for-ai-workflows",
       ],
     ],
   },
@@ -1193,6 +1203,40 @@ export const insightArticles = [
     ],
   },
 ];
+
+insightArticles.push(outboundGuide);
+for (const article of insightArticles) {
+  article.practice = articlePractice[article.slug];
+  if (article.practice) article.updated = "2026-10-05";
+  article.seoTitle =
+    article.seoTitle ||
+    {
+      "n8n-vs-make-vs-zapier": "n8n, Make чи Zapier: порівняння для бізнесу",
+      "ai-agent-what-is-it": "AI-агент: що це, як працює та де корисний",
+      "google-workspace-studio-ukrainskoiu":
+        "Google Workspace Studio: AI-агенти українською",
+      "n8n-mcp-server": "n8n MCP Server: підключення ChatGPT, Claude і Cursor",
+      "n8n-docker-self-hosted":
+        "n8n у Docker: встановлення, backup і підтримка",
+      "n8n-telegram-bot": "n8n Telegram bot: заявки та AI-відповіді",
+      "n8n-google-sheets": "n8n Google Sheets: інтеграція таблиць без дублів",
+      "n8n-webhook": "n8n Webhook: налаштування, захист і відповіді",
+      "n8n-error-handling": "n8n: обробка помилок, повтори та відновлення",
+      "n8n-ai-agent": "n8n AI Agent: інструменти, пам’ять і контроль",
+      "n8n-ukrainskoiu": "n8n українською: що це та як створити workflow",
+      "n8n-kurs-ukrainskoiu": "Курс n8n українською: 7 безкоштовних уроків",
+      "notebooklm-for-business":
+        "NotebookLM / Gemini Notebook: гайд для бізнесу",
+      "google-ai-studio-guide":
+        "Google AI Studio українською: приклад та інструкція",
+    }[article.slug];
+  const wordCount = JSON.stringify([
+    article.sections,
+    article.practice,
+    article.faq,
+  ]).split(/\s+/).length;
+  article.readTime = `${Math.max(3, Math.ceil(wordCount / 170))} хв`;
+}
 
 export const insightBySlug = Object.fromEntries(
   insightArticles.map((article) => [article.slug, article]),
@@ -1703,7 +1747,7 @@ export const solutionPages = [
     slug: "ai-email-automation",
     kicker: "EMAIL OPERATIONS",
     title: "AI-автоматизація email для бізнесу",
-    seoTitle: "AI email automation для бізнесу | AI Insider",
+    seoTitle: "AI-автоматизація email для бізнесу | AI Insider",
     description:
       "AI email automation: класифікація листів, витяг даних, draft відповіді, створення задачі та контроль SLA з обов’язковою ескалацією людині.",
     dek: "Вхідний лист стає контрольованою дією: система визначає намір, знаходить потрібний контекст, готує відповідь або задачу й не приховує винятки від команди.",
@@ -1743,7 +1787,7 @@ export const solutionPages = [
     slug: "ai-company-knowledge-search",
     kicker: "KNOWLEDGE · RAG",
     title: "AI-пошук у базі знань компанії",
-    seoTitle: "AI search assistant for company knowledge | AI Insider",
+    seoTitle: "AI-пошук у документах компанії | AI Insider",
     description:
       "AI search assistant для бази знань компанії: пошук у документах, відповіді з цитатами, права доступу, контроль актуальності та передача людині.",
     dek: "Співробітник ставить питання звичайною мовою й отримує коротку відповідь з посиланнями на конкретні документи — у межах своїх прав доступу.",
@@ -1780,6 +1824,31 @@ export const solutionPages = [
     ],
   },
 ];
+
+solutionPages.push(...additionalSolutions);
+for (const solution of solutionPages) {
+  const depth = solutionDepth[solution.slug];
+  if (depth) {
+    if (depth.seoTitle) solution.seoTitle = `${depth.seoTitle} | AI Insider`;
+    solution.details = depth.details.map(([label, title, body], index) => ({
+      label: `${String(index + 1).padStart(2, "0")} / ${label}`,
+      title,
+      body,
+    }));
+    solution.measurement = depth.measurement;
+    solution.related = depth.related.map(([to, label, title]) => ({
+      to,
+      label,
+      title,
+    }));
+  }
+  if (solution.seoTitle && !solution.seoTitle.includes(" | AI Insider"))
+    solution.seoTitle += " | AI Insider";
+  solution.updated =
+    depth || additionalSolutions.includes(solution)
+      ? "2026-10-05"
+      : "2026-09-07";
+}
 
 export const solutionBySlug = Object.fromEntries(
   solutionPages.map((solution) => [solution.slug, solution]),

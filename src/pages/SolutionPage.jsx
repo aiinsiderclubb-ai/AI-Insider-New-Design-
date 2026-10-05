@@ -17,6 +17,11 @@ export function SolutionPage() {
       <section className="chapter c-ink solution-hero">
         <div className="wrap solution-hero-grid">
           <div>
+            <nav className="article-breadcrumb" aria-label="Навігаційний шлях">
+              <Link to="/solutions">Рішення</Link>
+              <span>/</span>
+              <span>{solution.kicker}</span>
+            </nav>
             <Reveal>
               <Meta>{solution.kicker}</Meta>
             </Reveal>

@@ -23,7 +23,7 @@ test("Vercel keeps prerendered documents and real 404 responses", async () => {
     config.redirects.some(
       ({ source, destination }) =>
         source === "/en/blog/ai-cold-calling-agent-that-books-meetings" &&
-        destination === "/solutions/ai-inbound-call-automation",
+        destination === "/insights/ai-sdr-b2b-outbound",
     ),
   );
   assert.ok(
@@ -50,6 +50,7 @@ test("every indexable content route is present once in sitemap", async () => {
   const expectedPaths = [
     "/",
     "/services",
+    "/solutions",
     "/cases",
     ...caseItems.map(({ slug }) => `/cases/${slug}`),
     "/studio",

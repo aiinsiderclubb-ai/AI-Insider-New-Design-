@@ -95,7 +95,7 @@ export const caseItems = [
     seoDescription:
       "Кейс AI-рекрутера в Telegram: створення вакансій, кваліфікація кандидатів, розсилка, shortlist, тестові завдання й контроль дедлайнів.",
     published: "2026-08-21",
-    updated: "2026-09-03",
+    updated: "2026-09-24",
     video: {
       name: "AI-рекрутер у Telegram — демонстрація робочої системи",
       description:

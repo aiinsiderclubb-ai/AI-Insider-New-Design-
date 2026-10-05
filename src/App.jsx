@@ -11,6 +11,7 @@ import { Legal } from "./pages/Legal.jsx";
 import { NotFound } from "./pages/NotFound.jsx";
 import { InsightArticle, Insights } from "./pages/Insights.jsx";
 import { AutomationCalculator, WorkflowLibrary } from "./pages/Tools.jsx";
+import { Solutions } from "./pages/Solutions.jsx";
 import { SolutionPage } from "./pages/SolutionPage.jsx";
 
 export function AppRoutes() {
@@ -26,6 +27,7 @@ export function AppRoutes() {
         <Route path="/insights/:slug" element={<InsightArticle />} />
         <Route path="/tools/n8n-workflow-library" element={<WorkflowLibrary />} />
         <Route path="/tools/ai-automation-calculator" element={<AutomationCalculator />} />
+        <Route path="/solutions" element={<Solutions />} />
         <Route path="/solutions/:slug" element={<SolutionPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />

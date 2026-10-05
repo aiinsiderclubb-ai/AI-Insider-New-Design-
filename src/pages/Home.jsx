@@ -1,3 +1,4 @@
+import { ProcessLinks } from "./Solutions.jsx";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -912,6 +913,8 @@ export function Home() {
       </section>
 
       {/* 10 — faq */}
+      <ProcessLinks compact />
+
       <section className="chapter c-paper" id="faq">
         <div className="wrap faq-grid">
           <div>

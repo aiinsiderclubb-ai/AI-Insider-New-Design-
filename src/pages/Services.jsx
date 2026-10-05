@@ -1,3 +1,4 @@
+import { ProcessLinks } from "./Solutions.jsx";
 import { useState } from "react";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
@@ -171,6 +172,7 @@ export function Services() {
         </div>
       </section>
 
+      <ProcessLinks compact />
       <section className="chapter c-paper-2 atlas-faq">
         <div className="wrap faq-grid">
           <div>

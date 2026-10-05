@@ -29,4 +29,4 @@ Canonical site: https://www.aiinsider.it.com
 - [ШІ-обробка вхідних дзвінків](https://www.aiinsider.it.com/solutions/ai-inbound-call-automation)
 - [Автоматизація салону краси](https://www.aiinsider.it.com/solutions/beauty-salon-automation)
 
-Editorial policy: official sources, explicit limitations, verification date, measurable process outcomes. No confidential client data is published.
+Editorial policy: official sources, explicit limitations, review date, measurable process outcomes. No confidential client data is published.

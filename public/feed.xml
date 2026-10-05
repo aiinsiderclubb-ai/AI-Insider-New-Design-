@@ -6,7 +6,7 @@
     <description>Практичні матеріали про n8n, AI-агентів та автоматизацію бізнесу.</description>
     <language>uk-UA</language>
     <item>
-      <title>n8n українською: повний гайд і 10 готових workflow</title>
+      <title>n8n українською: повний гайд і 10 стартових workflow</title>
       <link>https://www.aiinsider.it.com/insights/n8n-ukrainskoiu</link>
       <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-ukrainskoiu</guid>
       <description>Практичний гайд з n8n українською: як працюють workflows, nodes, credentials і webhooks. Плюс 10 стартових сценаріїв для бізнесу.</description>
@@ -17,14 +17,14 @@
       <link>https://www.aiinsider.it.com/insights/google-ai-studio-guide</link>
       <guid isPermaLink="true">https://www.aiinsider.it.com/insights/google-ai-studio-guide</guid>
       <description>Google AI Studio українською: створення prompt, structured output, function calling, тестування Gemini API, обмеження та сім бізнес-прототипів.</description>
-      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Gemini Notebook (NotebookLM) для бізнесу: база знань без хаосу</title>
       <link>https://www.aiinsider.it.com/insights/notebooklm-for-business</link>
       <guid isPermaLink="true">https://www.aiinsider.it.com/insights/notebooklm-for-business</guid>
       <description>Gemini Notebook, раніше NotebookLM, для бізнесу: джерела, права доступу, перевірка цитат, support, sales і навчання команди.</description>
-      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
     </item>
     <item>
       <title>n8n vs Make vs Zapier: що обрати для автоматизації</title>
@@ -38,7 +38,7 @@
       <link>https://www.aiinsider.it.com/insights/ai-agent-what-is-it</link>
       <guid isPermaLink="true">https://www.aiinsider.it.com/insights/ai-agent-what-is-it</guid>
       <description>Що таке AI agent: модель, інструменти, пам’ять, правила й human approval. Реальні сценарії, ризики та формула оцінки ROI.</description>
-      <pubDate>Wed, 02 Sep 2026 12:00:00 GMT</pubDate>
+      <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Google Workspace Studio українською: AI-агенти для Gmail, Drive і Chat</title>
@@ -102,6 +102,13 @@
       <guid isPermaLink="true">https://www.aiinsider.it.com/insights/n8n-kurs-ukrainskoiu</guid>
       <description>Безкоштовний курс n8n українською: 7 практичних уроків, перший workflow, webhook, API, AI Agent, обробка помилок і production checklist.</description>
       <pubDate>Mon, 07 Sep 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>AI SDR та B2B outbound: як автоматизувати підготовку продажів</title>
+      <link>https://www.aiinsider.it.com/insights/ai-sdr-b2b-outbound</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/ai-sdr-b2b-outbound</guid>
+      <description>AI SDR для B2B: критерії контакту, перевірка CRM, чернетки персональних листів, follow-up, stop-правила та вимірювання якості зустрічей.</description>
+      <pubDate>Mon, 05 Oct 2026 12:00:00 GMT</pubDate>
     </item>
   </channel>
 </rss>

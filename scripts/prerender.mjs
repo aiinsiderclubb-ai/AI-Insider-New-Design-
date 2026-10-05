@@ -13,6 +13,7 @@ const templatePath = path.join(clientDir, "index.html");
 const staticRoutes = [
   "/",
   "/services",
+  "/solutions",
   "/cases",
   "/studio",
   "/about",
@@ -25,6 +26,7 @@ const staticRoutes = [
 ];
 const routes = [
   ...staticRoutes,
+  "/404",
   ...caseItems.map((item) => `/cases/${item.slug}`),
   ...insightArticles.map((article) => `/insights/${article.slug}`),
   ...solutionPages.map((solution) => `/solutions/${solution.slug}`),
@@ -132,6 +134,18 @@ try {
     );
     result = replaceTag(
       result,
+      /<meta\s+property=["']og:image:secure_url["'][\s\S]*?>/i,
+      `<meta property="og:image:secure_url" content="${image}" />`,
+    );
+    // The template dimensions describe the home image, not every article image.
+    result = result.replace(
+      /<meta\s+property=["']og:image:(?:width|height|type)["'][\s\S]*?>/gi,
+      "",
+    );
+    if (meta.noindex)
+      result = result.replace(/<link\s+rel=["']canonical["'][\s\S]*?>/i, "");
+    result = replaceTag(
+      result,
       /<meta\s+property=["']og:image:alt["'][\s\S]*?>/i,
       `<meta property="og:image:alt" content="${imageAlt}" />`,
     );
@@ -174,9 +188,11 @@ try {
       route,
     );
     const output =
-      route === "/"
-        ? templatePath
-        : path.join(clientDir, route.slice(1), "index.html");
+      route === "/404"
+        ? path.join(clientDir, "404.html")
+        : route === "/"
+          ? templatePath
+          : path.join(clientDir, route.slice(1), "index.html");
     mkdirSync(path.dirname(output), { recursive: true });
     writeFileSync(output, html);
   }
