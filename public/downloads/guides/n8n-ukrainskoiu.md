@@ -1,6 +1,6 @@
 # Зібрати перший workflow: заявка без дублювання
 
-AI Insider · Оновлено 2026-10-05
+AI Insider · Оновлено 2026-10-27
 Гайд: https://www.aiinsider.it.com/insights/n8n-ukrainskoiu
 
 Навчальне завдання на синтетичних даних. Не результат клієнтського проєкту.
@@ -35,4 +35,7 @@ AI Insider · Оновлено 2026-10-05
 ## Джерела
 
 - [Офіційна документація n8n](https://docs.n8n.io/)
+- [Встановлення n8n у Docker](https://docs.n8n.io/hosting/installation/docker/)
+- [Обробка помилок у n8n](https://docs.n8n.io/flow-logic/error-handling/)
+- [Sustainable Use License](https://docs.n8n.io/sustainable-use-license/)
 - [Security audit n8n](https://docs.n8n.io/deploy/host-n8n/configure-n8n/security/run-security-audits)
