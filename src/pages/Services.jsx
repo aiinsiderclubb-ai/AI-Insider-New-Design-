@@ -6,6 +6,7 @@ import { AgentTerminal, SplitText } from "../wow.jsx";
 import { Faq, Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { method, modules } from "../data.js";
+import { ClosingStep } from "../closing.jsx";
 
 const serviceMedia = [
   { src: "/assets/capability-orb.png", light: true },
@@ -220,6 +221,7 @@ export function Services() {
           </Reveal>
         </div>
       </section>
+      <ClosingStep />
     </main>
   );
 }

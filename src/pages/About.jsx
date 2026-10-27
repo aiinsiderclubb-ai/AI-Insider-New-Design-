@@ -4,6 +4,7 @@ import { Clock, SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { method, proof, values } from "../data.js";
+import { ClosingStep } from "../closing.jsx";
 
 export function About() {
   const openContact = useContact();
@@ -157,6 +158,7 @@ export function About() {
           </div>
         </div>
       </section>
+      <ClosingStep />
     </main>
   );
 }

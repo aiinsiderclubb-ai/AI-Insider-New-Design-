@@ -1,4 +1,5 @@
 import {
+  Suspense,
   createContext,
   useCallback,
   useContext,
@@ -121,12 +122,29 @@ export function Layout() {
       },
       { threshold: 0.1, rootMargin: "0px 0px -5% 0px" },
     );
+    // anything already on screen is shown straight away: the first view
+    // must never depend on an observer callback that may arrive late
+    // (hidden tabs, previews, crawlers) or not at all
     const watch = () =>
-      document
-        .querySelectorAll("[data-reveal]:not(.is-in)")
-        .forEach((node) => observer.observe(node));
+      document.querySelectorAll("[data-reveal]:not(.is-in)").forEach((node) => {
+        const { top, bottom } = node.getBoundingClientRect();
+        if (top < window.innerHeight && bottom > 0) node.classList.add("is-in");
+        else observer.observe(node);
+      });
     watch();
     const again = setTimeout(watch, 500);
+    // pages arrive as lazy chunks, possibly after both passes above;
+    // a page mounts as a direct child of .shell
+    let queued = 0;
+    const mutations = new MutationObserver(() => {
+      if (queued) return;
+      queued = window.setTimeout(() => {
+        queued = 0;
+        watch();
+      }, 60);
+    });
+    const main = document.querySelector(".shell");
+    if (main) mutations.observe(main, { childList: true });
 
     const onScroll = () => {
       setStuck(window.scrollY > 20);
@@ -141,7 +159,9 @@ export function Layout() {
 
     return () => {
       observer.disconnect();
+      mutations.disconnect();
       clearTimeout(again);
+      clearTimeout(queued);
       window.removeEventListener("scroll", onScroll);
     };
   }, [pathname]);
@@ -216,7 +236,9 @@ export function Layout() {
             </button>
           </nav>
         )}
-        <Outlet />
+        <Suspense fallback={<main className="page-loading" />}>
+          <Outlet />
+        </Suspense>
         <footer className="footer">
           <div className="wrap">
             <div className="foot-lead">

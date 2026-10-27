@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight, Check } from "@phosphor-icons/react";
 import { Counter, Device, ModuleVisual, ReelStrip } from "../wow.jsx";
 import { Faq, Meta, Reveal, SectionHead, prefersReduced } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
+import { ClosingStep } from "../closing.jsx";
 import {
   caseItems,
   hero,
@@ -23,10 +24,21 @@ function Hero({ onContact }) {
   const countRef = useRef(null);
   const [stage, setStage] = useState(0);
   const [system, setSystem] = useState(false);
+  // chosen after mount so the prerendered page never starts the wrong file
+  const [media, setMedia] = useState(null);
   const still = typeof window !== "undefined" && prefersReduced();
   const eager =
     typeof window === "undefined" ||
     window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  useEffect(() => {
+    const portrait = window.matchMedia("(max-aspect-ratio: 4/5)");
+    const pick = () =>
+      setMedia(portrait.matches ? hero.media.tall : hero.media.wide);
+    pick();
+    portrait.addEventListener("change", pick);
+    return () => portrait.removeEventListener("change", pick);
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -119,13 +131,17 @@ function Hero({ onContact }) {
           ref={stickRef}
         >
           {still ? (
-            <img className="hero-media" src={hero.poster} alt="" />
+            <img
+              className="hero-media"
+              src={media?.poster ?? hero.poster}
+              alt=""
+            />
           ) : (
             <video
               className="hero-media"
               ref={videoRef}
-              src={hero.video}
-              poster={hero.poster}
+              src={media?.video}
+              poster={media?.poster ?? hero.poster}
               muted
               playsInline
               preload={eager ? "auto" : "metadata"}
@@ -292,10 +308,7 @@ function Studio({ onContact }) {
   const reelHues = ["#4fe3ff", "#8b5cff", "#2b4bff", "#a9c8ff"];
   const activeHue = reelHues[index];
 
-  useEffect(
-    () => () => window.clearTimeout(rotationTimer.current),
-    [],
-  );
+  useEffect(() => () => window.clearTimeout(rotationTimer.current), []);
 
   const selectTab = (nextIndex, focus = true) => {
     const safeIndex = (nextIndex + studio.length) % studio.length;
@@ -702,83 +715,7 @@ export function Home() {
       </section>
 
       {/* 08 — closing step */}
-      <section className="cta-outer" id="contact">
-        <div className="wrap" style={{ padding: 0 }}>
-          <div className="cta-panel">
-            <Meta>ГОТОВІ ПОЧАТИ</Meta>
-            <h2 className="h-xl">
-              Розкажіть про процес. Ми покажемо, як його автоматизувати.
-            </h2>
-            <p className="lede">
-              Навіть якщо поки є лише ідея — за 30 хвилин розберемо задачу й
-              назвемо найсильніший перший крок.
-            </p>
-            <div className="cta-actions">
-              <button className="btn btn-accent" onClick={openContact}>
-                Забронювати розмову <ArrowUpRight size={16} weight="bold" />
-              </button>
-              <button className="btn btn-outline" onClick={openContact}>
-                Надіслати бриф
-              </button>
-            </div>
-            <Meta className="cta-note">
-              КИЇВ · ЦЮРИХ · ВІДПОВІДАЄМО ЗА 1 РОБОЧИЙ ДЕНЬ
-            </Meta>
-
-            <div className="cta-inner">
-              <div className="cta-inner-head">
-                <Meta>ОБЕРІТЬ ФОРМАТ ПЕРШОГО КРОКУ</Meta>
-                <Meta className="num">03 ВАРІАНТИ</Meta>
-              </div>
-              <div className="cta-cards">
-                {[
-                  {
-                    index: "01",
-                    when: "30 хвилин",
-                    title: "Стратегічна розмова",
-                    copy: "Задача, контекст і найсильніший перший крок.",
-                    featured: true,
-                  },
-                  {
-                    index: "02",
-                    when: "без дзвінка",
-                    title: "Надіслати бриф",
-                    copy: "Опишіть виклик — повернемося з першими ідеями.",
-                  },
-                  {
-                    index: "03",
-                    when: "2–3 тижні",
-                    title: "AI Sprint",
-                    copy: "Прототип на ваших даних із розрахунком ефекту.",
-                  },
-                ].map((card) => (
-                  <button
-                    className={`route${card.featured ? " is-featured" : ""}`}
-                    key={card.title}
-                    onClick={openContact}
-                  >
-                    <span className="route-sheen" aria-hidden="true" />
-                    <span className="route-top">
-                      <span className="route-index">{card.index}</span>
-                      <span className="route-when">{card.when}</span>
-                    </span>
-                    <span className="route-body">
-                      <strong>{card.title}</strong>
-                      <span className="route-copy">{card.copy}</span>
-                    </span>
-                    <span className="route-foot">
-                      <span className="route-cta">Обрати</span>
-                      <span className="route-go">
-                        <ArrowUpRight size={17} weight="bold" />
-                      </span>
-                    </span>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ClosingStep id="contact" withRoutes />
     </main>
   );
 }

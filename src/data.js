@@ -18,8 +18,13 @@ import {
 /* Один суцільний проїзд «хаос → система»: чотири кадри склеєні в
    один файл, тому сцен більше немає — є єдиний рух, який веде скрол. */
 export const hero = {
-  video: "/assets/journey/hero.mp4",
   poster: "/assets/journey/hero.jpg",
+  // landscape screens get the full frame; portrait phones get a native
+  // centre crop instead of an upscaled slice of the 16:9 take
+  media: {
+    wide: { video: "/assets/journey/hero-wide.mp4", poster: "/assets/journey/hero.jpg" },
+    tall: { video: "/assets/journey/hero-tall.mp4", poster: "/assets/journey/hero-tall.jpg" },
+  },
   eyebrow: "AI-СИСТЕМИ ДЛЯ БІЗНЕСУ · КИЇВ × ЦЮРИХ",
   lines: ["Ваш бізнес уже", "готовий до AI."],
   promise: "Побудуємо систему.",

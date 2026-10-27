@@ -6,6 +6,7 @@ import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { caseItems } from "../data.js";
 import { NotFound } from "./NotFound.jsx";
+import { ClosingStep } from "../closing.jsx";
 
 const detail = {
   "operatsiina-systema-kreatyvnoi-ahentsii": {
@@ -632,6 +633,7 @@ export function CaseDetail() {
           </div>
         </div>
       </section>
+      <ClosingStep />
     </main>
   );
 }

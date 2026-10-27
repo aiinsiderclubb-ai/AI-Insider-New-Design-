@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createServer } from "vite";
@@ -61,7 +61,29 @@ const vite = await createServer({
 });
 
 try {
-  const { render } = await vite.ssrLoadModule("/src/ssr.jsx");
+  const { render, pageModuleFor } = await vite.ssrLoadModule("/src/ssr.jsx");
+  const manifest = JSON.parse(
+    readFileSync(path.join(clientDir, ".vite", "manifest.json"), "utf8"),
+  );
+  const entryKey = Object.keys(manifest).find((key) => manifest[key].isEntry);
+  const entryChunks = new Set([manifest[entryKey].file]);
+
+  // the page's own chunk and its shared imports start downloading with the
+  // HTML, in parallel with the main bundle instead of after it
+  function preloadLinks(route) {
+    const key = pageModuleFor(route === "/404" ? "/404" : route).replace("./", "src/");
+    const files = new Set();
+    const visit = (id) => {
+      const chunk = manifest[id];
+      if (!chunk || entryChunks.has(chunk.file) || files.has(chunk.file)) return;
+      files.add(chunk.file);
+      (chunk.imports || []).forEach(visit);
+    };
+    visit(key);
+    return [...files]
+      .map((file) => `<link rel="modulepreload" crossorigin href="/${file}" />`)
+      .join("\n    ");
+  }
   const { getSeoForPath, pageJsonLd } = await vite.ssrLoadModule("/src/seo.js");
 
   const escapeAttribute = (value) =>
@@ -186,7 +208,7 @@ try {
         `<div id="root">${markup}</div>`,
       ),
       route,
-    );
+    ).replace("</head>", `  ${preloadLinks(route)}\n  </head>`);
     const output =
       route === "/404"
         ? path.join(clientDir, "404.html")
@@ -198,6 +220,8 @@ try {
   }
 } finally {
   await vite.close();
+  // build metadata, not something to publish
+  rmSync(path.join(clientDir, ".vite"), { recursive: true, force: true });
 }
 
 console.log(`Prerendered ${routes.length} routes.`);

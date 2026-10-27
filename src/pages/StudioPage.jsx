@@ -11,6 +11,7 @@ import {
 import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { studio } from "../data.js";
+import { ClosingStep } from "../closing.jsx";
 
 const production = [
   ["01", "Ідея", "Досліджуємо бренд, аудиторію та формуємо креативну ідею."],
@@ -395,6 +396,10 @@ export function StudioPage() {
           </button>
         </div>
       </section>
+      <ClosingStep
+        title="Покажіть продукт. Ми покажемо, яким він стане у відео."
+        lede="Опишіть бренд і задачу — запропонуємо формат, сценарій і перший безкоштовний демо-ролик."
+      />
     </main>
   );
 }

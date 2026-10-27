@@ -2,8 +2,8 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
 import { Counter, SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
-import { useContact } from "../layout.jsx";
 import { caseItems } from "../data.js";
+import { ClosingStep } from "../closing.jsx";
 
 /* Що саме ламалося до запуску — одним рядком, людською мовою. */
 const problem = {
@@ -23,8 +23,6 @@ const stages = [
 ];
 
 export function Cases() {
-  const openContact = useContact();
-
   return (
     <main className="atlas-page atlas-cases">
       <section className="chapter c-paper atlas-hero cases-atlas-hero">
@@ -137,13 +135,12 @@ export function Cases() {
             ))}
           </div>
 
-          <Reveal delay={200} className="page-actions">
-            <button className="btn btn-accent" onClick={openContact}>
-              Розібрати мій процес <ArrowUpRight size={16} weight="bold" />
-            </button>
-          </Reveal>
         </div>
       </section>
+      <ClosingStep
+        title="Ваш процес може стати наступним кейсом."
+        lede="Розкажіть, де зараз губиться час. За 30 хвилин покажемо, що автоматизувати першим і який ефект це дасть."
+      />
     </main>
   );
 }

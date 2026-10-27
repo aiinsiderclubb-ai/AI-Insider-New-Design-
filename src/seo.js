@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { caseItems } from "./data.js";
-import { insightArticles, solutionPages } from "./content.js";
+import { insightArticles, solutionPages } from "./seo-index.js";
 
 export const SITE_URL = "https://www.aiinsider.it.com";
 const DEFAULT_IMAGE = `${SITE_URL}/assets/journey/hero.jpg`;

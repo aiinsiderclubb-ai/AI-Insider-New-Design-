@@ -4,6 +4,7 @@ import { solutionBySlug } from "../content.js";
 import { useContact } from "../layout.jsx";
 import { Meta, Reveal } from "../ui.jsx";
 import { NotFound } from "./NotFound.jsx";
+import { ClosingStep } from "../closing.jsx";
 
 export function SolutionPage() {
   const { slug } = useParams();
@@ -209,19 +210,11 @@ export function SolutionPage() {
         </section>
       )}
 
-      <section className="chapter c-paper solution-next">
-        <div className="wrap solution-next-inner">
-          <Meta>НАСТУПНИЙ КРОК</Meta>
-          <h2 className="h-lg">Один процес. Реальні дані. Чесний висновок.</h2>
-          <p className="lede">
-            За 30 хвилин визначимо вхід, результат, обмеження та метрику першого
-            прототипу.
-          </p>
-          <button className="btn btn-dark" onClick={openContact}>
-            Обговорити процес <ArrowUpRight size={16} weight="bold" />
-          </button>
-        </div>
-      </section>
+      <ClosingStep
+        eyebrow="НАСТУПНИЙ КРОК"
+        title="Один процес. Реальні дані. Чесний висновок."
+        lede="За 30 хвилин визначимо вхід, результат, обмеження та метрику першого прототипу."
+      />
     </main>
   );
 }
