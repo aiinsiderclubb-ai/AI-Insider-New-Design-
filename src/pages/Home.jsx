@@ -1,46 +1,28 @@
-import { ProcessLinks } from "./Solutions.jsx";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
-  Check,
-  Star,
-} from "@phosphor-icons/react";
-import {
-  AgentTerminal,
-  Counter,
-  Device,
-  ModuleVisual,
-  NeuralGraph,
-  ReelStrip,
-  Scramble,
-  SplitText,
-  Strip,
-} from "../wow.jsx";
+import { ArrowRight, ArrowUpRight, Check } from "@phosphor-icons/react";
+import { Counter, Device, ModuleVisual, ReelStrip } from "../wow.jsx";
 import { Faq, Meta, Reveal, SectionHead, prefersReduced } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import {
-  answers,
   caseItems,
   hero,
   method,
   modules,
-  proof,
-  stories,
-  stripItems,
   studio,
   sweezyScreens,
   values,
 } from "../data.js";
 
-/* ======================================================= 01 — journey */
+/* ========================================================== 01 — hero */
 
-function Journey({ onContact }) {
+function Hero({ onContact }) {
   const trackRef = useRef(null);
+  const stickRef = useRef(null);
   const videoRef = useRef(null);
-  const [progress, setProgress] = useState(0);
+  const countRef = useRef(null);
+  const [stage, setStage] = useState(0);
+  const [system, setSystem] = useState(false);
   const still = typeof window !== "undefined" && prefersReduced();
   const eager =
     typeof window === "undefined" ||
@@ -48,14 +30,28 @@ function Journey({ onContact }) {
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track) return undefined;
+    const stick = stickRef.current;
+    if (!track || !stick) return undefined;
 
     const apply = () => {
       const rect = track.getBoundingClientRect();
       const span = rect.height - window.innerHeight;
       if (span <= 0) return;
       const p = Math.min(1, Math.max(0, -rect.top / span));
-      setProgress(p);
+
+      // per-frame values go straight to CSS; React only hears about the
+      // three stage changes and the moment the proof row appears
+      stick.style.setProperty("--p", p.toFixed(4));
+      const fill = Math.min(1, Math.max(0, (p - 0.08) / 0.8));
+      stick.style.setProperty("--fill", `${(fill * 100).toFixed(2)}%`);
+      if (countRef.current) {
+        countRef.current.textContent = String(Math.round(p * 100)).padStart(
+          3,
+          "0",
+        );
+      }
+      setStage(p < 0.34 ? 0 : p < 0.67 ? 1 : 2);
+      setSystem(p > 0.72);
 
       if (still) return;
       const video = videoRef.current;
@@ -116,72 +112,96 @@ function Journey({ onContact }) {
   }, [still]);
 
   return (
-    <section className="journey" id="top">
-      <div className="journey-track" ref={trackRef}>
-        <div className="journey-stick">
-          <div className="stage is-on">
-            {still ? (
-              <img className="stage-media" src={hero.poster} alt="" />
-            ) : (
-              <video
-                className="stage-media"
-                ref={videoRef}
-                src={hero.video}
-                poster={hero.poster}
-                muted
-                playsInline
-                preload={eager ? "auto" : "metadata"}
-                tabIndex={-1}
-              />
-            )}
-            <span className="stage-scrim" />
-            <span className="stage-vignette" aria-hidden="true" />
-          </div>
+    <section className="hero" id="top">
+      <div className="hero-track" ref={trackRef}>
+        <div
+          className={`hero-stick${system ? " is-system" : ""}`}
+          ref={stickRef}
+        >
+          {still ? (
+            <img className="hero-media" src={hero.poster} alt="" />
+          ) : (
+            <video
+              className="hero-media"
+              ref={videoRef}
+              src={hero.video}
+              poster={hero.poster}
+              muted
+              playsInline
+              preload={eager ? "auto" : "metadata"}
+              tabIndex={-1}
+            />
+          )}
+          <span className="hero-scrim" aria-hidden="true" />
 
-          <div className="journey-bar">
-            <Meta>AI INSIDER</Meta>
-            <div className="journey-scale">
-              <Meta>ХАОС</Meta>
-              <span className="rail" style={{ "--fill": progress }}>
-                <i />
-              </span>
-              <Meta>СИСТЕМА</Meta>
-            </div>
-            <Meta className="num">
-              {String(Math.round(progress * 100)).padStart(3, "0")} / 100
-            </Meta>
-          </div>
-
-          <div className="journey-copy">
-            <div className="inner">
-              <div className="journey-slide">
-                <span className="journey-rule" aria-hidden="true" />
-                <Meta>{hero.eyebrow}</Meta>
-                <h1 className="h-xl journey-title has-split is-in">
-                  <SplitText text={hero.title} from={260} />{" "}
-                  <span className="hl hl-wipe">{hero.accent}</span>
-                </h1>
-                <p className="lede">{hero.lede}</p>
-                <div className="journey-actions">
+          <div className="hero-layout">
+            <div className="hero-copy">
+              <Meta className="hero-eyebrow">
+                <i aria-hidden="true" />
+                {hero.eyebrow}
+              </Meta>
+              <h1 className="hero-title">
+                {hero.lines.map((line) => (
+                  <span key={line}>{line} </span>
+                ))}
+                <span className="hero-promise">{hero.promise}</span>
+              </h1>
+              <div className="hero-under">
+                <p className="hero-lede">{hero.lede}</p>
+                <div className="hero-actions">
                   <button className="btn btn-accent" onClick={onContact}>
                     Обговорити систему <ArrowUpRight size={16} weight="bold" />
                   </button>
-                  <Link className="btn btn-outline" to="/services">
-                    Що ми закриваємо
+                  <Link className="btn btn-outline" to="/cases">
+                    Подивитися кейси
                   </Link>
                 </div>
-                <Meta className="journey-note">{hero.note}</Meta>
               </div>
             </div>
+
+            <aside className="hero-route" aria-label="Від хаосу до системи">
+              <div className="hero-count">
+                <Meta>Маршрут</Meta>
+                <Meta>
+                  <b ref={countRef}>000</b> / 100
+                </Meta>
+              </div>
+              <ol className="hero-rail">
+                {hero.stages.map(([name, copy], index) => (
+                  <li
+                    className={index === stage ? "is-on" : undefined}
+                    key={name}
+                  >
+                    <Meta>
+                      0{index + 1} · {name}
+                    </Meta>
+                    <p>{copy}</p>
+                  </li>
+                ))}
+              </ol>
+            </aside>
+
+            <nav className="hero-proof" aria-label="Результати кейсів">
+              {hero.proof.map(([value, label, to]) => (
+                <Link key={to} to={to} tabIndex={system ? undefined : -1}>
+                  <strong>{value}</strong>
+                  <span>{label}</span>
+                </Link>
+              ))}
+              <Link
+                className="hero-proof-all"
+                to="/cases"
+                tabIndex={system ? undefined : -1}
+              >
+                Усі кейси <ArrowUpRight size={15} weight="bold" />
+              </Link>
+            </nav>
           </div>
 
-          <span
-            className="journey-scroll"
-            style={{ opacity: progress > 0.04 ? 0 : 1 }}
-          >
-            <i />
-            <Meta>ГОРТАЙТЕ, ЩОБ ЗАПУСТИТИ</Meta>
-          </span>
+          <Meta className="hero-hint">
+            <i aria-hidden="true" />
+            Гортайте — офіс перетвориться на систему
+          </Meta>
         </div>
       </div>
     </section>
@@ -299,7 +319,7 @@ function Studio({ onContact }) {
   return (
     <div className="cin-studio" style={{ "--hue": activeHue }}>
       <div className="cin-intro">
-        <Meta>04 / AI-КОНТЕНТ</Meta>
+        <Meta>03 / AI-КОНТЕНТ</Meta>
         <h2 className="cin-title">
           Контент, який більше не впирається в людей.
         </h2>
@@ -412,67 +432,6 @@ function Studio({ onContact }) {
   );
 }
 
-/* ======================================================= 08 — stories */
-
-function Stories() {
-  const [index, setIndex] = useState(0);
-  const item = stories[index];
-  const move = (delta) =>
-    setIndex((prev) => (prev + delta + stories.length) % stories.length);
-
-  return (
-    <>
-      <div className="story-lead" data-reveal>
-        <div className="story-top">
-          <span className="rating-stars" aria-hidden="true">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <Star key={i} size={11} weight="fill" color="#4fe3ff" />
-            ))}
-          </span>
-          <Meta className="num">ВІДГУК / 0{index + 1}</Meta>
-        </div>
-        <blockquote className="story-quote">{item.quote}</blockquote>
-        <span className="story-glyph" aria-hidden="true">
-          &rdquo;
-        </span>
-        <div className="story-foot">
-          <span className="avatar">{item.initials}</span>
-          <span>
-            <b>{item.name}</b>
-            <Meta>{item.role}</Meta>
-          </span>
-          <div className="story-nav">
-            <button onClick={() => move(-1)} aria-label="Попередній відгук">
-              <ArrowLeft size={15} weight="bold" />
-            </button>
-            <button onClick={() => move(1)} aria-label="Наступний відгук">
-              <ArrowRight size={15} weight="bold" />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="story-mini">
-        {stories
-          .filter((_, i) => i !== index)
-          .slice(0, 2)
-          .map((story) => (
-            <article key={story.name} data-reveal>
-              <p>{story.quote}</p>
-              <div className="story-foot">
-                <span className="avatar">{story.initials}</span>
-                <span>
-                  <b>{story.name}</b>
-                  <Meta>{story.role}</Meta>
-                </span>
-              </div>
-            </article>
-          ))}
-      </div>
-    </>
-  );
-}
-
 /* =========================================================== the page */
 
 export function Home() {
@@ -480,169 +439,29 @@ export function Home() {
 
   return (
     <main>
-      <Journey onContact={openContact} />
+      <Hero onContact={openContact} />
 
-      {/* 02 — proof */}
-      <section className="chapter c-paper proof">
-        <div className="wrap">
-          <div className="proof-grid">
-            {proof.map(([value, label], index) => (
-              <Reveal className="proof-cell" key={label} delay={index * 70}>
-                <strong>
-                  <Counter value={value} />
-                </strong>
-                <span>{label}</span>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 03 — answers */}
-      <Strip items={stripItems} />
-
-      {/* 03 — bento */}
-      <section className="chapter c-ink" id="services">
+      {/* 02 — what we build */}
+      <section className="chapter c-paper" id="services">
         <div className="wrap">
           <SectionHead
-            eyebrow="01 / ЩО МИ ЗАКРИВАЄМО"
-            title="Від питання до системи, яка його вирішує."
-            copy="Чотири зони, де AI дає найшвидший вимірюваний ефект. Починаємо з тієї, де ціна ручної роботи найвища."
+            eyebrow="01 / ЩО МИ РОБИМО"
+            title="Не набір інструментів. Робоча система."
+            copy="Чотири напрями, які складаються в одну систему. Починаємо з того, де ручна робота коштує найдорожче."
           />
-          <div className="bento">
-            <Reveal className="tile tile-w4 tile-tall tile-canvas" as="article">
-              <NeuralGraph />
-              <div className="tile-over">
-                <div className="tile-head">
-                  <Meta>ЖИВА СИСТЕМА · НАВЕДІТЬ КУРСОР</Meta>
-                  <Meta className="num">01</Meta>
-                </div>
-                <div className="tile-body">
-                  <h3 className="h-md">
-                    <Scramble text="Знання компанії" />
-                  </h3>
-                  <p>
-                    Одна база правди замість десяти папок і трьох чатів. Кожен
-                    вузол — джерело, кожен зв’язок — відповідь.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal
-              className="tile tile-w2 tile-tall t-accent"
-              as="article"
-              delay={80}
-            >
-              <div className="tile-head">
-                <Meta>ПІДТРИМКА · 24/7</Meta>
-                <ArrowUpRight size={18} weight="bold" />
-              </div>
-              <div className="tile-metric" style={{ marginTop: "auto" }}>
-                <strong>
-                  <Counter value="68" />%
-                </strong>
-                <div className="pulse-row">
-                  <span className="pulse" />
-                  <Meta>ЗВЕРНЕНЬ БЕЗ ОПЕРАТОРА</Meta>
-                </div>
-                <div className="bars">
-                  {[0.5, 0.7, 0.45, 0.85, 0.6, 1, 0.75, 0.9].map((v, i) => (
-                    <i
-                      key={i}
-                      style={{
-                        height: `${v * 100}%`,
-                        animationDelay: `${i * 0.14}s`,
-                      }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal className="tile tile-w2" as="article" delay={40}>
-              <img
-                className="tile-art"
-                src="/assets/capability-orb.png"
-                alt=""
-                data-parallax="0.22"
-              />
-              <div className="tile-head">
-                <Meta className="num">02</Meta>
-                <ArrowUpRight size={18} weight="bold" />
-              </div>
-              <div className="tile-body">
-                <h3 className="h-md">Підтримка й продажі</h3>
-                <p>
-                  Агент відповідає, кваліфікує та передає людині лише складне.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal className="tile tile-w2 t-violet" as="article" delay={120}>
-              <div className="tile-head">
-                <Meta className="num">03</Meta>
-                <ArrowUpRight size={18} weight="bold" />
-              </div>
-              <div className="tile-body">
-                <h3 className="h-md">Операційна рутина</h3>
-                <p>
-                  Документи, узгодження й переноси даних працюють без людини.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal className="tile tile-w2 t-paper" as="article" delay={160}>
-              <div className="tile-head">
-                <Meta className="num">04</Meta>
-                <ArrowUpRight size={18} weight="bold" />
-              </div>
-              <div className="tile-body">
-                <h3 className="h-md">Рішення на даних</h3>
-                <p>Прогнози й пріоритети замість інтуїції на нараді.</p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* 03b — live agent terminal */}
-      <section className="chapter c-ink-2">
-        <div className="wrap term-wrap">
-          <div>
-            <Reveal>
-              <Meta>02 / ЯК ЦЕ ВИГЛЯДАЄ НАСПРАВДІ</Meta>
-            </Reveal>
-            <Reveal delay={80}>
-              <h2 className="h-lg" style={{ margin: "14px 0 18px" }}>
-                Ви описуєте процес. Система відповідає планом.
-              </h2>
-              <p>
-                Не чат-бот із привітанням. Агент читає ваш процес, знаходить
-                вузьке місце й одразу рахує ефект від його усунення — так само,
-                як це відбувається на першій діагностиці.
-              </p>
-            </Reveal>
-            <Reveal delay={160} className="journey-actions">
-              <button className="btn btn-accent" onClick={openContact}>
-                Запустити на своєму процесі{" "}
-                <ArrowUpRight size={16} weight="bold" />
-              </button>
-            </Reveal>
-          </div>
-          <Reveal delay={120}>
-            <AgentTerminal />
+          <Reveal>
+            <Modules />
           </Reveal>
         </div>
       </section>
 
-      {/* 04 — cases */}
+      {/* 03 — cases */}
       <section className="chapter c-paper-2 cases-section" id="work">
         <div className="wrap cases-wrap">
           <div className="cases-head">
             <div>
               <Reveal>
-                <Meta>03 / ВИБРАНІ РОБОТИ</Meta>
+                <Meta>02 / ВИБРАНІ РОБОТИ</Meta>
               </Reveal>
               <Reveal delay={80}>
                 <h2 className="cases-title">
@@ -720,99 +539,14 @@ export function Home() {
         </div>
       </section>
 
-      {/* 05 — modules */}
-      {/* 05b — ai content studio */}
+      {/* 04 — ai content studio */}
       <section className="chapter c-ink stu-section" id="studio">
         <div className="wrap">
           <Studio onContact={openContact} />
         </div>
       </section>
 
-      <section className="chapter c-paper">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="05 / ОДНА СИСТЕМА, ЧОТИРИ ЧАСТИНИ"
-            title="Не набір інструментів. Робоча система."
-            copy="Ми не додаємо AI заради ефекту — перебудовуємо те, що має працювати краще, і залишаємо систему, якою користуються щодня."
-          />
-          <Reveal>
-            <Modules />
-          </Reveal>
-        </div>
-      </section>
-
-      {/* 06 — values */}
-      <section className="chapter c-ink-2">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="06 / ЧОМУ З НАМИ"
-            title="Менше пошуку. Більше завершених задач."
-          />
-          <div className="value-grid">
-            {values.map((item, index) => (
-              <Reveal
-                className={`value ${item.tone}`}
-                key={item.index}
-                as="article"
-                delay={index * 80}
-              >
-                <div className="value-top">
-                  <Meta>{item.label}</Meta>
-                  <Meta className="num">{item.index}</Meta>
-                </div>
-                <div className="value-body">
-                  <h3 className="h-md">{item.title}</h3>
-                  <p>{item.copy}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 07 — method */}
-      <section className="chapter c-paper" id="method">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="07 / СТАРТ ЗА ДНІ"
-            title="Три кроки. Далі система працює на вас."
-          />
-          <div className="method-rows">
-            {method.map(([index, title, copy, when]) => (
-              <Reveal className="method-row" key={index}>
-                <Meta className="num">{index}</Meta>
-                <div>
-                  <h3>{title}</h3>
-                  <Meta style={{ marginTop: 10 }}>{when}</Meta>
-                </div>
-                <p>{copy}</p>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 08 — stories */}
-      <section className="chapter c-ink-2">
-        <div className="wrap">
-          <SectionHead
-            eyebrow="08 / ГОЛОСИ КЛІЄНТІВ"
-            title="Що змінюється після запуску."
-          />
-          <Reveal className="rating">
-            <span className="stars">
-              {[0, 1, 2, 3, 4].map((i) => (
-                <Star key={i} size={13} weight="fill" />
-              ))}
-            </span>
-            <b>4.9 / 5</b>
-            <span>за 100+ запущеними системами</span>
-          </Reveal>
-          <Stories />
-        </div>
-      </section>
-
-      {/* 09 — sweezy product */}
+      {/* 05 — sweezy product */}
       <section className="chapter c-tint sweezy-atlas" id="sweezy">
         <div className="atlas-coordinates" aria-hidden="true">
           <span className="atlas-longitudes">
@@ -912,19 +646,53 @@ export function Home() {
         </div>
       </section>
 
-      {/* 10 — faq */}
-      <ProcessLinks compact />
+      {/* 06 — how we work */}
+      <section className="chapter c-paper" id="method">
+        <div className="wrap">
+          <SectionHead
+            eyebrow="04 / ЯК МИ ПРАЦЮЄМО"
+            title="Три кроки. Далі система працює на вас."
+          />
+          <div className="method-rows">
+            {method.map(([index, title, copy, when]) => (
+              <Reveal className="method-row" key={index}>
+                <Meta className="num">{index}</Meta>
+                <div>
+                  <h3>{title}</h3>
+                  <Meta style={{ marginTop: 10 }}>{when}</Meta>
+                </div>
+                <p>{copy}</p>
+              </Reveal>
+            ))}
+          </div>
+          <ul className="pledges" aria-label="Наші гарантії">
+            {values.map((item, index) => (
+              <Reveal as="li" key={item.index} delay={index * 70}>
+                <Meta>{item.label}</Meta>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
 
+      {/* 07 — faq */}
       <section className="chapter c-paper" id="faq">
         <div className="wrap faq-grid">
           <div>
             <Reveal>
-              <Meta>09 / ПЕРЕД ПОЧАТКОМ</Meta>
+              <Meta>05 / ПЕРЕД ПОЧАТКОМ</Meta>
             </Reveal>
             <Reveal delay={80}>
               <h2 className="h-lg" style={{ marginTop: 14 }}>
                 Корисні відповіді. Без дрібного шрифту.
               </h2>
+            </Reveal>
+            <Reveal delay={160}>
+              <Link className="faq-more" to="/solutions">
+                Рішення за процесами <ArrowRight size={16} weight="bold" />
+              </Link>
             </Reveal>
           </div>
           <Reveal delay={120}>
@@ -933,7 +701,7 @@ export function Home() {
         </div>
       </section>
 
-      {/* 11 — cta */}
+      {/* 08 — closing step */}
       <section className="cta-outer" id="contact">
         <div className="wrap" style={{ padding: 0 }}>
           <div className="cta-panel">
@@ -946,7 +714,7 @@ export function Home() {
               назвемо найсильніший перший крок.
             </p>
             <div className="cta-actions">
-              <button className="btn btn-dark" onClick={openContact}>
+              <button className="btn btn-accent" onClick={openContact}>
                 Забронювати розмову <ArrowUpRight size={16} weight="bold" />
               </button>
               <button className="btn btn-outline" onClick={openContact}>

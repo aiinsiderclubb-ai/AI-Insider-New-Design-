@@ -2,7 +2,7 @@ import { ProcessLinks } from "./Solutions.jsx";
 import { useState } from "react";
 import { ArrowRight, ArrowUpRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-import { SplitText } from "../wow.jsx";
+import { AgentTerminal, SplitText } from "../wow.jsx";
 import { Faq, Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { method, modules } from "../data.js";
@@ -147,6 +147,36 @@ export function Services() {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* live diagnostic — moved here from the homepage */}
+      <section className="chapter c-ink-2">
+        <div className="wrap term-wrap">
+          <div>
+            <Reveal>
+              <Meta>ЯК ЦЕ ВИГЛЯДАЄ НАСПРАВДІ</Meta>
+            </Reveal>
+            <Reveal delay={80}>
+              <h2 className="h-lg" style={{ margin: "14px 0 18px" }}>
+                Ви описуєте процес. Система відповідає планом.
+              </h2>
+              <p>
+                Не чат-бот із привітанням. Агент читає ваш процес, знаходить
+                вузьке місце й одразу рахує ефект від його усунення — так само,
+                як це відбувається на першій діагностиці.
+              </p>
+            </Reveal>
+            <Reveal delay={160} className="page-actions">
+              <button className="btn btn-accent" onClick={openContact}>
+                Запустити на своєму процесі{" "}
+                <ArrowUpRight size={16} weight="bold" />
+              </button>
+            </Reveal>
+          </div>
+          <Reveal delay={120}>
+            <AgentTerminal />
+          </Reveal>
         </div>
       </section>
 

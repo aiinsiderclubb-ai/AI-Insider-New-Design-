@@ -21,10 +21,20 @@ export const hero = {
   video: "/assets/journey/hero.mp4",
   poster: "/assets/journey/hero.jpg",
   eyebrow: "AI-СИСТЕМИ ДЛЯ БІЗНЕСУ · КИЇВ × ЦЮРИХ",
-  title: "Ваш бізнес уже готовий до AI.",
-  accent: "Побудуємо систему.",
-  lede: "Робимо AI-агентів, які відповідають клієнтам, і автоматизацію, яка прибирає ручну роботу. Починаємо з одного процесу, що з’їдає найбільше часу.",
-  note: "ПЕРША РОЗМОВА — 30 ХВИЛИН, БЕЗ ЗОБОВ’ЯЗАНЬ",
+  lines: ["Ваш бізнес уже", "готовий до AI."],
+  promise: "Побудуємо систему.",
+  lede: "AI-агенти, які відповідають клієнтам, і автоматизація, яка прибирає ручну роботу. Починаємо з одного процесу, що з’їдає найбільше часу.",
+  stages: [
+    ["Хаос", "Заявки в чатах, Excel і ручні переноси між системами."],
+    ["Маршрут", "Знаходимо процес, що коштує найдорожче, і рахуємо ефект."],
+    ["Система", "Агенти й автоматизація працюють щодня — без ручного контролю."],
+  ],
+  // real numbers from published cases — nothing aggregated or estimated
+  proof: [
+    ["539", "задач під контролем — операційна система агенції", "/cases/operatsiina-systema-kreatyvnoi-ahentsii"],
+    ["500+", "AI-відео на місяць — Content Factory", "/cases/content-factory-ai-video"],
+    ["12+", "активних проєктів веде один AI-рекрутер", "/cases/ai-rekruter-dlia-ahentsii"],
+  ],
 };
 
 export const proof = [
@@ -32,17 +42,6 @@ export const proof = [
   ["96%", "клієнтів залишаються"],
   ["4.9", "середня оцінка"],
   ["40+", "індустрій"],
-];
-
-export const stripItems = [
-  "AI-АГЕНТИ",
-  "АВТОМАТИЗАЦІЯ",
-  "RAG І БАЗИ ЗНАНЬ",
-  "ГОЛОСОВІ АСИСТЕНТИ",
-  "ПРОГНОЗУВАННЯ",
-  "ІНТЕГРАЦІЇ",
-  "AI-СТРАТЕГІЯ",
-  "COPILOT-РІШЕННЯ",
 ];
 
 export const answers = [
@@ -88,8 +87,8 @@ export const caseItems = [
     slug: "ai-rekruter-dlia-ahentsii",
     kicker: "AI-АГЕНТ · РЕКРУТИНГ",
     title: "Рекрутер, який веде кандидата до тестового",
-    metric: "4",
-    metricLabel: "модулі однієї системи",
+    metric: "12+",
+    metricLabel: "активних проєктів в одному агенті",
     image: "/assets/cases/ai-recruiter-demo-poster.webp",
     seoTitle: "AI-рекрутер для агенції: Telegram-бот — кейс | AI Insider",
     seoDescription:
@@ -448,30 +447,6 @@ export const method = [
     "Під’єднуємо до ваших систем, навчаємо команду й лишаємось на підтримці.",
     "тижні 4–8",
   ],
-];
-
-export const stories = [
-  {
-    quote:
-      "За шість тижнів команда закрила процес, який ми не могли розв’язати два роки.",
-    name: "Marc Bühler",
-    role: "COO · логістична група, Цюрих",
-    initials: "MB",
-  },
-  {
-    quote:
-      "AI-агент узяв понад половину звернень у перший місяць. Люди нарешті працюють зі складними кейсами.",
-    name: "Олена Дорошенко",
-    role: "Head of Customer Care · Київ",
-    initials: "ОД",
-  },
-  {
-    quote:
-      "Прототип за два тижні й цифри на столі. Найпрозоріший AI-проєкт, який ми запускали.",
-    name: "Andreas Keller",
-    role: "CEO · insurtech, Берн",
-    initials: "AK",
-  },
 ];
 
 export const faqItems = [
