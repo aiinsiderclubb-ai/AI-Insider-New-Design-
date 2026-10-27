@@ -126,6 +126,43 @@ export function SolutionPage() {
         </section>
       )}
 
+      {solution.guide?.length > 0 && (
+        <section className="chapter c-paper solution-guide">
+          <div className="wrap solution-guide-grid">
+            <div className="solution-guide-head">
+              <Meta>ЯК ЦЕ ПРАЦЮЄ В ДЕТАЛЯХ</Meta>
+              <h2 className="h-lg">Від першого дня до виміряного ефекту.</h2>
+              <nav aria-label="Розділи">
+                {solution.guide.map((part, index) => (
+                  <a href={`#guide-${index + 1}`} key={part.title}>
+                    <span>{String(index + 1).padStart(2, "0")}</span>
+                    {part.title}
+                  </a>
+                ))}
+              </nav>
+            </div>
+            <div className="solution-guide-body">
+              {solution.guide.map((part, index) => (
+                <section id={`guide-${index + 1}`} key={part.title}>
+                  <Meta>{String(index + 1).padStart(2, "0")}</Meta>
+                  <h3>{part.title}</h3>
+                  {part.body?.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                  {part.bullets && (
+                    <ul>
+                      {part.bullets.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  )}
+                </section>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
       {solution.measurement?.length > 0 && (
         <section className="chapter c-ink-2 solution-measurement">
           <div className="wrap solution-measurement-grid">

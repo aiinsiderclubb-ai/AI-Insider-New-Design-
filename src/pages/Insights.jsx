@@ -4,6 +4,7 @@ import {
   Clock,
   DownloadSimple,
 } from "@phosphor-icons/react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { insightArticles, insightBySlug, solutionPages } from "../content.js";
 import { Meta, Reveal } from "../ui.jsx";
@@ -17,6 +18,140 @@ const formatDate = (value) =>
     month: "long",
     year: "numeric",
   }).format(new Date(`${value}T12:00:00Z`));
+
+/* A workflow drawn as connected nodes. `nodes` are [title, note] pairs. */
+function FlowDiagram({ nodes, caption }) {
+  return (
+    <figure className="flow-figure">
+      <ol className="flow-chain">
+        {nodes.map(([title, note], index) => (
+          <li key={title}>
+            <span className="flow-index">{String(index + 1).padStart(2, "0")}</span>
+            <strong>{title}</strong>
+            {note && <small>{note}</small>}
+          </li>
+        ))}
+      </ol>
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  );
+}
+
+function SectionBlocks({ section }) {
+  return (
+    <>
+      {section.body?.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
+      {section.flow && (
+        <FlowDiagram nodes={section.flow} caption={section.flowCaption} />
+      )}
+      {section.steps && (
+        <ol className="step-list">
+          {section.steps.map(([title, body], index) => (
+            <li key={title}>
+              <span className="step-num">{index + 1}</span>
+              <div>
+                <h3>{title}</h3>
+                <p>{body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
+      {section.bullets && (
+        <ul>
+          {section.bullets.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
+      )}
+      {section.code && (
+        <figure className="code-figure">
+          <figcaption>{section.code.label}</figcaption>
+          <pre>
+            <code>{section.code.text}</code>
+          </pre>
+        </figure>
+      )}
+      {section.table && (
+        <div
+          className="comparison-wrap"
+          role="region"
+          tabIndex="0"
+          aria-label={section.title}
+        >
+          <table>
+            <thead>
+              <tr>
+                {section.table.head.map((cell) => (
+                  <th key={cell}>{cell}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {section.table.rows.map((row) => (
+                <tr key={row[0]}>
+                  {row.map((cell, index) => (
+                    <td key={`${row[0]}-${index}`}>{cell}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+      {section.after?.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
+      {section.links && (
+        <nav className="section-links" aria-label={section.title}>
+          {section.links.map(([to, title, note]) => (
+            <Link to={to} key={to}>
+              <span>
+                <strong>{title}</strong>
+                {note && <small>{note}</small>}
+              </span>
+              <ArrowRight size={16} weight="bold" />
+            </Link>
+          ))}
+        </nav>
+      )}
+      {section.callout && (
+        <aside className={`callout is-${section.callout.tone || "note"}`}>
+          <Meta>{section.callout.label || "ВАЖЛИВО"}</Meta>
+          <p>{section.callout.text}</p>
+        </aside>
+      )}
+    </>
+  );
+}
+
+/** Highlights the table-of-contents entry for the section being read. */
+function useActiveSection(ids) {
+  const [active, setActive] = useState(ids[0]);
+  const key = ids.join("|");
+  useEffect(() => {
+    const nodes = key
+      .split("|")
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    if (!nodes.length || typeof IntersectionObserver === "undefined")
+      return undefined;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: "-20% 0px -65% 0px" },
+    );
+    nodes.forEach((node) => observer.observe(node));
+    return () => observer.disconnect();
+  }, [key]);
+  return active;
+}
 
 function ArticleCard({ article, index }) {
   return (
@@ -253,6 +388,14 @@ export function InsightArticle() {
   const { slug } = useParams();
   const article = insightBySlug[slug];
   const openContact = useContact();
+  const active = useActiveSection(
+    article
+      ? [
+          ...article.sections.map((section) => section.id),
+          ...(article.practice ? ["practice"] : []),
+        ]
+      : [],
+  );
 
   if (!article) return <NotFound />;
 
@@ -284,15 +427,36 @@ export function InsightArticle() {
               <h1>{article.title}</h1>
               <p className="article-dek">{article.dek}</p>
               <div className="article-byline">
-                <span className="author-mark">AI</span>
+                <span className="author-mark" aria-hidden="true" />
                 <div>
-                  <strong>AI Insider Research</strong>
-                  <span>
-                    Оновлено {formatDate(article.updated)} · {article.readTime}
-                  </span>
+                  <strong>Команда AI Insider</strong>
+                  <span>Інженери автоматизації · Київ × Цюрих</span>
                 </div>
               </div>
             </div>
+            <aside className="article-facts" aria-label="Про матеріал">
+              <Meta>ПРО МАТЕРІАЛ</Meta>
+              <dl>
+                <div>
+                  <dt>Формат</dt>
+                  <dd>{article.level || "Практичний гайд"}</dd>
+                </div>
+                <div>
+                  <dt>Читання</dt>
+                  <dd>{article.readTime}</dd>
+                </div>
+                <div>
+                  <dt>Оновлено</dt>
+                  <dd>{formatDate(article.updated)}</dd>
+                </div>
+                {article.build && (
+                  <div>
+                    <dt>Результат</dt>
+                    <dd>{article.build}</dd>
+                  </div>
+                )}
+              </dl>
+            </aside>
           </div>
         </header>
 
@@ -301,13 +465,20 @@ export function InsightArticle() {
             <aside className="article-toc">
               <Meta>У ЦЬОМУ ГАЙДІ</Meta>
               {article.sections.map((section, index) => (
-                <a href={`#${section.id}`} key={section.id}>
+                <a
+                  href={`#${section.id}`}
+                  key={section.id}
+                  className={active === section.id ? "is-active" : undefined}
+                >
                   <span>{String(index + 1).padStart(2, "0")}</span>
                   {section.title}
                 </a>
               ))}
               {article.practice && (
-                <a href="#practice">
+                <a
+                  href="#practice"
+                  className={active === "practice" ? "is-active" : undefined}
+                >
                   <span>↗</span>Практичне завдання
                 </a>
               )}
@@ -406,16 +577,7 @@ export function InsightArticle() {
                 >
                   <Meta>{String(index + 1).padStart(2, "0")}</Meta>
                   <h2>{section.title}</h2>
-                  {section.body?.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
-                  {section.bullets && (
-                    <ul>
-                      {section.bullets.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  )}
+                  <SectionBlocks section={section} />
                 </section>
               ))}
 
@@ -483,10 +645,8 @@ export function InsightArticle() {
               <section className="article-review-note">
                 <Meta>ЯК СТВОРЕНО МАТЕРІАЛ</Meta>
                 <p>
-                  Підготовлено AI Insider Research на основі практики
-                  проєктування AI-систем та офіційної документації продуктів.
-                  Технічні умови й тарифи змінюються — перевіряйте їх перед
-                  production-рішенням.
+                  {article.method ||
+                    "Підготовлено командою AI Insider на основі власних впроваджень і офіційної документації продуктів. Технічні умови й тарифи змінюються — перевіряйте їх перед production-рішенням."}
                 </p>
               </section>
             </div>

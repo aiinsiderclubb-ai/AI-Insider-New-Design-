@@ -210,7 +210,7 @@ export function pageJsonLd(page, pathname, canonical) {
       dateModified: page.dateModified,
       author: {
         "@type": "Organization",
-        name: "AI Insider Research",
+        name: "Команда AI Insider",
         url: `${SITE_URL}/about`,
       },
       publisher: { "@id": organizationId },

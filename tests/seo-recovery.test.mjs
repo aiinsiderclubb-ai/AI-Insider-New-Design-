@@ -64,7 +64,8 @@ test("every public page has unique metadata, one H1 and a connected structured-d
         assert.equal(entity.mainEntityOfPage["@id"], page["@id"]);
         assert.ok(
           entity.dateModified >= entity.datePublished &&
-            entity.dateModified <= "2026-10-05",
+            // never a date in the future
+            entity.dateModified <= new Date().toISOString().slice(0, 10),
           route,
         );
       }
