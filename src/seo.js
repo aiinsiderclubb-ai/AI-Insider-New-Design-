@@ -169,7 +169,11 @@ export function pageJsonLd(page, pathname, canonical) {
       },
       email: "hello@aiinsider.it.com",
       areaServed: ["UA", "CH"],
-      sameAs: ["https://product-radar.com/products/ai-insider"],
+      sameAs: [
+        "https://www.instagram.com/aiinsider_agency/",
+        "https://t.me/+FfQcOkxb2HYxNDE0",
+        "https://product-radar.com/products/ai-insider",
+      ],
     },
     {
       "@type": "WebSite",

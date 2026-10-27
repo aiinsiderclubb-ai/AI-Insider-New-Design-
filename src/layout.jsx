@@ -10,7 +10,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import {
   ArrowUpRight,
   InstagramLogo,
-  LinkedinLogo,
+  TelegramLogo,
   List,
   X,
 } from "@phosphor-icons/react";
@@ -34,6 +34,12 @@ import { ContactModal, Meta } from "./ui.jsx";
 import { getSeoForPath, Seo } from "./seo.js";
 
 // The transparent supplied lockup is cropped by the SVG viewport, not redrawn.
+// Profiles also listed as Organization.sameAs in src/seo.js
+const socialLinks = [
+  ["https://t.me/+FfQcOkxb2HYxNDE0", "Telegram-канал AI Insider", TelegramLogo],
+  ["https://www.instagram.com/aiinsider_agency/", "Instagram AI Insider", InstagramLogo],
+];
+
 // Sitewide links to the pages people actually search for: these carry the
 // internal-link weight the homepage catalogue used to give.
 const footerSolutions = [
@@ -302,12 +308,18 @@ export function Layout() {
                   <i>S</i> Sweezy — наш продукт
                 </span>
                 <div className="footer-social">
-                  <a className="icon-btn" href="#" aria-label="LinkedIn">
-                    <LinkedinLogo size={16} weight="fill" />
-                  </a>
-                  <a className="icon-btn" href="#" aria-label="Instagram">
-                    <InstagramLogo size={16} weight="fill" />
-                  </a>
+                  {socialLinks.map(([href, label, Icon]) => (
+                    <a
+                      className="icon-btn"
+                      href={href}
+                      aria-label={label}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={href}
+                    >
+                      <Icon size={16} weight="fill" />
+                    </a>
+                  ))}
                 </div>
               </div>
               <div className="footer-col">
