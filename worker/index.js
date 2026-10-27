@@ -173,6 +173,14 @@ const legacyRedirects = new Map([
   ["/uk/ai-automation-for-business", "/services"],
   ["/en/ai-automation-for-business", "/services"],
   ["/uk/ai-receptionist", "/solutions/ai-inbound-call-automation"],
+  [
+    "/uk/blog/ai-receptionist-for-small-business",
+    "/solutions/ai-inbound-call-automation",
+  ],
+  [
+    "/en/blog/ai-receptionist-for-small-business",
+    "/solutions/ai-inbound-call-automation",
+  ],
   ["/en/ai-receptionist", "/solutions/ai-inbound-call-automation"],
   ["/en/ai-voice-agents", "/solutions/ai-inbound-call-automation"],
   ["/services/ai-voice-agent", "/solutions/ai-inbound-call-automation"],

@@ -29,11 +29,30 @@ import {
   useParallax,
   useSpotlight,
 } from "./wow.jsx";
-import { modules, navLinks } from "./data.js";
+import { navLinks } from "./data.js";
 import { ContactModal, Meta } from "./ui.jsx";
 import { getSeoForPath, Seo } from "./seo.js";
 
 // The transparent supplied lockup is cropped by the SVG viewport, not redrawn.
+// Sitewide links to the pages people actually search for: these carry the
+// internal-link weight the homepage catalogue used to give.
+const footerSolutions = [
+  ["/solutions/ai-inbound-call-automation", "AI-обробка дзвінків"],
+  ["/solutions/crm-automation", "Автоматизація CRM"],
+  ["/solutions/ai-recruiter-agency", "AI-рекрутер"],
+  ["/solutions/beauty-salon-automation", "Автоматизація салону краси"],
+  ["/solutions/real-estate-automation", "Автоматизація нерухомості"],
+];
+
+const footerGuides = [
+  ["/insights/n8n-ukrainskoiu", "n8n українською"],
+  ["/insights/n8n-kurs-ukrainskoiu", "Курс n8n"],
+  ["/insights/n8n-ai-agent", "AI-агент у n8n"],
+  ["/insights/google-ai-studio-guide", "Google AI Studio"],
+  ["/insights/notebooklm-for-business", "NotebookLM для бізнесу"],
+  ["/insights/ai-agent-what-is-it", "Що таке AI-агент"],
+];
+
 function BrandLogo({ clipId }) {
   return (
     <svg
@@ -293,29 +312,33 @@ export function Layout() {
               </div>
               <div className="footer-col">
                 <Meta>ПОСЛУГИ</Meta>
-                <Link to="/solutions">Рішення за процесом</Link>
-                {modules.map((module) => (
-                  <Link to={`/services#${module.id}`} key={module.id}>
-                    {module.tab}
+                <Link to="/services">Усі послуги</Link>
+                {footerSolutions.map(([to, label]) => (
+                  <Link to={to} key={to}>
+                    {label}
                   </Link>
                 ))}
+                <Link to="/solutions">Рішення за процесом</Link>
+              </div>
+              <div className="footer-col">
+                <Meta>ГАЙДИ</Meta>
+                {footerGuides.map(([to, label]) => (
+                  <Link to={to} key={to}>
+                    {label}
+                  </Link>
+                ))}
+                <Link to="/insights">Усі матеріали</Link>
               </div>
               <div className="footer-col">
                 <Meta>КОМПАНІЯ</Meta>
                 <Link to="/cases">Кейси</Link>
                 <Link to="/studio">AI-контент</Link>
-                <Link to="/insights">Insights</Link>
                 <Link to="/tools/n8n-workflow-library">n8n workflow</Link>
                 <Link to="/about">Про нас</Link>
                 <Link to="/contact">Контакти</Link>
-              </div>
-              <div className="footer-col">
-                <Meta>ЛОКАЦІЇ</Meta>
-                <span>Київ, Україна</span>
-                <span>Цюрих, Швейцарія</span>
                 <span className="foot-status">
                   <i />
-                  Приймаємо проєкти
+                  Київ · Цюрих · приймаємо проєкти
                 </span>
               </div>
             </div>
