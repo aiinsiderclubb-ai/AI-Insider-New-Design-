@@ -505,6 +505,15 @@ function MethodRoute() {
     const length = live.getTotalLength();
     live.style.strokeDasharray = `${length}`;
     const rect = stage.getBoundingClientRect();
+    // reserve room for whatever the last stop's copy needs below the line
+    const last = stage.querySelector(".route-stop.is-3");
+    if (last && getComputedStyle(last).position === "absolute") {
+      const overhang = last.getBoundingClientRect().bottom - rect.bottom;
+      // margins collapse with the pledges' top margin, so add the gap here
+      stage.style.marginBottom = `${Math.max(0, Math.ceil(overhang)) + 88}px`;
+    } else {
+      stage.style.marginBottom = "";
+    }
     const progress = prefersReduced()
       ? 1
       : clamp01((window.innerHeight * 0.75 - rect.top) / rect.height);

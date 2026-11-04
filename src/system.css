@@ -1350,6 +1350,9 @@ a.hero-proof-all {
 .route-stage {
   position: relative;
   height: clamp(560px, 46vw, 680px);
+  /* the last stop hangs below the line's end; MethodRoute measures the
+     exact overhang, this is the no-JS fallback */
+  margin-bottom: 300px;
 }
 
 .route-stage svg {
@@ -1477,6 +1480,7 @@ a.hero-proof-all {
 @media (max-width: 980px) {
   .route-stage {
     height: auto;
+    margin-bottom: 0;
     padding-left: 22px;
     border-left: 1px solid var(--paper-line);
   }
