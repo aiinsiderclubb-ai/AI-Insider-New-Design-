@@ -347,6 +347,7 @@ export function Layout() {
                 <Link to="/studio">AI-контент</Link>
                 <Link to="/tools/n8n-workflow-library">n8n workflow</Link>
                 <Link to="/about">Про нас</Link>
+                <Link to="/team">Команда</Link>
                 <Link to="/contact">Контакти</Link>
                 <span className="foot-status">
                   <i />

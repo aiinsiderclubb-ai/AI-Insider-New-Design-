@@ -55,6 +55,7 @@ test("every indexable content route is present once in sitemap", async () => {
     ...caseItems.map(({ slug }) => `/cases/${slug}`),
     "/studio",
     "/about",
+    "/team",
     "/contact",
     "/insights",
     ...insightArticles.map(({ slug }) => `/insights/${slug}`),

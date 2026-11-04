@@ -1,9 +1,11 @@
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-import { Counter, SplitText } from "../wow.jsx";
+import { SplitText } from "../wow.jsx";
 import { Meta, Reveal } from "../ui.jsx";
-import { caseItems } from "../data.js";
+import { caseItems, caseShowcase } from "../data.js";
 import { ClosingStep } from "../closing.jsx";
+import { CaseScene } from "../case-scene.jsx";
 
 /* Що саме ламалося до запуску — одним рядком, людською мовою. */
 const problem = {
@@ -15,6 +17,14 @@ const problem = {
     "Кожен ролик вимагав зйомки, монтажу і тижня очікування.",
 };
 
+// published figures from the three case pages
+const heroFacts = [
+  ["539", "задач під контролем"],
+  ["0", "втрат при передачі"],
+  ["12+", "проєктів веде AI-рекрутер"],
+  ["500+", "AI-відео на місяць"],
+];
+
 const stages = [
   ["01", "Що ламалося", "З чого почалося і скільки це коштувало щомісяця."],
   ["02", "Що побудували", "Які системи з’єднали і хто чим тепер користується."],
@@ -22,12 +32,85 @@ const stages = [
   ["04", "Що вийшло", "Цифри після запуску, а не обіцянки до нього."],
 ];
 
+/* One case per chapter: copy on one side, its real media on the other. */
+function CaseFile({ item, index }) {
+  const ref = useRef(null);
+  const [inView, setInView] = useState(false);
+  const media = caseShowcase[item.slug];
+
+  useEffect(() => {
+    const node = ref.current;
+    if (!node || typeof IntersectionObserver === "undefined") return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.3 },
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <section
+      className={`chapter casefile${index % 2 ? " is-flip" : ""}`}
+      id={item.slug}
+      ref={ref}
+    >
+      <div className="wrap casefile-grid">
+        <div className="casefile-copy">
+          <span className="casefile-num" aria-hidden="true">
+            0{index + 1}
+          </span>
+          <Meta>{item.kicker}</Meta>
+          <h2 className="h-lg">{item.title}</h2>
+
+          <div className="casefile-problem">
+            <Meta>ЩО ЛАМАЛОСЯ</Meta>
+            <p>{problem[item.slug]}</p>
+          </div>
+
+          <div className="casefile-built">
+            <Meta>ЩО ПОБУДУВАЛИ</Meta>
+            <ul>
+              {media.built.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="casefile-foot">
+            <span className="casefile-metric">
+              <strong>{item.metric}</strong>
+              <small>{item.metricLabel}</small>
+            </span>
+            <Link className="btn btn-dark" to={`/cases/${item.slug}`}>
+              Читати кейс <ArrowUpRight size={16} weight="bold" />
+            </Link>
+          </div>
+        </div>
+
+        <Link
+          className="casefile-stage"
+          to={`/cases/${item.slug}`}
+          aria-label={`Відкрити кейс: ${item.title}`}
+        >
+          <CaseScene
+            item={item}
+            index={index}
+            total={caseItems.length}
+            playing={inView}
+          />
+        </Link>
+      </div>
+    </section>
+  );
+}
+
 export function Cases() {
   return (
     <main className="atlas-page atlas-cases">
-      <section className="chapter c-paper atlas-hero cases-atlas-hero">
-        <div className="wrap atlas-hero-grid">
-          <div className="atlas-hero-copy">
+      <section className="chapter c-paper casefile-hero">
+        <div className="wrap casefile-hero-grid">
+          <div className="casefile-hero-copy">
             <Reveal>
               <Meta>КЕЙСИ</Meta>
             </Reveal>
@@ -42,73 +125,38 @@ export function Cases() {
               </p>
             </Reveal>
           </div>
-          <Reveal className="atlas-route-metrics" delay={100}>
-            {[
-              ["539", "задач ведеться системою"],
-              ["0", "задач губиться при передачі"],
-              ["3", "системи в щоденній роботі"],
-            ].map(([value, label]) => (
+
+          <Reveal delay={100}>
+            <nav className="casefile-index" aria-label="Кейси на сторінці">
+              {caseItems.map((item, index) => (
+                <a href={`#${item.slug}`} key={item.slug}>
+                  <span className="casefile-index-num">0{index + 1}</span>
+                  <span className="casefile-index-copy">
+                    <Meta>{item.kicker}</Meta>
+                    <strong>{item.title}</strong>
+                  </span>
+                  <span className="casefile-index-metric">{item.metric}</span>
+                </a>
+              ))}
+            </nav>
+          </Reveal>
+        </div>
+
+        <div className="wrap">
+          <Reveal className="casefile-strip" delay={160}>
+            {heroFacts.map(([value, label]) => (
               <span key={label}>
-                <strong>
-                  <Counter value={value} />
-                </strong>
-                <small>{label}</small>
-                <i />
+                <strong>{value}</strong>
+                <Meta>{label}</Meta>
               </span>
             ))}
           </Reveal>
         </div>
       </section>
 
-      <section className="chapter c-paper case-rows-section">
-        <div className="wrap">
-          <div className="case-rows">
-            {caseItems.map((item, index) => (
-              <Reveal
-                as="article"
-                className="case-row-full"
-                key={item.slug}
-                delay={index * 80}
-              >
-                <Link to={`/cases/${item.slug}`}>
-                  <span className="case-row-full-shot">
-                    <img
-                      className={item.invert ? "is-inverted" : ""}
-                      src={item.image}
-                      alt=""
-                      data-parallax="0.09"
-                    />
-                    <span className="case-row-full-index num">
-                      {item.index}
-                    </span>
-                  </span>
-
-                  <span className="case-row-full-body">
-                    <Meta>{item.kicker}</Meta>
-                    <h2 className="h-md">{item.title}</h2>
-                    <span className="case-row-full-problem">
-                      <i aria-hidden="true" />
-                      {problem[item.slug]}
-                    </span>
-                    <span className="case-row-full-foot">
-                      <span className="case-row-full-metric">
-                        <strong>{item.metric}</strong>
-                        <small>{item.metricLabel}</small>
-                      </span>
-                      <span className="case-row-full-go">
-                        Дивитися кейс
-                        <i>
-                          <ArrowUpRight size={17} weight="bold" />
-                        </i>
-                      </span>
-                    </span>
-                  </span>
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      {caseItems.map((item, index) => (
+        <CaseFile item={item} index={index} key={item.slug} />
+      ))}
 
       <section className="chapter c-ink case-stages-section">
         <div className="wrap">
@@ -134,7 +182,6 @@ export function Cases() {
               </Reveal>
             ))}
           </div>
-
         </div>
       </section>
       <ClosingStep

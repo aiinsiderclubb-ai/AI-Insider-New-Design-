@@ -11,6 +11,7 @@ import { AutomationCalculator, WorkflowLibrary } from "./pages/Tools.jsx";
 import { Solutions } from "./pages/Solutions.jsx";
 import { SolutionPage } from "./pages/SolutionPage.jsx";
 import { About } from "./pages/About.jsx";
+import { Team } from "./pages/Team.jsx";
 import { Contact } from "./pages/Contact.jsx";
 import { Legal } from "./pages/Legal.jsx";
 import { NotFound } from "./pages/NotFound.jsx";
@@ -32,6 +33,7 @@ const pages = {
   Solutions,
   SolutionPage,
   About,
+  Team,
   Contact,
   Legal,
   NotFound,

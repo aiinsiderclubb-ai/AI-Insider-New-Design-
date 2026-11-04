@@ -5,6 +5,7 @@ import { Counter, Device, ReelStrip } from "../wow.jsx";
 import { Faq, Meta, Reveal, SectionHead, prefersReduced } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { ClosingStep } from "../closing.jsx";
+import { CaseScene } from "../case-scene.jsx";
 import {
   caseItems,
   caseShowcase,
@@ -266,10 +267,13 @@ function Manifesto() {
     const nodes = section.querySelectorAll(".mf-word");
     const rect = section.getBoundingClientRect();
     const span = rect.height - window.innerHeight;
-    const progress = prefersReduced() || span <= 0 ? 1 : clamp01(-rect.top / span);
+    const progress =
+      prefersReduced() || span <= 0 ? 1 : clamp01(-rect.top / span);
     // a little ahead of the scroll so the last words light before release
     const lit = Math.round(progress * 1.15 * nodes.length);
-    nodes.forEach((node, index) => node.classList.toggle("is-lit", index < lit));
+    nodes.forEach((node, index) =>
+      node.classList.toggle("is-lit", index < lit),
+    );
   }, []);
 
   return (
@@ -310,9 +314,7 @@ const XRAY_H = 470;
 function xrayLayout(process, narrow) {
   const count = process.nodes.length;
   const width = narrow ? 400 : XRAY_W;
-  const height = narrow
-    ? 70 + (count + (process.branch ? 1 : 0)) * 92
-    : XRAY_H;
+  const height = narrow ? 70 + (count + (process.branch ? 1 : 0)) * 92 : XRAY_H;
   const points = process.nodes.map((_, index) =>
     narrow
       ? [index % 2 ? 250 : 150, 55 + index * 92]
@@ -344,7 +346,13 @@ function xrayLayout(process, narrow) {
     const tx = narrow ? 200 : bx + 70;
     const ty = narrow ? 55 + count * 92 : 380;
     const [title, kind] = process.branch.node;
-    nodes.push({ title, kind, x: tx, y: ty, delay: process.branch.from * 0.32 + 0.5 });
+    nodes.push({
+      title,
+      kind,
+      x: tx,
+      y: ty,
+      delay: process.branch.from * 0.32 + 0.5,
+    });
     edges.push({
       d: narrow
         ? `M${bx} ${by} C ${bx - 90} ${by + 120}, ${tx - 90} ${ty}, ${tx} ${ty}`
@@ -372,7 +380,9 @@ function ProcessXray() {
     measure();
     window.addEventListener("resize", measure);
     const observer =
-      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(measure);
     if (canvas.parentElement) observer?.observe(canvas.parentElement);
     return () => {
       window.removeEventListener("resize", measure);
@@ -501,7 +511,6 @@ function CaseShowcase() {
   const [paused, setPaused] = useState(false);
   const [visible, setVisible] = useState(false);
   const rootRef = useRef(null);
-  const videoRefs = useRef({});
   const still = typeof window !== "undefined" && prefersReduced();
 
   // advance only while the board is on screen and nobody is pointing at it
@@ -524,17 +533,6 @@ function CaseShowcase() {
     );
     return () => clearTimeout(timer);
   }, [active, paused, visible, still]);
-
-  useEffect(() => {
-    Object.entries(videoRefs.current).forEach(([slug, video]) => {
-      if (!video) return;
-      if (visible && caseItems[active].slug === slug) {
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
-    });
-  }, [active, visible]);
 
   const running = !still && !paused && visible;
 
@@ -595,65 +593,16 @@ function CaseShowcase() {
       </ol>
 
       <div className="showcase-stage" aria-hidden="true">
-        {caseItems.map((item, index) => {
-          const media = caseShowcase[item.slug];
-          return (
-            <div
-              key={item.slug}
-              className={`showcase-scene is-${media.scene}${index === active ? " is-active" : ""}`}
-            >
-              {media.scene === "phone" ? (
-                <div className="showcase-phone">
-                  <img src={media.image} alt="" loading="lazy" />
-                </div>
-              ) : media.scene === "video" ? (
-                <video
-                  className="showcase-media"
-                  ref={(node) => {
-                    videoRefs.current[item.slug] = node;
-                  }}
-                  src={media.video}
-                  poster={media.image}
-                  muted
-                  loop
-                  playsInline
-                  preload="none"
-                  tabIndex={-1}
-                />
-              ) : (
-                <img className="showcase-media" src={media.image} alt="" loading="lazy" />
-              )}
-              <span className="showcase-shade" />
-
-              <div className="showcase-top">
-                <Meta>
-                  0{index + 1} / 0{caseItems.length} · {item.kicker}
-                </Meta>
-                <span className="showcase-stack">
-                  {media.stack.map((tool) => (
-                    <span key={tool}>{tool}</span>
-                  ))}
-                </span>
-              </div>
-
-              <div className="showcase-bottom">
-                <ol className="showcase-route">
-                  {media.stages.map((stage) => (
-                    <li key={stage}>{stage}</li>
-                  ))}
-                </ol>
-                <div className="showcase-facts">
-                  {media.facts.map(([value, label]) => (
-                    <span key={label}>
-                      <strong>{value}</strong>
-                      <Meta>{label}</Meta>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          );
-        })}
+        {caseItems.map((item, index) => (
+          <CaseScene
+            key={item.slug}
+            item={item}
+            index={index}
+            total={caseItems.length}
+            active={index === active}
+            playing={visible && index === active}
+          />
+        ))}
       </div>
     </div>
   );
@@ -686,11 +635,12 @@ function MethodRoute() {
       ? 1
       : clamp01((window.innerHeight * 0.75 - rect.top) / rect.height);
     live.style.strokeDashoffset = `${length * (1 - progress)}`;
-    setReached(progress >= 0.95 ? 3 : progress >= 0.48 ? 2 : progress >= 0.02 ? 1 : 0);
+    setReached(
+      progress >= 0.95 ? 3 : progress >= 0.48 ? 2 : progress >= 0.02 ? 1 : 0,
+    );
   }, []);
 
-  const path =
-    "M60 60 C 420 60, 300 330, 600 330 S 860 600, 1140 600";
+  const path = "M60 60 C 420 60, 300 330, 600 330 S 860 600, 1140 600";
 
   return (
     <div className="route-stage" ref={stageRef}>

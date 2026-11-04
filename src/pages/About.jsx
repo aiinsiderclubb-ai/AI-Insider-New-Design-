@@ -1,9 +1,10 @@
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { Link } from "react-router-dom";
-import { Clock, SplitText } from "../wow.jsx";
+import { SplitText } from "../wow.jsx";
+import { CityLink } from "../city-link.jsx";
 import { Meta, Reveal } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
-import { method, proof, values } from "../data.js";
+import { proof, teamDisciplines, values } from "../data.js";
 import { ClosingStep } from "../closing.jsx";
 
 export function About() {
@@ -35,22 +36,8 @@ export function About() {
               </div>
             </Reveal>
           </div>
-          <Reveal className="about-coordinate" delay={100}>
-            <span>
-              <Meta>КИЇВ</Meta>
-              <strong>
-                <Clock zone="Europe/Kyiv" />
-              </strong>
-            </span>
-            <i>
-              <b />
-            </i>
-            <span>
-              <Meta>ЦЮРИХ</Meta>
-              <strong>
-                <Clock zone="Europe/Zurich" />
-              </strong>
-            </span>
+          <Reveal className="about-cities" delay={100}>
+            <CityLink />
           </Reveal>
         </div>
       </section>
@@ -109,55 +96,35 @@ export function About() {
         </div>
       </section>
 
-      <section className="chapter c-paper-2 atlas-process">
+      <section className="chapter c-ink-2 about-team">
         <div className="wrap">
-          <Reveal>
-            <Meta>06 / ЯК МИ ПРАЦЮЄМО</Meta>
-          </Reveal>
-          <div className="atlas-process-head">
-            <h2 className="h-lg">Три кроки від розмови до робочої системи.</h2>
-            <p>Менше презентацій. Більше перевірки на реальних даних.</p>
+          <div className="about-team-head">
+            <div>
+              <Reveal>
+                <Meta>06 / КОМАНДА</Meta>
+              </Reveal>
+              <Reveal delay={80}>
+                <h2 className="h-lg">Чотири напрями. Одна команда на проєкт.</h2>
+              </Reveal>
+            </div>
+            <Reveal delay={120}>
+              <Link className="btn btn-accent" to="/team">
+                Познайомитися з командою <ArrowUpRight size={16} weight="bold" />
+              </Link>
+            </Reveal>
           </div>
-          <div className="atlas-process-steps">
-            {method.map(([index, title, copy, when]) => (
-              <Reveal className="atlas-process-step" key={index}>
-                <strong className="num">{index}</strong>
-                <h3>{title}</h3>
-                <p>{copy}</p>
-                <Meta>{when}</Meta>
+          <ol className="about-team-list">
+            {teamDisciplines.map((item, index) => (
+              <Reveal as="li" key={item.id} delay={index * 70}>
+                <span className="num">0{index + 1}</span>
+                <strong>{item.title}</strong>
+                <Meta>{item.city}</Meta>
               </Reveal>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      <section className="chapter c-paper about-offices">
-        <div className="wrap">
-          <Reveal>
-            <Meta>07 / ДЕ МИ</Meta>
-          </Reveal>
-          <div className="atlas-section-head">
-            <h2 className="h-lg">Київ і Цюрих. Працюємо глобально.</h2>
-          </div>
-          <div className="office-lines">
-            {[
-              ["Київ", "Europe/Kyiv", "Розробка, дані, інтеграції"],
-              ["Цюрих", "Europe/Zurich", "Стратегія, клієнти, партнерства"],
-            ].map(([city, zone, role]) => (
-              <Reveal className="office-line" key={city}>
-                <Meta>{city.toUpperCase()}</Meta>
-                <strong>
-                  <Clock zone={zone} />
-                </strong>
-                <p>{role}</p>
-                <button className="btn btn-outline" onClick={openContact}>
-                  Написати нам <ArrowUpRight size={15} />
-                </button>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
       <ClosingStep />
     </main>
   );
