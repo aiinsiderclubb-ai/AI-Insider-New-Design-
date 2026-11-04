@@ -7,6 +7,7 @@ import { useContact } from "../layout.jsx";
 import { ClosingStep } from "../closing.jsx";
 import {
   caseItems,
+  caseShowcase,
   hero,
   manifesto,
   method,
@@ -491,6 +492,173 @@ function ProcessXray() {
   );
 }
 
+/* ============================================== 03 — case index */
+
+const SHOWCASE_DWELL = 6500;
+
+function CaseShowcase() {
+  const [active, setActive] = useState(0);
+  const [paused, setPaused] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const rootRef = useRef(null);
+  const videoRefs = useRef({});
+  const still = typeof window !== "undefined" && prefersReduced();
+
+  // advance only while the board is on screen and nobody is pointing at it
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || typeof IntersectionObserver === "undefined") return undefined;
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.35 },
+    );
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (still || paused || !visible) return undefined;
+    const timer = setTimeout(
+      () => setActive((index) => (index + 1) % caseItems.length),
+      SHOWCASE_DWELL,
+    );
+    return () => clearTimeout(timer);
+  }, [active, paused, visible, still]);
+
+  useEffect(() => {
+    Object.entries(videoRefs.current).forEach(([slug, video]) => {
+      if (!video) return;
+      if (visible && caseItems[active].slug === slug) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, [active, visible]);
+
+  const running = !still && !paused && visible;
+
+  return (
+    <div
+      className={`showcase${running ? " is-running" : ""}`}
+      ref={rootRef}
+      onMouseLeave={() => setPaused(false)}
+    >
+      <ol className="showcase-list">
+        {caseItems.map((item, index) => {
+          const media = caseShowcase[item.slug];
+          return (
+            <li
+              key={item.slug}
+              className={`showcase-row${index === active ? " is-active" : ""}`}
+            >
+              <Link
+                to={`/cases/${item.slug}`}
+                onMouseEnter={() => {
+                  setActive(index);
+                  setPaused(true);
+                }}
+                onFocus={() => {
+                  setActive(index);
+                  setPaused(true);
+                }}
+              >
+                <span
+                  className={`showcase-thumb is-${media.scene}`}
+                  aria-hidden="true"
+                >
+                  <img src={media.image} alt="" loading="lazy" />
+                </span>
+                <span className="showcase-index">0{index + 1}</span>
+                <span className="showcase-copy">
+                  <Meta>{item.kicker}</Meta>
+                  <strong className="showcase-title">{item.title}</strong>
+                  <span className="showcase-detail">
+                    <span className="showcase-detail-inner">
+                      <span className="showcase-metric">
+                        <b>{item.metric}</b>
+                        <span>{item.metricLabel}</span>
+                      </span>
+                      <span className="showcase-open">
+                        Відкрити кейс <ArrowUpRight size={15} weight="bold" />
+                      </span>
+                    </span>
+                  </span>
+                </span>
+                <span className="showcase-timer" aria-hidden="true">
+                  <i key={`${active}-${running}`} />
+                </span>
+              </Link>
+            </li>
+          );
+        })}
+      </ol>
+
+      <div className="showcase-stage" aria-hidden="true">
+        {caseItems.map((item, index) => {
+          const media = caseShowcase[item.slug];
+          return (
+            <div
+              key={item.slug}
+              className={`showcase-scene is-${media.scene}${index === active ? " is-active" : ""}`}
+            >
+              {media.scene === "phone" ? (
+                <div className="showcase-phone">
+                  <img src={media.image} alt="" loading="lazy" />
+                </div>
+              ) : media.scene === "video" ? (
+                <video
+                  className="showcase-media"
+                  ref={(node) => {
+                    videoRefs.current[item.slug] = node;
+                  }}
+                  src={media.video}
+                  poster={media.image}
+                  muted
+                  loop
+                  playsInline
+                  preload="none"
+                  tabIndex={-1}
+                />
+              ) : (
+                <img className="showcase-media" src={media.image} alt="" loading="lazy" />
+              )}
+              <span className="showcase-shade" />
+
+              <div className="showcase-top">
+                <Meta>
+                  0{index + 1} / 0{caseItems.length} · {item.kicker}
+                </Meta>
+                <span className="showcase-stack">
+                  {media.stack.map((tool) => (
+                    <span key={tool}>{tool}</span>
+                  ))}
+                </span>
+              </div>
+
+              <div className="showcase-bottom">
+                <ol className="showcase-route">
+                  {media.stages.map((stage) => (
+                    <li key={stage}>{stage}</li>
+                  ))}
+                </ol>
+                <div className="showcase-facts">
+                  {media.facts.map(([value, label]) => (
+                    <span key={label}>
+                      <strong>{value}</strong>
+                      <Meta>{label}</Meta>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 /* ============================================ 06 — method route */
 
 function MethodRoute() {
@@ -742,69 +910,16 @@ export function Home() {
             </div>
             <Reveal className="cases-intro" delay={120}>
               <p>
-                Виробництво, страхування, рітейл і медтех — там, де ціна помилки
-                висока, а ручна робота дорога.
+                Три системи, які працюють щодня: операції креативної агенції,
+                рекрутинг у Telegram і виробництво AI-відео. Наведіть на кейс,
+                щоб подивитися, як він влаштований.
               </p>
             </Reveal>
           </div>
 
-          <div className="cases-board">
-            <Reveal className="case-featured" delay={80}>
-              <Link className="case-panel" to={`/cases/${caseItems[0].slug}`}>
-                <img
-                  className="case-panel-img"
-                  data-parallax="0.1"
-                  src={caseItems[0].image}
-                  alt="Автоматизована виробнича лінія для логістичного кейсу"
-                />
-                <span className="case-panel-shade" aria-hidden="true" />
-                <div className="case-panel-content">
-                  <Meta>{caseItems[0].kicker}</Meta>
-                  <h3>{caseItems[0].title}</h3>
-                  <span className="case-accent-line" aria-hidden="true" />
-                  <div className="case-result">
-                    <strong>{caseItems[0].metric}</strong>
-                    <span>{caseItems[0].metricLabel}</span>
-                  </div>
-                  <span className="case-action">
-                    Відкрити кейс <ArrowUpRight size={17} weight="bold" />
-                  </span>
-                </div>
-              </Link>
-            </Reveal>
-
-            <div className="case-rail">
-              {caseItems.slice(1).map((item, index) => (
-                <Reveal
-                  className="case-compact"
-                  key={item.index}
-                  delay={120 + index * 80}
-                >
-                  <Link className="case-panel" to={`/cases/${item.slug}`}>
-                    <img
-                      className={`case-panel-img${item.invert ? " is-inverted" : ""}`}
-                      data-parallax="0.14"
-                      src={item.image}
-                      alt=""
-                    />
-                    <span className="case-panel-shade" aria-hidden="true" />
-                    <div className="case-panel-content">
-                      <Meta>{item.kicker}</Meta>
-                      <h3>{item.title}</h3>
-                      <span className="case-accent-line" aria-hidden="true" />
-                      <div className="case-result">
-                        <strong>{item.metric}</strong>
-                        <span>{item.metricLabel}</span>
-                      </div>
-                      <span className="case-action">
-                        Відкрити кейс <ArrowUpRight size={15} weight="bold" />
-                      </span>
-                    </div>
-                  </Link>
-                </Reveal>
-              ))}
-            </div>
-          </div>
+          <Reveal delay={80}>
+            <CaseShowcase />
+          </Reveal>
         </div>
       </section>
 

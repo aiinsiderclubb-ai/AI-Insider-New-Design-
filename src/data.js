@@ -625,3 +625,42 @@ export const xrayKinds = {
   sys: "СИСТЕМА",
   human: "ЛЮДИНА",
 };
+
+// Homepage case index: one stage per published case. Every fact below is
+// already published on the matching case page.
+export const caseShowcase = {
+  "operatsiina-systema-kreatyvnoi-ahentsii": {
+    scene: "image",
+    image: "/assets/case-industrial.png",
+    stages: ["Вхід", "Production", "QA", "Фінанси"],
+    facts: [
+      ["539", "задач під контролем"],
+      ["0", "втрат при передачі"],
+      ["45 с", "звіт замість 4 хв"],
+    ],
+    stack: ["ClickUp", "n8n", "Google Sheets", "Telegram"],
+  },
+  "ai-rekruter-dlia-ahentsii": {
+    scene: "phone",
+    image: "/assets/cases/ai-recruiter-demo-v2-poster.jpg",
+    stages: ["Вакансія", "Відбір", "Контакт", "Тестове"],
+    facts: [
+      ["12+", "активних проєктів"],
+      ["10/11", "здали тестове в демо"],
+      ["9–11", "днів планового запуску"],
+    ],
+    stack: ["Telegram", "AI-агент", "CRM"],
+  },
+  "content-factory-ai-video": {
+    scene: "video",
+    image: "/assets/studio/influencers.jpg",
+    video: "/assets/studio/influencers.mp4",
+    stages: ["Бриф", "AI-виробництво", "Локалізація", "Публікація"],
+    facts: [
+      ["500+", "відео на місяць"],
+      ["10+", "мов адаптації"],
+      ["−80%", "вартість креативу"],
+    ],
+    stack: ["AI-відео", "Голос", "Монтаж"],
+  },
+};
