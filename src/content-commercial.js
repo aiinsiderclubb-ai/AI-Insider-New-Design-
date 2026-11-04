@@ -314,6 +314,11 @@ export const solutionDepth = {
     ],
     related: [
       [
+        "/insights/rag-shcho-tse",
+        "RAG",
+        "Як працює пошук по документах",
+      ],
+      [
         "/insights/notebooklm-for-business",
         "ДЖЕРЕЛА",
         "Практика перевірки цитат",

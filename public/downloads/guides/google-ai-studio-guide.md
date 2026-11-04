@@ -1,6 +1,6 @@
 # Практика: витягнути заявку у структурований JSON
 
-AI Insider · Оновлено 2026-10-05
+AI Insider · Оновлено 2026-11-04
 Гайд: https://www.aiinsider.it.com/insights/google-ai-studio-guide
 
 Навчальне завдання на синтетичних даних. Не результат клієнтського проєкту.
@@ -35,4 +35,7 @@ AI Insider · Оновлено 2026-10-05
 ## Джерела
 
 - [Google AI Studio quickstart](https://ai.google.dev/gemini-api/docs/ai-studio-quickstart)
-- [Gemini API structured output](https://ai.google.dev/gemini-api/docs/structured-output)
+- [Gemini API: structured output](https://ai.google.dev/gemini-api/docs/structured-output)
+- [Gemini API: function calling](https://ai.google.dev/gemini-api/docs/function-calling)
+- [Gemini API: grounding with Google Search](https://ai.google.dev/gemini-api/docs/google-search)
+- [Gemini API terms of service](https://ai.google.dev/gemini-api/terms)

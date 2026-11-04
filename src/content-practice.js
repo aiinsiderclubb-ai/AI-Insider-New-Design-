@@ -287,12 +287,13 @@ export const topicGroups = [
   },
   {
     id: "google",
-    title: "Google AI Studio та база знань",
+    title: "Google AI Studio, RAG і база знань",
     description:
       "Прототипи, робота з власними джерелами й перевірка відповідей.",
     slugs: [
       "google-ai-studio-guide",
       "notebooklm-for-business",
+      "rag-shcho-tse",
       "google-workspace-studio-ukrainskoiu",
     ],
   },

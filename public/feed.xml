@@ -16,8 +16,15 @@
       <title>Google AI Studio: як користуватися у 2026 році</title>
       <link>https://www.aiinsider.it.com/insights/google-ai-studio-guide</link>
       <guid isPermaLink="true">https://www.aiinsider.it.com/insights/google-ai-studio-guide</guid>
-      <description>Google AI Studio українською: створення prompt, structured output, function calling, тестування Gemini API, обмеження та сім бізнес-прототипів.</description>
+      <description>Google AI Studio українською: що це, як почати, structured output, function calling, grounding, Build mode, безпека даних і сім бізнес-прототипів на Gemini.</description>
       <pubDate>Thu, 20 Aug 2026 12:00:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>RAG: що це і як AI шукає відповіді у ваших документах</title>
+      <link>https://www.aiinsider.it.com/insights/rag-shcho-tse</link>
+      <guid isPermaLink="true">https://www.aiinsider.it.com/insights/rag-shcho-tse</guid>
+      <description>RAG (retrieval-augmented generation) простими словами: як AI знаходить відповідь у документах компанії, з чого складається система, як перевірити якість і коли RAG не потрібен.</description>
+      <pubDate>Wed, 04 Nov 2026 12:00:00 GMT</pubDate>
     </item>
     <item>
       <title>Gemini Notebook (NotebookLM) для бізнесу: база знань без хаосу</title>
