@@ -1,18 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, ArrowUpRight, Check } from "@phosphor-icons/react";
-import { Counter, Device, ModuleVisual, ReelStrip } from "../wow.jsx";
+import { Counter, Device, ReelStrip } from "../wow.jsx";
 import { Faq, Meta, Reveal, SectionHead, prefersReduced } from "../ui.jsx";
 import { useContact } from "../layout.jsx";
 import { ClosingStep } from "../closing.jsx";
 import {
   caseItems,
   hero,
+  manifesto,
   method,
-  modules,
   studio,
   sweezyScreens,
   values,
+  xrayKinds,
+  xrayProcesses,
 } from "../data.js";
 
 /* ========================================================== 01 — hero */
@@ -224,75 +226,317 @@ function Hero({ onContact }) {
   );
 }
 
-/* ===================================================== 05 — tab panel */
+/* ========================================== 01b — manifesto on scroll */
 
-function Modules() {
-  const [index, setIndex] = useState(0);
-  const item = modules[index];
-  const Icon = item.icon;
+const clamp01 = (value) => Math.min(1, Math.max(0, value));
+
+/** Calls `apply` once per frame while scrolling, even where rAF is starved. */
+function useScrollFrame(apply, deps) {
+  useEffect(() => {
+    let ticking = false;
+    const run = () => {
+      ticking = false;
+      apply();
+    };
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(run);
+      setTimeout(() => ticking && run(), 32);
+    };
+    run();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, deps);
+}
+
+function Manifesto() {
+  const ref = useRef(null);
+  const words = manifesto.text.split(" ");
+
+  useScrollFrame(() => {
+    const section = ref.current;
+    if (!section) return;
+    const nodes = section.querySelectorAll(".mf-word");
+    const rect = section.getBoundingClientRect();
+    const span = rect.height - window.innerHeight;
+    const progress = prefersReduced() || span <= 0 ? 1 : clamp01(-rect.top / span);
+    // a little ahead of the scroll so the last words light before release
+    const lit = Math.round(progress * 1.15 * nodes.length);
+    nodes.forEach((node, index) => node.classList.toggle("is-lit", index < lit));
+  }, []);
 
   return (
-    <div className="mod" style={{ "--hue": item.hue }}>
-      <div className="mod-tabs" role="tablist" aria-label="Напрями роботи">
-        <span
-          className="mod-thumb"
-          aria-hidden="true"
-          style={{ "--n": index, "--count": modules.length }}
-        />
-        {modules.map((module, i) => (
+    <section className="manifesto" ref={ref} aria-label="Як ми думаємо">
+      <div className="manifesto-stick">
+        <div className="wrap">
+          <Meta>{manifesto.eyebrow}</Meta>
+          <p className="manifesto-text">
+            {words.map((word, index) => (
+              <span
+                className={`mf-word${manifesto.keys.includes(word) ? " is-key" : ""}`}
+                key={`${word}-${index}`}
+              >
+                {word}{" "}
+              </span>
+            ))}
+          </p>
+          <div className="manifesto-proof">
+            {manifesto.proof.map(([value, label]) => (
+              <span key={label}>
+                <strong>{value}</strong>
+                <Meta>{label}</Meta>
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ============================================= 02 — process x-ray */
+
+const XRAY_W = 1000;
+const XRAY_H = 470;
+
+/** Node positions and connecting curves for one process, wide or narrow. */
+function xrayLayout(process, narrow) {
+  const count = process.nodes.length;
+  const width = narrow ? 400 : XRAY_W;
+  const height = narrow
+    ? 70 + (count + (process.branch ? 1 : 0)) * 92
+    : XRAY_H;
+  const points = process.nodes.map((_, index) =>
+    narrow
+      ? [index % 2 ? 250 : 150, 55 + index * 92]
+      : [90 + (index * (XRAY_W - 180)) / (count - 1), index % 2 ? 230 : 190],
+  );
+  const nodes = process.nodes.map(([title, kind], index) => ({
+    title,
+    kind,
+    x: points[index][0],
+    y: points[index][1],
+    delay: index * 0.32,
+  }));
+  const edges = [];
+  for (let index = 0; index < count - 1; index += 1) {
+    const [x1, y1] = points[index];
+    const [x2, y2] = points[index + 1];
+    const mx = (x1 + x2) / 2;
+    const my = (y1 + y2) / 2;
+    edges.push({
+      d: narrow
+        ? `M${x1} ${y1} C ${x1} ${my}, ${x2} ${my}, ${x2} ${y2}`
+        : `M${x1} ${y1} C ${mx} ${y1}, ${mx} ${y2}, ${x2} ${y2}`,
+      delay: index * 0.32 + 0.15,
+      human: process.nodes[index + 1][1] === "human",
+    });
+  }
+  if (process.branch) {
+    const [bx, by] = points[process.branch.from];
+    const tx = narrow ? 200 : bx + 70;
+    const ty = narrow ? 55 + count * 92 : 380;
+    const [title, kind] = process.branch.node;
+    nodes.push({ title, kind, x: tx, y: ty, delay: process.branch.from * 0.32 + 0.5 });
+    edges.push({
+      d: narrow
+        ? `M${bx} ${by} C ${bx - 90} ${by + 120}, ${tx - 90} ${ty}, ${tx} ${ty}`
+        : `M${bx} ${by + 30} C ${bx} ${ty - 20}, ${tx - 40} ${ty}, ${tx - 70} ${ty}`,
+      delay: process.branch.from * 0.32 + 0.4,
+      human: true,
+    });
+  }
+  return { width, height, nodes, edges };
+}
+
+function ProcessXray() {
+  const [index, setIndex] = useState(0);
+  const [narrow, setNarrow] = useState(false);
+  const canvasRef = useRef(null);
+  const process = xrayProcesses[index];
+  const layout = xrayLayout(process, narrow);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return undefined;
+    // measure the board, not the canvas: the canvas height follows its width
+    const measure = () =>
+      setNarrow((canvas.parentElement?.clientWidth ?? 1000) < 700);
+    measure();
+    window.addEventListener("resize", measure);
+    const observer =
+      typeof ResizeObserver === "undefined" ? null : new ResizeObserver(measure);
+    if (canvas.parentElement) observer?.observe(canvas.parentElement);
+    return () => {
+      window.removeEventListener("resize", measure);
+      observer?.disconnect();
+    };
+  }, []);
+
+  return (
+    <div className="xray">
+      <div className="xray-picks" role="group" aria-label="Оберіть процес">
+        {xrayProcesses.map((item, itemIndex) => (
           <button
-            key={module.id}
-            role="tab"
-            aria-selected={i === index}
-            className={i === index ? "is-on" : ""}
-            onClick={() => setIndex(i)}
+            key={item.id}
+            className={itemIndex === index ? "is-on" : undefined}
+            aria-pressed={itemIndex === index}
+            onClick={() => setIndex(itemIndex)}
           >
-            {module.tab}
+            <i>0{itemIndex + 1}</i>
+            {item.label}
           </button>
         ))}
       </div>
 
-      <div className="mod-panel" key={item.id}>
-        <span className="mod-glow" aria-hidden="true" />
-
-        <div className="mod-top">
-          <span className="mod-kicker">
-            <Icon size={15} weight="bold" />
-            <Meta>{item.kicker}</Meta>
-          </span>
-          <Meta className="num">
-            0{index + 1} / 0{modules.length}
-          </Meta>
-        </div>
-
-        <div className="mod-grid">
-          <div className="mod-copy">
-            <h3 className="h-lg">{item.title}</h3>
-            <p>{item.copy}</p>
-            <div className="mod-chips">
-              {item.flow.map((chip) => (
-                <span key={chip}>{chip}</span>
+      <div className="xray-board">
+        <div
+          className="xray-canvas"
+          ref={canvasRef}
+          style={{ aspectRatio: `${layout.width} / ${layout.height}` }}
+        >
+          {/* remounting per process restarts the drawing animation */}
+          <div className="xray-scene" key={`${process.id}-${narrow}`}>
+            <svg
+              viewBox={`0 0 ${layout.width} ${layout.height}`}
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              {layout.edges.map((edge, edgeIndex) => {
+                const id = `xr-${process.id}-${edgeIndex}`;
+                return (
+                  <g key={id}>
+                    <path
+                      id={id}
+                      className={`xray-edge${edge.human ? " is-human" : ""}`}
+                      d={edge.d}
+                      style={{ "--d": `${edge.delay}s` }}
+                    />
+                    {!edge.human && (
+                      <circle
+                        className="xray-packet"
+                        r="3.2"
+                        style={{ "--d": `${edge.delay + 0.8}s` }}
+                      >
+                        <animateMotion
+                          dur={`${1.6 + (edgeIndex % 3) * 0.3}s`}
+                          begin={`${edge.delay + 0.8}s`}
+                          repeatCount="indefinite"
+                        >
+                          <mpath href={`#${id}`} />
+                        </animateMotion>
+                      </circle>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+            <ol className="xray-nodes">
+              {layout.nodes.map((node) => (
+                <li
+                  key={node.title}
+                  className={`xray-node is-${node.kind}`}
+                  style={{
+                    left: `${(node.x / layout.width) * 100}%`,
+                    top: `${(node.y / layout.height) * 100}%`,
+                    "--d": `${node.delay}s`,
+                  }}
+                >
+                  <span className="xray-kind">{xrayKinds[node.kind]}</span>
+                  <strong>{node.title}</strong>
+                </li>
               ))}
-            </div>
-          </div>
-
-          <div className="mod-stage">
-            <span className="mod-stage-label meta">ЖИВИЙ ПРИКЛАД</span>
-            <ModuleVisual kind={item.visual} />
+            </ol>
           </div>
         </div>
 
-        <div className="mod-metrics">
-          {item.metrics.map(([value, label]) => (
-            <div key={label}>
-              <strong>
-                <Counter value={value} />
-              </strong>
-              <span>{label}</span>
-            </div>
-          ))}
-        </div>
+        <aside className="xray-side">
+          <div>
+            <Meta>РОБИТЬ СИСТЕМА</Meta>
+            <ul>
+              {process.system.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="is-human">
+            <Meta>ЛИШАЄТЬСЯ ЛЮДИНІ</Meta>
+            <ul>
+              {process.human.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </div>
+          <Link className="btn btn-accent xray-go" to={process.link[0]}>
+            {process.link[1]} <ArrowUpRight size={16} weight="bold" />
+          </Link>
+        </aside>
       </div>
+
+      <div className="xray-legend">
+        {Object.entries(xrayKinds).map(([kind, label]) => (
+          <span key={kind} className={`is-${kind}`}>
+            <i aria-hidden="true" />
+            <Meta>{label}</Meta>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ============================================ 06 — method route */
+
+function MethodRoute() {
+  const stageRef = useRef(null);
+  const liveRef = useRef(null);
+  const [reached, setReached] = useState(0);
+
+  useScrollFrame(() => {
+    const stage = stageRef.current;
+    const live = liveRef.current;
+    if (!stage || !live) return;
+    const length = live.getTotalLength();
+    live.style.strokeDasharray = `${length}`;
+    const rect = stage.getBoundingClientRect();
+    const progress = prefersReduced()
+      ? 1
+      : clamp01((window.innerHeight * 0.75 - rect.top) / rect.height);
+    live.style.strokeDashoffset = `${length * (1 - progress)}`;
+    setReached(progress >= 0.95 ? 3 : progress >= 0.48 ? 2 : progress >= 0.02 ? 1 : 0);
+  }, []);
+
+  const path =
+    "M60 60 C 420 60, 300 330, 600 330 S 860 600, 1140 600";
+
+  return (
+    <div className="route-stage" ref={stageRef}>
+      <svg viewBox="0 0 1200 640" preserveAspectRatio="none" aria-hidden="true">
+        <path className="route-base" d={path} />
+        <path className="route-live" d={path} ref={liveRef} />
+      </svg>
+      <ol className="route-stops">
+        {method.map(([number, title, copy, when], index) => (
+          <li
+            key={number}
+            className={`route-stop is-${index + 1}${index < reached ? " is-on" : ""}`}
+          >
+            <span className="route-dot" aria-hidden="true" />
+            <div className="route-body">
+              <span className="route-num">{number}</span>
+              <h3>{title}</h3>
+              <Meta>{when}</Meta>
+              <p>{copy}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }
@@ -454,16 +698,19 @@ export function Home() {
     <main>
       <Hero onContact={openContact} />
 
+      {/* 01b — manifesto */}
+      <Manifesto />
+
       {/* 02 — what we build */}
       <section className="chapter c-paper" id="services">
         <div className="wrap">
           <SectionHead
-            eyebrow="01 / ЩО МИ РОБИМО"
-            title="Не набір інструментів. Робоча система."
-            copy="Чотири напрями, які складаються в одну систему. Починаємо з того, де ручна робота коштує найдорожче."
+            eyebrow="01 / РЕНТГЕН ПРОЦЕСУ"
+            title="Оберіть процес. Подивіться, як він працює без рутини."
+            copy="Кожна схема — спрощена версія того, що ми будуємо в n8n і AI-агентах. Пунктиром позначено місце, де рішення лишається за людиною."
           />
           <Reveal>
-            <Modules />
+            <ProcessXray />
           </Reveal>
         </div>
       </section>
@@ -666,18 +913,7 @@ export function Home() {
             eyebrow="04 / ЯК МИ ПРАЦЮЄМО"
             title="Три кроки. Далі система працює на вас."
           />
-          <div className="method-rows">
-            {method.map(([index, title, copy, when]) => (
-              <Reveal className="method-row" key={index}>
-                <Meta className="num">{index}</Meta>
-                <div>
-                  <h3>{title}</h3>
-                  <Meta style={{ marginTop: 10 }}>{when}</Meta>
-                </div>
-                <p>{copy}</p>
-              </Reveal>
-            ))}
-          </div>
+          <MethodRoute />
           <ul className="pledges" aria-label="Наші гарантії">
             {values.map((item, index) => (
               <Reveal as="li" key={item.index} delay={index * 70}>

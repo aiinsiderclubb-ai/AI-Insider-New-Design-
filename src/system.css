@@ -956,6 +956,580 @@ a.hero-proof-all {
   }
 }
 
+/* ------------------------------------------- 01b manifesto on scroll */
+
+.manifesto {
+  position: relative;
+  height: 220svh;
+  background: var(--ink);
+}
+
+.manifesto-stick {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.manifesto-stick::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    50% 60% at 85% 70%,
+    rgba(79, 227, 255, 0.08),
+    transparent 70%
+  );
+}
+
+.manifesto-stick .wrap {
+  position: relative;
+  width: 100%;
+}
+
+.manifesto-stick > .wrap > .meta {
+  display: block;
+  margin-bottom: 34px;
+  color: var(--ink-dim);
+}
+
+.manifesto-text {
+  max-width: 22ch;
+  font-size: clamp(32px, min(4.4vw, 7.4svh), 70px);
+  font-weight: 650;
+  letter-spacing: -0.045em;
+  line-height: 1.04;
+}
+
+.mf-word {
+  color: rgba(242, 243, 246, 0.16);
+  transition: color 0.35s ease;
+}
+
+.mf-word.is-lit {
+  color: #fff;
+}
+
+.mf-word.is-key.is-lit {
+  color: var(--accent);
+}
+
+.manifesto-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 36px;
+  margin-top: clamp(28px, 5svh, 48px);
+}
+
+.manifesto-proof span {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.manifesto-proof strong {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.manifesto-proof .meta {
+  color: var(--ink-dim);
+}
+
+/* ---------------------------------------------- 02 process x-ray */
+
+.xray-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.xray-picks button {
+  height: 46px;
+  padding: 0 20px;
+  font: 600 14px var(--sans);
+  color: var(--paper-text);
+  background: #fff;
+  border: 1px solid var(--paper-line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    background 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.xray-picks button:hover {
+  border-color: var(--paper-text);
+}
+
+.xray-picks button.is-on {
+  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.xray-picks i {
+  margin-right: 10px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-style: normal;
+  color: var(--paper-dim);
+}
+
+.xray-picks .is-on i {
+  color: var(--accent);
+}
+
+.xray-board {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  overflow: hidden;
+  color: var(--ink-text);
+  background: var(--ink-3);
+  border-radius: var(--r-panel);
+  box-shadow: 0 40px 80px -40px rgba(8, 9, 12, 0.45);
+}
+
+.xray-canvas {
+  position: relative;
+  /* a definite width keeps aspect-ratio from widening the canvas */
+  width: 100%;
+  max-height: 72svh;
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.07) 1px, transparent 0)
+      0 0 / 22px 22px,
+    radial-gradient(70% 90% at 20% 0%, rgba(79, 227, 255, 0.08), transparent 60%);
+}
+
+.xray-scene,
+.xray-scene svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.xray-edge {
+  fill: none;
+  stroke: rgba(79, 227, 255, 0.75);
+  stroke-width: 1.8;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 400;
+  stroke-dashoffset: 400;
+  animation: xray-draw 0.8s var(--ease) var(--d) forwards;
+}
+
+.xray-edge.is-human {
+  stroke: rgba(255, 210, 122, 0.6);
+  stroke-dasharray: 4 6;
+  stroke-dashoffset: 0;
+  opacity: 0;
+  animation: xray-fade 0.6s ease var(--d) forwards;
+}
+
+.xray-packet {
+  fill: var(--accent);
+  filter: drop-shadow(0 0 6px rgba(79, 227, 255, 0.9));
+  opacity: 0;
+  animation: xray-fade 0.3s ease var(--d) forwards;
+}
+
+.xray-nodes {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.xray-node {
+  --c: var(--ink-dim);
+  position: absolute;
+  width: 15%;
+  min-width: 128px;
+  padding: 12px 14px 13px;
+  background: rgba(27, 30, 37, 0.94);
+  border: 1px solid var(--ink-line);
+  border-radius: 16px;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.92);
+  animation: xray-pop 0.6s var(--ease) var(--d) forwards;
+}
+
+.xray-kind {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 7px;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  color: var(--ink-dim);
+}
+
+.xray-kind::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--c);
+  box-shadow: 0 0 10px var(--c);
+}
+
+.xray-node strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+/* node kind colours, shared by the canvas and its legend */
+:is(.xray-node, .xray-legend span).is-trigger {
+  --c: #a9c8ff;
+}
+
+:is(.xray-node, .xray-legend span).is-ai {
+  --c: #7b5cff;
+}
+
+:is(.xray-node, .xray-legend span).is-rule {
+  --c: #f2f3f6;
+}
+
+.xray-legend span.is-rule {
+  --c: #b6b9c0;
+}
+
+:is(.xray-node, .xray-legend span).is-sys {
+  --c: var(--accent);
+}
+
+:is(.xray-node, .xray-legend span).is-human {
+  --c: #ffd27a;
+}
+
+.xray-node.is-ai {
+  border-color: rgba(123, 92, 255, 0.45);
+}
+
+.xray-node.is-human {
+  background: rgba(20, 22, 27, 0.7);
+  border-style: dashed;
+  border-color: rgba(255, 210, 122, 0.5);
+}
+
+@keyframes xray-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes xray-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes xray-pop {
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.xray-side {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+  padding: 30px 28px;
+  border-left: 1px solid var(--ink-line);
+}
+
+.xray-side .meta {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--ink-dim);
+}
+
+.xray-side ul {
+  display: grid;
+  gap: 10px;
+  padding: 0;
+  list-style: none;
+}
+
+.xray-side li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: rgba(242, 243, 246, 0.86);
+}
+
+.xray-side li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.xray-side .is-human li::before {
+  background: transparent;
+  border: 1px dashed #ffd27a;
+}
+
+.xray-go {
+  margin-top: auto;
+  justify-content: space-between;
+}
+
+.xray-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin-top: 18px;
+}
+
+.xray-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.xray-legend .meta {
+  color: var(--paper-dim);
+}
+
+.xray-legend i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c);
+}
+
+.xray-legend .is-human i {
+  background: transparent;
+  border: 1px dashed #c99a3a;
+}
+
+@media (max-width: 980px) {
+  .xray-board {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .xray-canvas {
+    max-height: none;
+  }
+
+  .xray-side {
+    border-left: 0;
+    border-top: 1px solid var(--ink-line);
+  }
+}
+
+@media (max-width: 700px) {
+  .xray-node {
+    width: 46%;
+    min-width: 0;
+  }
+}
+
+/* --------------------------------------------- 06 method route */
+
+.route-stage {
+  position: relative;
+  height: clamp(560px, 46vw, 680px);
+}
+
+.route-stage svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.route-base,
+.route-live {
+  fill: none;
+}
+
+.route-base {
+  stroke: var(--paper-line);
+  stroke-width: 1.5;
+}
+
+.route-live {
+  stroke: var(--accent);
+  stroke-width: 2.2;
+  filter: drop-shadow(0 0 6px rgba(79, 227, 255, 0.7));
+}
+
+.route-stops {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.route-stop {
+  position: absolute;
+  width: min(360px, 30%);
+}
+
+.route-stop.is-1 {
+  left: 5%;
+  top: 9.4%;
+}
+
+.route-stop.is-2 {
+  left: 50%;
+  top: 51.6%;
+}
+
+.route-stop.is-3 {
+  left: 95%;
+  top: 93.75%;
+  transform: translateX(-100%);
+  text-align: right;
+}
+
+.route-dot {
+  position: absolute;
+  left: -9px;
+  top: -9px;
+  width: 18px;
+  height: 18px;
+  background: var(--paper);
+  border: 1.5px solid var(--paper-line);
+  border-radius: 50%;
+  transition:
+    background 0.5s var(--ease),
+    border-color 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+.route-stop.is-3 .route-dot {
+  left: auto;
+  right: -9px;
+}
+
+.route-stop.is-on .route-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 7px rgba(79, 227, 255, 0.18);
+}
+
+.route-body {
+  padding: 26px 0 0 26px;
+  opacity: 0.35;
+  transform: translateY(10px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+}
+
+.route-stop.is-3 .route-body {
+  padding: 26px 26px 0 0;
+}
+
+.route-stop.is-on .route-body {
+  opacity: 1;
+  transform: none;
+}
+
+.route-num {
+  display: block;
+  font-size: clamp(64px, 6.4vw, 92px);
+  font-weight: 750;
+  letter-spacing: -0.07em;
+  line-height: 0.8;
+}
+
+.route-body h3 {
+  margin: 18px 0 8px;
+  font-size: 28px;
+  font-weight: 750;
+  letter-spacing: -0.05em;
+}
+
+.route-body .meta {
+  color: var(--paper-dim);
+}
+
+.route-body p {
+  margin-top: 12px;
+  font-size: 15.5px;
+  line-height: 1.55;
+  color: #3c3f46;
+}
+
+@media (max-width: 980px) {
+  .route-stage {
+    height: auto;
+    padding-left: 22px;
+    border-left: 1px solid var(--paper-line);
+  }
+
+  .route-stage svg {
+    display: none;
+  }
+
+  .route-stop.is-1,
+  .route-stop.is-2,
+  .route-stop.is-3 {
+    position: relative;
+    left: auto;
+    top: auto;
+    width: auto;
+    margin-bottom: 44px;
+    transform: none;
+    text-align: left;
+  }
+
+  .route-dot,
+  .route-stop.is-3 .route-dot {
+    left: -32px;
+    right: auto;
+    top: 6px;
+  }
+
+  .route-body,
+  .route-stop.is-3 .route-body {
+    padding: 0;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xray-edge,
+  .xray-packet,
+  .xray-node {
+    animation: none;
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .xray-node {
+    transform: translate(-50%, -50%);
+  }
+
+  .xray-packet {
+    display: none;
+  }
+}
+
 /* ---------------------------------------------------- section heading */
 
 .sec-head {
@@ -1603,36 +2177,6 @@ a.hero-proof-all {
 
 .value:hover {
   transform: translateY(-6px);
-}
-
-/* --------------------------------------------------------- 07 method */
-
-.method-rows {
-  border-top: 1px solid var(--paper-line);
-}
-
-.method-row {
-  display: grid;
-  grid-template-columns: 90px minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(16px, 3vw, 48px);
-  align-items: start;
-  padding: clamp(26px, 3vw, 44px) 0;
-  border-bottom: 1px solid var(--paper-line);
-  transition: padding-left 0.5s var(--ease);
-}
-
-.method-row:hover {
-  padding-left: 12px;
-}
-
-.method-row h3 {
-  font-weight: 500;
-  letter-spacing: -0.05em;
-  font-size: clamp(22px, 2.4vw, 34px);
-}
-
-.method-row .meta {
-  padding-top: 8px;
 }
 
 /* four commitments as one calm row — no coloured cards */
@@ -2773,14 +3317,6 @@ a.hero-proof-all {
   .tab-metrics {
     grid-template-columns: minmax(0, 1fr);
   }
-
-  .method-row {
-    grid-template-columns: 60px minmax(0, 1fr);
-  }
-
-  .method-row p {
-    grid-column: 2;
-  }
 }
 
 @media (max-width: 560px) {
@@ -3228,241 +3764,7 @@ html.has-cursor button {
   max-width: 40ch;
 }
 
-/* ================================================================
-   MODULE PANEL — rebuilt
-   was: flat slab, dead right half, three identical boxes
-   now: split layout with a live example, per-module accent hue
-   ================================================================ */
-
-.mod {
-  --hue: var(--accent);
-}
-
-/* --- tabs with a sliding thumb --- */
-
-.mod-tabs {
-  position: relative;
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: 1fr;
-  padding: 6px;
-  margin-bottom: 20px;
-  background: #fff;
-  border: 1px solid var(--paper-line);
-  border-radius: 999px;
-  max-width: 620px;
-}
-
-.mod-thumb {
-  position: absolute;
-  top: 6px;
-  bottom: 6px;
-  left: 6px;
-  width: calc((100% - 12px) / var(--count));
-  background: var(--ink);
-  border-radius: 999px;
-  transform: translateX(calc(var(--n) * 100%));
-  transition: transform 0.55s var(--ease);
-}
-
-.mod-tabs button {
-  position: relative;
-  z-index: 1;
-  padding: 12px 8px;
-  font-size: 13.5px;
-  font-weight: 620;
-  letter-spacing: -0.015em;
-  color: var(--paper-dim);
-  border-radius: 999px;
-  transition: color 0.4s ease;
-}
-
-.mod-tabs button.is-on {
-  color: #fff;
-}
-
 /* --- panel --- */
-
-.mod-panel {
-  position: relative;
-  padding: clamp(24px, 3vw, 44px);
-  color: var(--ink-text);
-  background: linear-gradient(180deg, #101319, #0a0c10);
-  border: 1px solid var(--ink-line);
-  border-radius: var(--r-panel);
-  overflow: hidden;
-  animation: mod-in 0.6s var(--ease);
-}
-
-@keyframes mod-in {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-}
-
-/* faint engineering grid so the slab has texture */
-.mod-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.5;
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 62px 62px;
-  mask-image: radial-gradient(90% 80% at 70% 0%, #000, transparent 76%);
-}
-
-/* the accent bloom carries the module's own hue */
-.mod-glow {
-  position: absolute;
-  right: -12%;
-  top: -34%;
-  width: 62%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  pointer-events: none;
-  background: radial-gradient(circle, var(--hue), transparent 68%);
-  opacity: 0.2;
-  filter: blur(20px);
-  transition: background 0.6s ease;
-}
-
-.mod-top {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding-bottom: 22px;
-  border-bottom: 1px solid var(--ink-line);
-}
-
-.mod-kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  color: var(--hue);
-}
-
-.mod-kicker .meta {
-  color: var(--hue);
-}
-
-.mod-grid {
-  position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: clamp(24px, 3vw, 52px);
-  align-items: center;
-  padding-block: clamp(26px, 3vw, 42px);
-}
-
-.mod-copy h3 {
-  font-size: clamp(24px, 2.9vw, 40px);
-  max-width: 15ch;
-  margin-bottom: 16px;
-}
-
-.mod-copy p {
-  max-width: 46ch;
-}
-
-.mod-chips {
-  margin-top: 22px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-
-.mod-chips span {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 14px;
-  font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--ink-line);
-  border-radius: 999px;
-}
-
-.mod-chips span::before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--hue);
-}
-
-/* --- the live example stage --- */
-
-.mod-stage {
-  position: relative;
-  min-height: 280px;
-  padding: 18px;
-  background: rgba(255, 255, 255, 0.025);
-  border: 1px solid var(--ink-line);
-  border-radius: 22px;
-  overflow: hidden;
-}
-
-.mod-stage-label {
-  position: absolute;
-  left: 18px;
-  top: 14px;
-  z-index: 2;
-  color: rgba(242, 243, 246, 0.4);
-}
-
-/* --- metrics on hairlines, not in boxes --- */
-
-.mod-metrics {
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  border-top: 1px solid var(--ink-line);
-}
-
-.mod-metrics > div {
-  padding: 24px 24px 0 0;
-  position: relative;
-}
-
-.mod-metrics > div + div {
-  padding-left: 26px;
-}
-
-.mod-metrics > div + div::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 24px;
-  bottom: 4px;
-  width: 1px;
-  background: var(--ink-line);
-}
-
-.mod-metrics strong {
-  display: block;
-  font-size: clamp(26px, 3vw, 40px);
-  font-weight: 750;
-  letter-spacing: -0.055em;
-  line-height: 1;
-  color: var(--hue);
-}
-
-.mod-metrics > div > span {
-  display: block;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.45;
-  color: var(--ink-dim);
-}
 
 /* ---------------------------------------------- visual: chat stream */
 
@@ -3688,46 +3990,6 @@ html.has-cursor button {
   inset: 0;
   width: 100%;
   height: 100%;
-}
-
-/* ------------------------------------------------------- responsive */
-
-@media (max-width: 900px) {
-  .mod-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .mod-copy h3 {
-    max-width: none;
-  }
-
-  .mod-tabs {
-    max-width: none;
-    grid-auto-flow: row;
-    grid-auto-columns: auto;
-    border-radius: 22px;
-  }
-
-  .mod-thumb {
-    display: none;
-  }
-
-  .mod-tabs button.is-on {
-    background: var(--ink);
-  }
-
-  .mod-metrics {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .mod-metrics > div + div {
-    padding-left: 0;
-    border-top: 1px solid var(--ink-line);
-  }
-
-  .mod-metrics > div + div::before {
-    display: none;
-  }
 }
 
 /* ================================================================
@@ -4605,34 +4867,9 @@ html.has-cursor button {
 
 /* --- module panel --- */
 
-.mod-panel {
-  padding: clamp(20px, 2.4vw, 34px);
-}
-
-.mod-grid {
-  padding-block: clamp(20px, 2.4vw, 32px);
-}
-
-.mod-copy h3 {
-  font-size: clamp(22px, 2.5vw, 34px);
-  max-width: 17ch;
-}
-
-.mod-stage {
-  min-height: 240px;
-}
-
 .mv,
 .mv-graph {
   min-height: 210px;
-}
-
-.mod-metrics > div {
-  padding-top: 18px;
-}
-
-.mod-metrics strong {
-  font-size: clamp(24px, 2.6vw, 34px);
 }
 
 /* --- studio --- */
@@ -4662,10 +4899,6 @@ html.has-cursor button {
 .value {
   min-height: clamp(240px, 22vw, 300px);
   padding: clamp(20px, 2vw, 28px);
-}
-
-.method-row {
-  padding: clamp(20px, 2.2vw, 32px) 0;
 }
 
 /* --- very wide displays: keep the grid rails at the content edge --- */
@@ -4712,26 +4945,10 @@ html.has-cursor button {
 }
 
 /* modules */
-.mod-tabs {
-  margin-bottom: 14px;
-}
 
-.mod-top {
-  padding-bottom: 16px;
-}
-
-.mod-stage,
 .mv,
 .mv-graph {
   min-height: 196px;
-}
-
-.mod-chips {
-  margin-top: 16px;
-}
-
-.mod-metrics > div {
-  padding-top: 16px;
 }
 
 /* studio */
@@ -7122,27 +7339,9 @@ html.has-cursor button {
 }
 
 /* modules chapter also needs a touch off on shorter windows */
-.mod-stage,
 .mv,
 .mv-graph {
   min-height: min(196px, 20svh);
-}
-
-.mod-copy h3 {
-  font-size: clamp(20px, 2.2vw, 30px);
-}
-
-/* modules chapter sat 8px over the fold on 1000px-tall windows */
-.mod-tabs button {
-  padding: 10px 8px;
-}
-
-.mod-chips {
-  margin-top: 12px;
-}
-
-.mod-chips span {
-  padding: 7px 12px;
 }
 
 /* colours here are explicit: this block sits on ink inside a cyan panel,
@@ -7794,15 +7993,6 @@ html.has-cursor button {
 
 .stu-bloom[data-parallax] {
   transform: translate(-50%, -50%) translate3d(0, var(--py, 0px), 0);
-}
-
-/* --- staggered grids: no JS, position drives the delay --- */
-
-.method-row:nth-child(2) {
-  --reveal-delay: 100ms;
-}
-.method-row:nth-child(3) {
-  --reveal-delay: 200ms;
 }
 
 /* --- studio rows cascade in --- */
